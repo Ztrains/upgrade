@@ -1,0 +1,22 @@
+{
+  "name": "upgrade",
+  "version": "1.0.0",
+  "description": "CS307 Project - Team 28",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ztrains/upgrade.git"
+  },
+  "author": "Zach Rich, Geoffrey Myers, Jonathan Poholarz, Curtis Maves",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ztrains/upgrade/issues"
+  },
+  "homepage": "https://github.com/Ztrains/upgrade#readme"
+}
