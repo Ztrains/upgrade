@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/Ztrains/upgrade/issues"
   },
-  "homepage": "https://github.com/Ztrains/upgrade#readme"
+  "homepage": "https://github.com/Ztrains/upgrade#readme",
+  "dependencies": {
+    "express": "^4.14.1"
+  }
 }
