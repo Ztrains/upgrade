@@ -6,11 +6,11 @@ const app = express()
 app.use(bodyParser.json())
 
 //const port = 3000
-const db
+var db;
 
 mongodb.MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
   if (err) {
-    console.log('error:'err);
+    console.log('error:', err);
     process.exit(1);
   }
 
