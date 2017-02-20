@@ -1,6 +1,6 @@
 {
   "name": "upgrade",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "CS307 Project - Team 28",
   "main": "index.js",
   "directories": {
@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/Ztrains/upgrade#readme",
   "dependencies": {
-    "express": "^4.14.1"
+    "body-parser": "^1.16.1",
+    "express": "^4.14.1",
+    "mongodb": "^2.2.24"
   }
 }
