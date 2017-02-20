@@ -7,7 +7,6 @@ app.get('/',(request,response)=>{
 })
 
 app.listen(port, (err)=>{
-    if err return console.log('error', err)
-
-    console.log('server is listening on ${port}')
+    if (err) return console.log('error', err)
+    console.log('server is listening on ' + port)
 })
