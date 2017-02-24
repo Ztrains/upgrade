@@ -3,7 +3,7 @@ Module used will be passport, because it will be easy to expand future
 auth stragegies in the future.*/
 
 const passport = require('passport');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const LocalStrategy = require('passport-local').Strategy);
 
 passport.use(new LocalStrategy(
