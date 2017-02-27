@@ -1,0 +1,8 @@
+UpgradeApp.MainActivity, UpgradeApp;md5bb18f71bf6aa569994f30c1b4391348f.MainActivity
+UpgradeApp.MainActivity, UpgradeApp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md5bb18f71bf6aa569994f30c1b4391348f.MainActivity
+UpgradeApp.MainActivity;md5bb18f71bf6aa569994f30c1b4391348f.MainActivity
+upgradeapp.MainActivity;md5bb18f71bf6aa569994f30c1b4391348f.MainActivity
+UpgradeApp.ProfileActivity, UpgradeApp;md5bb18f71bf6aa569994f30c1b4391348f.ProfileActivity
+UpgradeApp.ProfileActivity, UpgradeApp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md5bb18f71bf6aa569994f30c1b4391348f.ProfileActivity
+UpgradeApp.ProfileActivity;md5bb18f71bf6aa569994f30c1b4391348f.ProfileActivity
+upgradeapp.ProfileActivity;md5bb18f71bf6aa569994f30c1b4391348f.ProfileActivity
