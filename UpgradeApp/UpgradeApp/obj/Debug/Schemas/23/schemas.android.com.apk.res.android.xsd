@@ -2,7 +2,7 @@
 <xs:schema xmlns:android="http://schemas.android.com/apk/res/android" attributeFormDefault="qualified" elementFormDefault="unqualified" targetNamespace="http://schemas.android.com/apk/res/android" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:annotation>
     <xs:documentation>v23</xs:documentation>
-    <xs:documentation>2/19/2017 9:23:04 PM</xs:documentation>
+    <xs:documentation>2/26/2017 11:10:06 PM</xs:documentation>
   </xs:annotation>
   <xs:attribute name="accessibilityLiveRegion">
     <xs:annotation>
@@ -16716,6 +16716,36 @@
           <xs:restriction base="xs:string">
             <xs:enumeration value="@+id/" />
             <xs:enumeration value="@+id/checkBox1" />
+            <xs:enumeration value="@id/AboutLabelTextView" />
+            <xs:enumeration value="@id/AboutTextView" />
+            <xs:enumeration value="@id/AvailabilityLabelTextView" />
+            <xs:enumeration value="@id/AvailabilityTextView" />
+            <xs:enumeration value="@id/AvatarImageView" />
+            <xs:enumeration value="@id/BlockButton" />
+            <xs:enumeration value="@id/ContactLabelTextView" />
+            <xs:enumeration value="@id/ContactMethodsLabelTextView" />
+            <xs:enumeration value="@id/ContactMethodsTextView" />
+            <xs:enumeration value="@id/EditButton" />
+            <xs:enumeration value="@id/EmailTextView" />
+            <xs:enumeration value="@id/FreeTimeLabelTextView" />
+            <xs:enumeration value="@id/FreeTimeTextView" />
+            <xs:enumeration value="@id/INeedATutorLabelTextView" />
+            <xs:enumeration value="@id/INeedATutorTextView" />
+            <xs:enumeration value="@id/ITutorLabelTextView" />
+            <xs:enumeration value="@id/ITutorTextView" />
+            <xs:enumeration value="@id/IWantToStudyTextView" />
+            <xs:enumeration value="@id/linearLayout1" />
+            <xs:enumeration value="@id/linearLayout2" />
+            <xs:enumeration value="@id/linearLayout3" />
+            <xs:enumeration value="@id/linearLayout4" />
+            <xs:enumeration value="@id/linearLayout5" />
+            <xs:enumeration value="@id/linearLayout6" />
+            <xs:enumeration value="@id/NameLabelTextView" />
+            <xs:enumeration value="@id/NameTextView" />
+            <xs:enumeration value="@id/OtherContactMethodsTextView" />
+            <xs:enumeration value="@id/ReportButton" />
+            <xs:enumeration value="@id/SendMessageButton" />
+            <xs:enumeration value="@id/SubmitButton" />
             <xs:enumeration value="@android:id/accessibilityActionContextClick" />
             <xs:enumeration value="@android:id/accessibilityActionScrollDown" />
             <xs:enumeration value="@android:id/accessibilityActionScrollLeft" />

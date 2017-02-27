@@ -22,6 +22,7 @@
   "dependencies": {
     "body-parser": "^1.16.1",
     "express": "^4.14.1",
-    "mongodb": "^2.2.24"
+    "mongodb": "^2.2.24",
+	"bcryptjs": "^2.4.3"
   }
 }

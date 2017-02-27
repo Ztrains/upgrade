@@ -8,60 +8,65 @@
         android:text="Enter your name:"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView1"
-        android:paddingTop="16"
-        android:textSize="20" />
+        android:id="@+id/NameLabelTextView"
+        android:paddingTop="16dp"
+        android:textSize="20dp" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText1"
+        android:id="@+id/NameTextView"
         android:hint="John Doe"
-        android:textSize="14" />
+        android:textSize="14dp" />
     <TextView
         android:text="Enter other contact information:"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView2"
-        android:paddingTop="16"
-        android:textSize="20" />
+        android:id="@+id/ContactLabelTextView"
+        android:paddingTop="16dp"
+        android:textSize="20dp" />
     <EditText
         android:inputType="textEmailAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText2"
+        android:id="@+id/EmailTextView"
         android:hint="johndoe@purdue.edu"
-        android:textSize="14" />
+        android:textSize="14dp" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText3"
+        android:id="@+id/OtherContactMethodsTextView"
         android:hint="Skype, Telegram, Whatsapp, etc."
-        android:textSize="14" />
+        android:textSize="14dp" />
     <TextView
         android:text="Classes I tutor:"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView3"
-        android:textSize="20"
-        android:paddingTop="16" />
+        android:id="@+id/ITutorLabelTextView"
+        android:textSize="20dp"
+        android:paddingTop="16dp" />
     <TextView
         android:text="Classes I want to study:"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView4"
-        android:textSize="20"
-        android:paddingTop="16" />
+        android:id="@+id/IWantToStudyTextView"
+        android:textSize="20dp"
+        android:paddingTop="16dp" />
     <TextView
         android:text="Time I'm free to study:"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView5"
-        android:paddingTop="16"
-        android:textSize="20" />
+        android:id="@+id/FreeTimeLabelTextView"
+        android:paddingTop="16dp"
+        android:textSize="20dp" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText4"
-        android:textSize="14"
+        android:id="@+id/FreeTimeTextView"
+        android:textSize="14dp"
         android:hint="MWF 6:30-9:00PM, TR 2:00-10:00PM" />
+    <Button
+        android:text="Submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/SubmitButton" />
 </LinearLayout>
