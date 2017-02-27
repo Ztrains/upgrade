@@ -11,7 +11,7 @@ var localTestUrl = 'mongodb://localhost:27017/test'
 
 mongodb.MongoClient.connect(process.env.MONGODB_URI || localTestUrl, function (err, database) {
   if (err) {
-    console.log('error:', err);
+    console.log('ERROR:', err);
     process.exit(1);
   }
 
