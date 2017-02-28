@@ -39,8 +39,12 @@ var certificate = fs.readFileSync('ourcert.crt', 'utf8');
 var options = {key: privKey, cert: certificate};
 
 //setup a https server server to listen on port 3000
-var httpsServer = https.createServer(options, app);
-httpsServer.listen(3000);
+//var httpsServer = https.createServer(options, app);
+//httpsServer.listen(3000);
+
+//until https is setup
+var httpServer = http.createServer(app);
+http.listen(3000);
 
 //probably shouldn't setup a unsecure conenction to start
 /*app.listen(port, (err)=>{
