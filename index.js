@@ -49,9 +49,9 @@ app.get('/login', stormpath.apiAuthenticationRequired, (req,res)=>{
 })
 
 //setup https credentials
-var privKey = fs.readFileSync('ourprivKey.key', 'utf8');
+/*var privKey = fs.readFileSync('ourprivKey.key', 'utf8');
 var certificate = fs.readFileSync('ourcert.crt', 'utf8');
-var options = {key: privKey, cert: certificate};
+var options = {key: privKey, cert: certificate};*/
 
 //setup a https server server to listen on port 3000
 //var httpsServer = https.createServer(options, app);
