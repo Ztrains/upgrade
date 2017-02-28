@@ -57,6 +57,11 @@ var options = {key: privKey, cert: certificate};
 //var httpsServer = https.createServer(options, app);
 //httpsServer.listen(3000);
 
+//until https is setup ---- a server instance is already created up above
+//var httpServer = http.createServer(app);
+//http.listen(3000);
+
+
 //probably shouldn't setup a unsecure conenction to start
 /*app.listen(port, (err)=>{
     if (err) return console.log('error', err)
