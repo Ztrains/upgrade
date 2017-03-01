@@ -17,7 +17,8 @@ app.use(stormpath.init(app, {
         enabled: true,
         nextUri: '/dashboard'
     }
-  }
+  },
+  website: true
 }))
 
 app.use(bodyParser.json());
