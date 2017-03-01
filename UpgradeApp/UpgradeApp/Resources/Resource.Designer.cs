@@ -63,35 +63,35 @@ namespace UpgradeApp
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f05001d
-			public const int AboutLabelTextView = 2131034141;
-			
 			// aapt resource value: 0x7f05001e
-			public const int AboutTextView = 2131034142;
+			public const int AboutLabelTextView = 2131034142;
 			
-			// aapt resource value: 0x7f050025
-			public const int AvailabilityLabelTextView = 2131034149;
+			// aapt resource value: 0x7f05001f
+			public const int AboutTextView = 2131034143;
 			
 			// aapt resource value: 0x7f050026
-			public const int AvailabilityTextView = 2131034150;
+			public const int AvailabilityLabelTextView = 2131034150;
 			
-			// aapt resource value: 0x7f050014
-			public const int AvatarImageView = 2131034132;
+			// aapt resource value: 0x7f050027
+			public const int AvailabilityTextView = 2131034151;
 			
-			// aapt resource value: 0x7f05001b
-			public const int BlockButton = 2131034139;
+			// aapt resource value: 0x7f050015
+			public const int AvatarImageView = 2131034133;
+			
+			// aapt resource value: 0x7f05001c
+			public const int BlockButton = 2131034140;
 			
 			// aapt resource value: 0x7f050009
 			public const int ContactLabelTextView = 2131034121;
 			
-			// aapt resource value: 0x7f050017
-			public const int ContactMethodsLabelTextView = 2131034135;
-			
 			// aapt resource value: 0x7f050018
-			public const int ContactMethodsTextView = 2131034136;
+			public const int ContactMethodsLabelTextView = 2131034136;
 			
-			// aapt resource value: 0x7f05001a
-			public const int EditButton = 2131034138;
+			// aapt resource value: 0x7f050019
+			public const int ContactMethodsTextView = 2131034137;
+			
+			// aapt resource value: 0x7f05001b
+			public const int EditButton = 2131034139;
 			
 			// aapt resource value: 0x7f05000a
 			public const int EmailTextView = 2131034122;
@@ -102,17 +102,17 @@ namespace UpgradeApp
 			// aapt resource value: 0x7f05000f
 			public const int FreeTimeTextView = 2131034127;
 			
-			// aapt resource value: 0x7f050023
-			public const int INeedATutorLabelTextView = 2131034147;
-			
 			// aapt resource value: 0x7f050024
-			public const int INeedATutorTextView = 2131034148;
+			public const int INeedATutorLabelTextView = 2131034148;
+			
+			// aapt resource value: 0x7f050025
+			public const int INeedATutorTextView = 2131034149;
 			
 			// aapt resource value: 0x7f05000c
 			public const int ITutorLabelTextView = 2131034124;
 			
-			// aapt resource value: 0x7f050021
-			public const int ITutorTextView = 2131034145;
+			// aapt resource value: 0x7f050022
+			public const int ITutorTextView = 2131034146;
 			
 			// aapt resource value: 0x7f05000d
 			public const int IWantToStudyTextView = 2131034125;
@@ -126,14 +126,17 @@ namespace UpgradeApp
 			// aapt resource value: 0x7f05000b
 			public const int OtherContactMethodsTextView = 2131034123;
 			
-			// aapt resource value: 0x7f05001c
-			public const int ReportButton = 2131034140;
+			// aapt resource value: 0x7f05001d
+			public const int ReportButton = 2131034141;
 			
-			// aapt resource value: 0x7f050016
-			public const int SendMessageButton = 2131034134;
+			// aapt resource value: 0x7f050017
+			public const int SendMessageButton = 2131034135;
 			
 			// aapt resource value: 0x7f050010
 			public const int SubmitButton = 2131034128;
+			
+			// aapt resource value: 0x7f050014
+			public const int createAccountButton = 2131034132;
 			
 			// aapt resource value: 0x7f050003
 			public const int editText1 = 2131034115;
@@ -144,20 +147,20 @@ namespace UpgradeApp
 			// aapt resource value: 0x7f050000
 			public const int linearLayout1 = 2131034112;
 			
-			// aapt resource value: 0x7f050015
-			public const int linearLayout2 = 2131034133;
-			
-			// aapt resource value: 0x7f05001f
-			public const int linearLayout3 = 2131034143;
+			// aapt resource value: 0x7f050016
+			public const int linearLayout2 = 2131034134;
 			
 			// aapt resource value: 0x7f050020
-			public const int linearLayout4 = 2131034144;
+			public const int linearLayout3 = 2131034144;
 			
-			// aapt resource value: 0x7f050022
-			public const int linearLayout5 = 2131034146;
+			// aapt resource value: 0x7f050021
+			public const int linearLayout4 = 2131034145;
 			
-			// aapt resource value: 0x7f050019
-			public const int linearLayout6 = 2131034137;
+			// aapt resource value: 0x7f050023
+			public const int linearLayout5 = 2131034147;
+			
+			// aapt resource value: 0x7f05001a
+			public const int linearLayout6 = 2131034138;
 			
 			// aapt resource value: 0x7f050013
 			public const int loginButton = 2131034131;

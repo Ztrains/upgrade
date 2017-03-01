@@ -15,6 +15,7 @@ namespace UpgradeApp {
             EditText password = FindViewById<EditText>(Resource.Id.password);
             ImageView upgradeLogo = FindViewById<ImageView>(Resource.Id.upgradeLogo);
             Button loginButton = FindViewById<Button>(Resource.Id.loginButton);
+            Button newAccountButton = FindViewById<Button>(Resource.Id.createAccountButton);
 
 		}
 	}

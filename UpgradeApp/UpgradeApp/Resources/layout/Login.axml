@@ -38,4 +38,13 @@
         android:layout_marginLeft="35dp"
         android:layout_marginTop="25dp"
         android:background="#5495ff" />
+    <Button
+        android:text="Create new account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/createAccountButton"
+        android:layout_marginRight="35dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="25dp"
+        android:background="#5495ff" />
 </LinearLayout>
