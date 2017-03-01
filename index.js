@@ -13,10 +13,15 @@ app.use(stormpath.init(app, {
   },
   web: {
     produces: ['application/json']
+    login: {
+        enabled: true,
+        nextUri: '/dashboard'
+    }
   }
 }))
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}))
 
 //const port = 3000
 var db;
@@ -45,8 +50,8 @@ app.get('/',(request,response)=>{
     response.send('Welcome to upgrade')
 });
 
-app.get('/login', stormpath.apiAuthenticationRequired, (req,res)=>{
-    res.json({username: req.user.customData.username || "This is stormpath"})
+app.get('/dashboard', stormpath.apiAuthenticationRequired, (req,res)=>{
+    res.json({username: req.user.username || "This is stormpath"})
 })
 
 //setup https credentials
