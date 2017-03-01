@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const stormpath = require('express-stormpath');
 const app = express();
 
-app.use(bodyParser.json());
+
 app.use(stormpath.init(app, {
   expand: {
     customData: true,
@@ -16,6 +16,7 @@ app.use(stormpath.init(app, {
   }
 }))
 
+app.use(bodyParser.json());
 
 //const port = 3000
 var db;
