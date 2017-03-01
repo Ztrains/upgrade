@@ -12,7 +12,7 @@ app.use(stormpath.init(app, {
     customData: true,
   },
   web: {
-    produces: ['application/json']
+    produces: ['application/json'],
     login: {
         enabled: true,
         nextUri: '/dashboard'
