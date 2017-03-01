@@ -38,3 +38,21 @@ C:\Users\Jonathan\Documents\Visual Studio 2015\Projects\upgrade\UpgradeApp\Upgra
 C:\Users\Jonathan\Documents\Visual Studio 2015\Projects\upgrade\UpgradeApp\UpgradeApp\obj\Debug\android\assets\System.Xml.Linq.dll.mdb
 C:\Users\Jonathan\Documents\Visual Studio 2015\Projects\upgrade\UpgradeApp\UpgradeApp\obj\Debug\android\assets\UpgradeApp.dll.mdb
 C:\Users\Jonathan\Documents\Visual Studio 2015\Projects\upgrade\UpgradeApp\UpgradeApp\obj\Debug\UpgradeApp.dll.mdb
+C:\Users\Geoffrey\Documents\GitHub\upgrade\UpgradeApp\UpgradeApp\obj\Debug\UpgradeApp.csprojResolveAssemblyReference.cache
+C:\Users\Geoffrey\Documents\GitHub\upgrade\UpgradeApp\UpgradeApp\obj\Debug\UpgradeApp.dll
+C:\Users\Geoffrey\Documents\GitHub\upgrade\UpgradeApp\UpgradeApp\obj\Debug\UpgradeApp.pdb
+C:\Users\Geoffrey\Documents\GitHub\upgrade\UpgradeApp\UpgradeApp\bin\Debug\UpgradeApp.dll
+C:\Users\Geoffrey\Documents\GitHub\upgrade\UpgradeApp\UpgradeApp\bin\Debug\UpgradeApp.pdb
+C:\Users\Geoffrey\Documents\GitHub\upgrade\UpgradeApp\UpgradeApp\bin\Debug\UpgradeApp.UpgradeApp.apk
+C:\Users\Geoffrey\Documents\GitHub\upgrade\UpgradeApp\UpgradeApp\bin\Debug\UpgradeApp.UpgradeApp-Signed.apk
+C:\Users\Geoffrey\Documents\GitHub\upgrade\UpgradeApp\UpgradeApp\obj\Debug\android\bin\UpgradeApp.UpgradeApp.apk
+C:\Users\Geoffrey\Documents\GitHub\upgrade\UpgradeApp\UpgradeApp\obj\Debug\res\layout\profilescreen.xml
+C:\Users\Geoffrey\Documents\GitHub\upgrade\UpgradeApp\UpgradeApp\obj\Debug\res\layout\editprofilescreen.xml
+C:\Users\Geoffrey\Documents\GitHub\upgrade\UpgradeApp\UpgradeApp\obj\Debug\res\values\strings.xml
+C:\Users\Geoffrey\Documents\GitHub\upgrade\UpgradeApp\UpgradeApp\obj\Debug\res\drawable\icon.png
+C:\Users\Geoffrey\Documents\GitHub\upgrade\UpgradeApp\UpgradeApp\obj\Debug\res\drawable\upgradelogo.jpg
+C:\Users\Geoffrey\Documents\GitHub\upgrade\UpgradeApp\UpgradeApp\obj\Debug\R.cs.flag
+C:\Users\Geoffrey\Documents\GitHub\upgrade\UpgradeApp\UpgradeApp\obj\Debug\uploadflags.txt
+C:\Users\Geoffrey\Documents\GitHub\upgrade\UpgradeApp\UpgradeApp\obj\Debug\res\layout\login.xml
+C:\Users\Geoffrey\Documents\GitHub\upgrade\UpgradeApp\UpgradeApp\obj\Debug\UpgradeApp.dll.mdb
+C:\Users\Geoffrey\Documents\GitHub\upgrade\UpgradeApp\UpgradeApp\bin\Debug\UpgradeApp.dll.mdb

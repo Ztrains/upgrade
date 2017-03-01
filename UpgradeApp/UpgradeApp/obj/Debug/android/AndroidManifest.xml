@@ -4,8 +4,9 @@
   <uses-sdk android:minSdkVersion="16" />
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-  <application android:label="UpgradeApp" android:name="android.app.Application" android:allowBackup="true" android:icon="@drawable/icon" android:debuggable="true">
-    <activity android:icon="@drawable/icon" android:label="UpgradeApp" android:name="md5bb18f71bf6aa569994f30c1b4391348f.MainActivity">
+  <application android:label="UpgradeApp" android:name="android.app.Application" android:allowBackup="true" android:debuggable="true">
+    <activity android:label="EditProfileActivity" android:name="md5bb18f71bf6aa569994f30c1b4391348f.EditProfileActivity" />
+    <activity android:icon="@drawable/icon" android:label="UpgradeApp" android:name="md5bb18f71bf6aa569994f30c1b4391348f.LoginActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
