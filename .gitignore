@@ -60,5 +60,6 @@ typings/
 # ignore debuggy files that will create merge conflicts
 ./UpgradeApp/UpgradeApp/obj
 ./UpgradeApp/UpgradeApp/bin
+./UpgradeApp/.vs
 
 pathForDb
