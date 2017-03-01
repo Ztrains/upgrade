@@ -1,7 +1,7 @@
 package md5bb18f71bf6aa569994f30c1b4391348f;
 
 
-public class MainActivity
+public class EditProfileActivity
 	extends android.app.Activity
 	implements
 		mono.android.IGCUserPeer
@@ -12,15 +12,15 @@ public class MainActivity
 		__md_methods = 
 			"n_onCreate:(Landroid/os/Bundle;)V:GetOnCreate_Landroid_os_Bundle_Handler\n" +
 			"";
-		mono.android.Runtime.register ("UpgradeApp.MainActivity, UpgradeApp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", MainActivity.class, __md_methods);
+		mono.android.Runtime.register ("UpgradeApp.EditProfileActivity, UpgradeApp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", EditProfileActivity.class, __md_methods);
 	}
 
 
-	public MainActivity () throws java.lang.Throwable
+	public EditProfileActivity () throws java.lang.Throwable
 	{
 		super ();
-		if (getClass () == MainActivity.class)
-			mono.android.TypeManager.Activate ("UpgradeApp.MainActivity, UpgradeApp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "", this, new java.lang.Object[] {  });
+		if (getClass () == EditProfileActivity.class)
+			mono.android.TypeManager.Activate ("UpgradeApp.EditProfileActivity, UpgradeApp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "", this, new java.lang.Object[] {  });
 	}
 
 
