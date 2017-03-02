@@ -18,6 +18,7 @@ namespace UpgradeApp
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            SetContentView(Resource.Layout.AccountCreationScreen);
 
             // Create your application here
         }

@@ -101,30 +101,8 @@ class MonoPackageManager_Resources {
 		"UpgradeApp.dll",
 		"Newtonsoft.Json.dll",
 		"RestSharp.dll",
-		"System.Threading.dll",
-		"System.Runtime.dll",
-		"System.Collections.dll",
-		"System.Collections.Concurrent.dll",
-		"System.Diagnostics.Debug.dll",
-		"System.Reflection.dll",
-		"System.Linq.dll",
-		"System.Runtime.InteropServices.dll",
-		"System.Runtime.Extensions.dll",
-		"System.Reflection.Extensions.dll",
-		"System.IO.dll",
-		"System.Threading.Tasks.dll",
-		"System.Xml.XDocument.dll",
-		"System.Globalization.dll",
-		"System.Runtime.Serialization.Primitives.dll",
-		"System.Linq.Expressions.dll",
-		"System.Dynamic.Runtime.dll",
-		"System.ObjectModel.dll",
-		"System.Text.RegularExpressions.dll",
-		"System.Xml.ReaderWriter.dll",
-		"System.Text.Encoding.dll",
-		"System.Text.Encoding.Extensions.dll",
 	};
 	public static final String[] Dependencies = new String[]{
 	};
-	public static final String ApiPackageName = "Mono.Android.Platform.ApiLevel_24";
+	public static final String ApiPackageName = "Mono.Android.Platform.ApiLevel_25";
 }
