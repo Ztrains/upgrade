@@ -10,10 +10,14 @@ app.use(stormpath.init(app, {
   website: true,
   expand: {
     customData: true,
-  },
-  web: {
-    produces: ['application/json']
   }
+  /*web: {
+    produces: ['application/json'],
+    login: {
+        enabled: true,
+        nextUri: '/dashboard'
+    }
+}*/
 }))
 
 app.use(bodyParser.json());
