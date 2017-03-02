@@ -49,5 +49,18 @@ app.get('/',stormpath.loginRequired, (req,res)=>{
 });
 
 app.get('/classList', stormpath.loginRequired, (req,res)=> {
-    res.json(db.classes.find({},{name:1, _id:0}).toArray());
+    res.type('json');
+    var list;
+    db.collection('classes', (err, collection)=>{
+        if (err) {
+          console.log('ERROR:', err);
+          process.exit(1);
+        }
+        else {
+            list = collection.find({},{name:1, _id:0}).toArray();
+        }
+    })
+    res.json(list);
+
+    //res.json(db.classes.find({},{name:1, _id:0}).toArray());
 })
