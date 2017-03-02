@@ -4,12 +4,11 @@ const express = require('express');
 const mongodb = require('mongodb');
 const bodyParser = require('body-parser');
 const stormpath = require('express-stormpath');
-const app = express();
-
+var app = express();
 
 app.use(stormpath.init(app, {
   website: true,
-  expand: {
+  /*expand: {
     customData: true,
   },
   web: {
@@ -18,7 +17,7 @@ app.use(stormpath.init(app, {
         enabled: true,
         nextUri: '/dashboard'
     }
-  }
+}*/
 }))
 
 app.use(bodyParser.json());
