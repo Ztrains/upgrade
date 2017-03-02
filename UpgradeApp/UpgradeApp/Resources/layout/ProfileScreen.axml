@@ -138,4 +138,16 @@
         android:layout_height="wrap_content"
         android:id="@+id/AvailabilityTextView"
         android:textSize="14dp" />
+    <TextView
+        android:text="My Prices:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/PricesLabelTextView"
+        android:textSize="20dp" />
+    <TextView
+        android:text="Price info shown here"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/PricesTextView"
+        android:textSize="14dp" />
 </LinearLayout>

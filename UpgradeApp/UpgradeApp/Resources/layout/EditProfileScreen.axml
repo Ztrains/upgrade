@@ -14,7 +14,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/NameTextView"
+        android:id="@+id/NameEditText"
         android:hint="John Doe"
         android:textSize="14dp" />
     <TextView
@@ -28,13 +28,13 @@
         android:inputType="textEmailAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/EmailTextView"
+        android:id="@+id/EmailEditText"
         android:hint="johndoe@purdue.edu"
         android:textSize="14dp" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/OtherContactMethodsTextView"
+        android:id="@+id/OtherContactMethodsEditText"
         android:hint="Skype, Telegram, Whatsapp, etc."
         android:textSize="14dp" />
     <TextView
@@ -61,9 +61,21 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/FreeTimeTextView"
+        android:id="@+id/FreeTimeEditText"
         android:textSize="14dp"
         android:hint="MWF 6:30-9:00PM, TR 2:00-10:00PM" />
+    <TextView
+        android:text="My tutoring prices:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/PricesLabelTextView"
+        android:textSize="20dp" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/PricesEditText"
+        android:hint="MA161: $6/hr, CHEM115: $8/hr"
+        android:textSize="14dp" />
     <Button
         android:text="Submit"
         android:layout_width="match_parent"

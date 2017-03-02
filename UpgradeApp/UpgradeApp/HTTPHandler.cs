@@ -9,22 +9,63 @@ using RestSharp;
 namespace System.Net.Http {
 
 	public class HTTPHandler {
-		public HTTPHandler() {
-			//
+
+		// current register function
+		public static int registerRequest(string email, string password) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/register");
+			var request = new RestRequest(Method.POST);
+			//request.AddHeader("postman-token", "0fccbb68-76d2-f0d9-51f9-c657ce173d67");
+			//request.AddHeader("cache-control", "no-cache");
+			request.AddHeader("accept", "application/json");
+			request.AddHeader("content-type", "application/json");
+			string json = "{ \"email\": \"" + email + "\", \"password\": \"" + password + "\" }";
+
+			request.AddParameter("application/json", json, ParameterType.RequestBody);
+			IRestResponse response = client.Execute(request);
+
+			return 1;
+			
 		}
 
-		public static async void loginRequest() {
+		// current login function
+		public static int loginRequest(string email, string password) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/login");
+			var request = new RestRequest(Method.GET);
+			//request.AddHeader("postman-token", "0fccbb68-76d2-f0d9-51f9-c657ce173d67");
+			//request.AddHeader("cache-control", "no-cache");
+			request.AddHeader("accept", "application/json");
+			request.AddHeader("content-type", "application/json");
+			string json = "{ \"email\": \"" + email + "\", \"password\": \"" + password + "\" }";
+
+			request.AddParameter("application/json", json, ParameterType.RequestBody);
+			IRestResponse response = client.Execute(request);
+			Console.WriteLine(response.Content+"\n");
+
+			return 1; // success
+
+		}
+
+
+
+
+
+		/*
+		public static async void loginRequest(string email, string password) {
 			string urlServer = "https://calm-chamber-49049.herokuapp.com/register";
 			Dictionary<string, string> info = new Dictionary<string, string>();
-			info.Add("givenName", "Geo");
-			info.Add("surname", "Myers");
-
-			info.Add("email", "geo@memes.dank.com");
-			info.Add("password", "lecurbronry");
+			info.Add("email", email);
+			info.Add("password", password);
 			string js = JsonConvert.SerializeObject(info);
 
 			//JsonValue json = await FetchJsonAsync(urlServer, js);
+		}
 
+		public static async void registerRequest(string email, string password) {
+			string urlServer = "https://calm-chamber-49049.herokuapp.com/register";
+			Dictionary<string, string> info = new Dictionary<string, string>();
+			info.Add("email", email);
+			info.Add("password", password);
+			string js = JsonConvert.SerializeObject(info);
 		}
 
 		public static int Testfn() {
@@ -33,6 +74,7 @@ namespace System.Net.Http {
 			Console.WriteLine("12345\n");
 			return 1;
 		}
+		*/
 
 		/*
 		// This method can throw exceptions !!!!!!!!! (those aren't handled currently)
@@ -56,17 +98,6 @@ namespace System.Net.Http {
 		}
 		*/
 
-		// current register function
-		public static void RestTestBest() {
-			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/register");
-			var request = new RestRequest(Method.POST);
-			request.AddHeader("postman-token", "0fccbb68-76d2-f0d9-51f9-c657ce173d67");
-			request.AddHeader("cache-control", "no-cache");
-			request.AddHeader("accept", "application/json");
-			request.AddHeader("content-type", "application/json");
-			request.AddParameter("application/json", "{ \"givenName\": \"Ryan\", \"surname\": \"Memelord\", \"email\": \"abort@blackbabies.com\", \"password\": \"FantasyBaghd4d\" }", ParameterType.RequestBody);
-			IRestResponse response = client.Execute(request);
 
-		}
 	}
 }
