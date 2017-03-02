@@ -8,7 +8,7 @@ var app = express();
 
 app.use(stormpath.init(app, {
   website: true,
-  /*expand: {
+  expand: {
     customData: true,
   },
   web: {
@@ -17,7 +17,7 @@ app.use(stormpath.init(app, {
         enabled: true,
         nextUri: '/dashboard'
     }
-}*/
+}
 }))
 
 app.use(bodyParser.json());
