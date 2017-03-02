@@ -48,27 +48,6 @@ app.get('/',stormpath.loginRequired, (req,res)=>{
     res.send('Welcome to upgrade, ' + req.user.givenName)
 });
 
-app.get('/dashboard', stormpath.loginRequired, (req,res)=>{
-    res.send('Here are your classes, ' + req.user.givenName)
+app.get('/classList', stormpath.loginRequired, (req,res)=> {
+    res.json(db.classes.find({},{name:1, _id:0}).toArray());
 })
-
-
-//setup https credentials
-/*var privKey = fs.readFileSync('ourprivKey.key', 'utf8');
-var certificate = fs.readFileSync('ourcert.crt', 'utf8');
-var options = {key: privKey, cert: certificate};*/
-
-//setup a https server server to listen on port 3000
-//var httpsServer = https.createServer(options, app);
-//httpsServer.listen(3000);
-
-//until https is setup ---- a server instance is already created up above
-//var httpServer = http.createServer(app);
-//http.listen(3000);
-
-
-//probably shouldn't setup a unsecure conenction to start
-/*app.listen(port, (err)=>{
-    if (err) return console.log('error', err)
-    console.log('server is listening on ' + port)
-})*/
