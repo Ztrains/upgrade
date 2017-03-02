@@ -2,7 +2,7 @@
 <xs:schema xmlns:android="http://schemas.android.com/apk/res/android" attributeFormDefault="qualified" elementFormDefault="unqualified" targetNamespace="http://schemas.android.com/apk/res/android" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:annotation>
     <xs:documentation>v23</xs:documentation>
-    <xs:documentation>3/1/2017 12:26:19 AM</xs:documentation>
+    <xs:documentation>3/2/2017 4:56:32 PM</xs:documentation>
   </xs:annotation>
   <xs:attribute name="accessibilityLiveRegion">
     <xs:annotation>
@@ -16945,9 +16945,9 @@
             <xs:enumeration value="@id/EditButton" />
             <xs:enumeration value="@id/editText1" />
             <xs:enumeration value="@id/editText2" />
-            <xs:enumeration value="@id/EmailTextView" />
+            <xs:enumeration value="@id/EmailEditText" />
+            <xs:enumeration value="@id/FreeTimeEditText" />
             <xs:enumeration value="@id/FreeTimeLabelTextView" />
-            <xs:enumeration value="@id/FreeTimeTextView" />
             <xs:enumeration value="@id/INeedATutorLabelTextView" />
             <xs:enumeration value="@id/INeedATutorTextView" />
             <xs:enumeration value="@id/ITutorLabelTextView" />
@@ -16960,10 +16960,14 @@
             <xs:enumeration value="@id/linearLayout5" />
             <xs:enumeration value="@id/linearLayout6" />
             <xs:enumeration value="@id/loginButton" />
+            <xs:enumeration value="@id/NameEditText" />
             <xs:enumeration value="@id/NameLabelTextView" />
             <xs:enumeration value="@id/NameTextView" />
-            <xs:enumeration value="@id/OtherContactMethodsTextView" />
+            <xs:enumeration value="@id/OtherContactMethodsEditText" />
             <xs:enumeration value="@id/password" />
+            <xs:enumeration value="@id/PricesEditText" />
+            <xs:enumeration value="@id/PricesLabelTextView" />
+            <xs:enumeration value="@id/PricesTextView" />
             <xs:enumeration value="@id/ReportButton" />
             <xs:enumeration value="@id/SendMessageButton" />
             <xs:enumeration value="@id/SubmitButton" />

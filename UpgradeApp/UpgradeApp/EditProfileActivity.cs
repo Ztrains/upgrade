@@ -20,14 +20,16 @@ namespace UpgradeApp {
 			SetContentView(Resource.Layout.EditProfileScreen);
 
 			TextView nameLabelTextView = FindViewById<TextView>(Resource.Id.NameLabelTextView);
-			TextView nameTextView = FindViewById<TextView>(Resource.Id.NameTextView);
+			EditText nameEditText = FindViewById<EditText>(Resource.Id.NameEditText);
 			TextView contactLabelTextView = FindViewById<TextView>(Resource.Id.ContactLabelTextView);
-			TextView emailTextView = FindViewById<TextView>(Resource.Id.EmailTextView);
-			TextView otherContactMethodsTextView = FindViewById<TextView>(Resource.Id.OtherContactMethodsTextView);
+			EditText emailEditText = FindViewById<EditText>(Resource.Id.EmailEditText);
+			EditText otherContactMethodsEditText = FindViewById<EditText>(Resource.Id.OtherContactMethodsEditText);
 			TextView iTutorLabelTextView = FindViewById<TextView>(Resource.Id.ITutorLabelTextView);
 			TextView iWantToStudyLabelTextView = FindViewById<TextView>(Resource.Id.IWantToStudyTextView);
 			TextView freeTimeLabelTextView = FindViewById<TextView>(Resource.Id.FreeTimeLabelTextView);
-			TextView freeTimeTextView = FindViewById<TextView>(Resource.Id.FreeTimeTextView);
+			EditText freeTimeTextView = FindViewById<EditText>(Resource.Id.FreeTimeEditText);
+			TextView pricesLabelTextView = FindViewById<TextView>(Resource.Id.PricesLabelTextView);
+			EditText pricesEditText = FindViewById<EditText>(Resource.Id.PricesEditText);
 			Button submitButton = FindViewById<Button>(Resource.Id.SubmitButton);
 
 

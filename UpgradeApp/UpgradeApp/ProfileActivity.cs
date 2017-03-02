@@ -34,6 +34,8 @@ namespace UpgradeApp {
 			TextView iNeedATutorTextView = FindViewById<TextView>(Resource.Id.INeedATutorTextView);
 			TextView availabilityLabelTextView = FindViewById<TextView>(Resource.Id.AvailabilityLabelTextView);
 			TextView availabilityTextView = FindViewById<TextView>(Resource.Id.AvailabilityTextView);
+			TextView pricesLabelTextView = FindViewById<TextView>(Resource.Id.PricesLabelTextView);
+			TextView pricesTextView = FindViewById<TextView>(Resource.Id.PricesTextView);
 			
 
 			
