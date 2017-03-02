@@ -9,6 +9,12 @@ var app = express();
 app.use(stormpath.init(app, {
   expand: {
     customData: true,
+  },
+  web: {
+    login: {
+      enabled: true,
+      nextUri: "/dashboard"
+    }
   }
 }))
 
@@ -42,8 +48,8 @@ app.get('/',stormpath.loginRequired, (req,res)=>{
     res.send('Welcome to upgrade, ' + req.user.givenName)
 });
 
-app.get('/dashboard', stormpath.apiAuthenticationRequired, (req,res)=>{
-    res.json({username: req.user.username || "This is stormpath"})
+app.get('/dashboard', stormpath.loginRequired, (req,res)=>{
+    res.send('Here are your classes, ' + req.user.givenName)
 })
 
 
