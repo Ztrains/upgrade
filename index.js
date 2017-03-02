@@ -7,17 +7,9 @@ const stormpath = require('express-stormpath');
 var app = express();
 
 app.use(stormpath.init(app, {
-  website: true,
   expand: {
     customData: true,
   }
-  /*web: {
-    produces: ['application/json'],
-    login: {
-        enabled: true,
-        nextUri: '/dashboard'
-    }
-}*/
 }))
 
 app.use(bodyParser.json());
@@ -46,8 +38,8 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI || localTestUrl, function (e
   });
 });
 
-app.get('/',(request,response)=>{
-    response.send('Welcome to upgrade!')
+app.get('/',stormpath.loginRequired, (req,res)=>{
+    res.send('Welcome to upgrade, ' + req.user.givenName)
 });
 
 app.get('/dashboard', stormpath.apiAuthenticationRequired, (req,res)=>{
