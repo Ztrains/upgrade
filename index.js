@@ -8,6 +8,7 @@ const app = express();
 
 
 app.use(stormpath.init(app, {
+  website: true,
   expand: {
     customData: true,
   },
@@ -17,8 +18,7 @@ app.use(stormpath.init(app, {
         enabled: true,
         nextUri: '/dashboard'
     }
-  },
-  website: true
+  }
 }))
 
 app.use(bodyParser.json());
@@ -48,12 +48,13 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI || localTestUrl, function (e
 });
 
 app.get('/',(request,response)=>{
-    response.send('Welcome to upgrade')
+    response.send('Welcome to upgrade!')
 });
 
 app.get('/dashboard', stormpath.apiAuthenticationRequired, (req,res)=>{
     res.json({username: req.user.username || "This is stormpath"})
 })
+
 
 //setup https credentials
 /*var privKey = fs.readFileSync('ourprivKey.key', 'utf8');
