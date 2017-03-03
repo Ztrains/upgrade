@@ -49,7 +49,7 @@ app.get('/',stormpath.loginRequired, (req,res)=>{
 });
 
 app.get('/classList', stormpath.loginRequired, (req,res)=> {
-    /*res.type('json');
+    //res.type('json');
     var list;
     db.collection('classes', (err, collection)=>{
         if (err) {
@@ -57,11 +57,11 @@ app.get('/classList', stormpath.loginRequired, (req,res)=> {
           process.exit(1);
         }
         else {
-            list = collection.find().toArray();
+            res.send(collection.find({}));
+            //list = collection.find().toArray();
         }
     })
-    res.json(list);*/
-    res.send(db.classes.find({}));
+    //res.json(list);
 
     //res.json(db.classes.find({},{name:1, _id:0}).toArray());
 })
