@@ -15,8 +15,8 @@ namespace UpgradeApp {
 	public class ProfileActivity : Activity {
 		protected override void OnCreate(Bundle savedInstanceState) {
 			base.OnCreate(savedInstanceState);
-
-			SetContentView(Resource.Layout.ProfileScreen);
+            //SetTheme(Android.Resource.Style.ThemeHoloLightNoActionBar);
+            SetContentView(Resource.Layout.ProfileScreen);
 
 			TextView nameTextView = FindViewById<TextView>(Resource.Id.NameTextView);
 			ImageView avatarImageView = FindViewById<ImageView>(Resource.Id.AvatarImageView);
