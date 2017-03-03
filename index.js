@@ -14,6 +14,11 @@ app.use(stormpath.init(app, {
     login: {
       enabled: true,
       nextUri: "/dashboard"
+    },
+    logout: {
+        enabled: true,
+        uri: "/logout",
+        nextUri: "/login"
     }
   }
 }))
@@ -71,5 +76,4 @@ app.get('/classList', stormpath.authenticationRequired, (req,res)=> {
 })
 
 app.post('/logout', stormpath.authenticationRequired, (req,res)=>{
-    res.redirect('/login')
 })
