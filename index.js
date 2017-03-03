@@ -70,6 +70,6 @@ app.get('/classList', stormpath.authenticationRequired, (req,res)=> {
     })
 })
 
-app.post('/logout'), stormpath.authenticationRequired, (req,res=>{
+app.post('/logout'), stormpath.authenticationRequired, (req,res)=>{
     req.logout();
 })
