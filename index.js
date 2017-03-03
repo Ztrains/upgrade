@@ -4,6 +4,7 @@ const express = require('express');
 const mongodb = require('mongodb');
 const bodyParser = require('body-parser');
 const stormpath = require('express-stormpath');
+const favicon = require('serve-favicon');
 var app = express();
 
 app.use(stormpath.init(app, {
