@@ -5,11 +5,62 @@ using System.Json;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
+using Stormpath.SDK.Client;
+using Stormpath.SDK.Error;
+using Stormpath.SDK;
+using Stormpath.SDK.Application;
 
 namespace System.Net.Http {
 
 	public class HTTPHandler {
 
+		private static IApplication myApp;
+
+		// Initialize Stormpath so the other functions work
+		public static async void launchStormPath() {
+			var client = Clients.Builder()
+				.SetApiKeyFilePath("./keys.txt")
+				.Build();
+			myApp = await client.GetApplications()
+				.Where(x => x.Name == "My Application")
+				.SingleAsync();
+		}
+
+		// Register account function
+		public static async void registerRequest(string first, string last, string email, string password) {
+			var user = await myApp.CreateAccountAsync(first, last, email, password);
+			Console.WriteLine("User " + user.FullName + " created");
+		}
+
+		// Login function
+		public static async void loginRequest(string email, string password) {
+			try {
+				var loginResult = await myApp.AuthenticateAccountAsync(email, password);
+				var loggedInAccount = await loginResult.GetAccountAsync();
+
+				Console.WriteLine("User {0} logged in.", loggedInAccount.FullName);
+			}
+			catch (ResourceException rex) {
+				Console.WriteLine("Could not log in. Error: " + rex.Message);
+			}
+		}
+
+		public static void classListRequest() {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/classList");
+			var request = new RestRequest(Method.GET);
+			IRestResponse response = client.Execute(request);
+			string[] classes = JsonConvert.DeserializeObject<string[]>(response.Content);
+			foreach (string c in classes) {
+				Console.WriteLine(c + " 1010101");
+			}
+			
+		}
+
+
+
+
+
+		/*
 		// current register function
 		public static int registerRequest(string email, string password) {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/register");
@@ -44,6 +95,7 @@ namespace System.Net.Http {
 			return 1; // success
 
 		}
+		*/
 
 
 
