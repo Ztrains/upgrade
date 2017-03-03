@@ -12,11 +12,11 @@ using Android.Widget;
 
 namespace UpgradeApp
 {
-    public class ListAdapter : BaseAdapter<string>
+    public class StudentAdapter : BaseAdapter<string>
     {
         string[] items;
         Activity context;
-        public ListAdapter(Activity context, string[] items) : base()
+        public StudentAdapter(Activity context, string[] items) : base()
         {
             this.context = context;
             this.items = items;
@@ -36,14 +36,13 @@ namespace UpgradeApp
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
             View view = convertView;
-            if(view == null)
+            if (view == null)
             {
-                view = context.LayoutInflater.Inflate(Android.Resource.Layout.SimpleListItem2, null);
-               
+                view = context.LayoutInflater.Inflate(Android.Resource.Layout.SimpleListItem1, null);
+
             }
             view.FindViewById<TextView>(Android.Resource.Id.Text1).Text = items[position];
-            view.FindViewById<TextView>(Android.Resource.Id.Text2).Text = "3 Students";
             return view;
         }
     }
-} 
+}
