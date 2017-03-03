@@ -12,23 +12,15 @@ namespace UpgradeApp {
 	[Activity(Label = "UpgradeApp", MainLauncher = true, Icon = "@drawable/icon")]
 	public class MainActivity : Activity {
 
-		public async void stormPathMain() {
-			var client = Clients.Builder()
-				.SetApiKeyFilePath("./keys.txt")
-				.Build();
-			var myApp = await client.GetApplications()
-				.Where(x => x.Name == "My Application")
-				.SingleAsync();
-		}
-
 		protected override void OnCreate(Bundle bundle) {
             //SetTheme(Android.Resource.Style.ThemeHoloLightNoActionBar);
             base.OnCreate(bundle);
 
+
+			HTTPHandler.launchStormPath();
 			//stormPathMain();
+
 			Console.WriteLine("test");
-
-
 
 			// Set our view from the "main" layout resource
 			SetContentView(Resource.Layout.Login);  // Change Main to Login screen //
@@ -39,6 +31,9 @@ namespace UpgradeApp {
 			ImageView upgradeLogo = FindViewById<ImageView>(Resource.Id.upgradeLogo);
 			Button loginButton = FindViewById<Button>(Resource.Id.loginButton);
 			Button newAccountButton = FindViewById<Button>(Resource.Id.createAccountButton);
+            Button recoverAccountButton = FindViewById<Button>(Resource.Id.recoverButton);
+            EditText firstName = FindViewById<EditText>(Resource.Id.firstName);
+            EditText lastName = FindViewById<EditText>(Resource.Id.lastName);
 
 			// Code for testing purposes
 			//HTTPHandler.Testfn();
@@ -53,6 +48,12 @@ namespace UpgradeApp {
 				var intent = new Android.Content.Intent(this, typeof(AccountCreationActivity));
 				StartActivity(intent);
 			};
+
+            recoverAccountButton.Click += (sender, e) =>
+            {
+                var intent = new Android.Content.Intent(this, typeof(PasswordRecover));
+                StartActivity(intent);
+            };
 
 		}
 	}
