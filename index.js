@@ -79,7 +79,7 @@ app.get('/join/:class', stormpath.authenticationRequired, (req,res)=>{
         }
         else {
             console.log("BRO: " + req.params.class + " " + req.user.username);
-            collection.update({_id: req.params.class}, {$push: {students: ""+req.user.username}})
+            collection.update({_id: "CS250"}, {$push: {students: "richz@purdue.edu"}})
         }
     })
 
