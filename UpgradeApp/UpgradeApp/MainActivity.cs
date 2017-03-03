@@ -25,7 +25,7 @@ namespace UpgradeApp {
             //SetTheme(Android.Resource.Style.ThemeHoloLightNoActionBar);
             base.OnCreate(bundle);
 
-			stormPathMain();
+			//stormPathMain();
 
 
 			// Set our view from the "main" layout resource
