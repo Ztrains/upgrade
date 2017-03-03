@@ -113,3 +113,26 @@ app.get('/email/:new', stormpath.authenticationRequired, (req,res)=>{
       }
     });
 })
+
+app.get('/resetpass', stormpath.authenticationRequired, (req,req)=>{
+    application.sendPasswordResetEmail(req.user.email, function(err, passwordResetToken) {
+      //token = passwordResetToken;
+      // The token is the last part of the HREF.
+      console.log(passwordResetToken.href.split('/').pop());
+
+      // The account can be retrieved by using the account href on the result.
+      client.getAccount(passwordResetToken.account.href, function(err, account) {
+        console.log(account);
+      });
+    });
+})
+
+app.get('/changepass/:token/:newpass', stormpath.authenticationRequired, (req,res)=>{
+    application.resetPassword(req.params.token, req.params.newpass, function(err) {
+      if (err) {
+        console.log(err); // Token is invalid, or password is not strong enough.
+      } else {
+        console.log('Password was reset.');
+      }
+    });
+})
