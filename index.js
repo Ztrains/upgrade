@@ -50,7 +50,7 @@ app.get('/',stormpath.authenticationRequired, (req,res)=>{
     res.send('Welcome to upgrade, ' + req.user.givenName)
 });
 
-app.get('/classList', stormpath.authenticationRequired, (req,res)=> {
+app.get('/classList', /*stormpath.authenticationRequired,*/ (req,res)=> {
     //res.type('json');
     var list;
     db.collection('classes', (err, collection)=>{
