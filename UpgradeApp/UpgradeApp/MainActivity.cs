@@ -18,7 +18,7 @@ namespace UpgradeApp {
 
 
 			HTTPHandler.launchStormPath();
-			//stormPathMain();
+			HTTPHandler.classListRequest();
 
 			Console.WriteLine("test");
 
@@ -39,7 +39,7 @@ namespace UpgradeApp {
 			//HTTPHandler.Testfn();
 
 			loginButton.Click += (object sender, EventArgs e) => {
-				int success = HTTPHandler.loginRequest(email.Text, password.Text);
+				HTTPHandler.loginRequest(email.Text, password.Text);
                 var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
                 StartActivity(intent);
             };

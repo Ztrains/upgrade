@@ -32,7 +32,13 @@ namespace UpgradeApp {
 			EditText pricesEditText = FindViewById<EditText>(Resource.Id.PricesEditText);
 			Button submitButton = FindViewById<Button>(Resource.Id.SubmitButton);
 
-
+			submitButton.Click += (sender, e) => {
+				string newName = nameEditText.Text;
+				string newEmail = emailEditText.Text;
+				string newContact = otherContactMethodsEditText.Text;
+				string freeTime = freeTimeTextView.Text;
+				string prices = pricesEditText.Text;
+			};
 
 		}
 	}
