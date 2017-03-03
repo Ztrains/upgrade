@@ -38,7 +38,17 @@ namespace UpgradeApp {
 				string newContact = otherContactMethodsEditText.Text;
 				string freeTime = freeTimeTextView.Text;
 				string prices = pricesEditText.Text;
-			};
+
+                
+
+                var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
+                intent.PutExtra("name", newName);
+                intent.PutExtra("email", newEmail);
+                intent.PutExtra("contact", newContact);
+                intent.PutExtra("freeTime", freeTime);
+                intent.PutExtra("prices", prices);
+                StartActivity(intent);
+            };
 
 		}
 	}
