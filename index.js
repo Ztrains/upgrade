@@ -57,7 +57,7 @@ app.get('/classList', stormpath.authenticationRequired, (req,res)=> {
           res.redirect('/')
         }
         else {
-            collection.find({},{name:1, _id:0}).toArray((err, ret)=>{
+            collection.find(/*{},{_id:1}*/).toArray((err, ret)=>{
                 if (err){
                     console.log('ERROR:', err)
                     res.redirect('/')
