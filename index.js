@@ -70,6 +70,8 @@ app.get('/classList', stormpath.authenticationRequired, (req,res)=> {
     })
 })
 
-app.get('/join', stormpath.authenticationRequired, (req,res)=>{
-    res.send('Hello, ' + req.user.givenName + ' your ID is ' + req.user.id)
+app.get('/join/:username', stormpath.authenticationRequired, (req,res)=>{
+
+
+    res.send('Hello, ' + req.user.givenName + ', your username is ' + req.params.username)
 })
