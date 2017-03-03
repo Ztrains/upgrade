@@ -115,7 +115,7 @@ app.get('/email/:new', stormpath.authenticationRequired, (req,res)=>{
 })
 
 app.get('/resetpass', stormpath.authenticationRequired, (req,res)=>{
-    app.sendPasswordResetEmail(req.user.email, function(err, passwordResetToken) {
+    stormpath.sendPasswordResetEmail(req.user.email, function(err, passwordResetToken) {
       //token = passwordResetToken;
       // The token is the last part of the HREF.
       console.log(passwordResetToken.href.split('/').pop());
@@ -128,7 +128,7 @@ app.get('/resetpass', stormpath.authenticationRequired, (req,res)=>{
 })
 
 app.get('/changepass/:token/:newpass', stormpath.authenticationRequired, (req,res)=>{
-    app.resetPassword(req.params.token, req.params.newpass, function(err) {
+    stormpath.resetPassword(req.params.token, req.params.newpass, function(err) {
       if (err) {
         console.log(err); // Token is invalid, or password is not strong enough.
       } else {
