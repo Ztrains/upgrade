@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="UpgradeApp.UpgradeApp" android:versionCode="1" android:versionName="1.0">
+  <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="25" />
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+  <application android:label="UpgradeApp" android:theme="@android:style/Theme.Holo.Light.NoActionBar" android:name="android.app.Application" android:allowBackup="true" android:debuggable="true">
+    <activity android:label="AccountCreation" android:name="md5bb18f71bf6aa569994f30c1b4391348f.AccountCreationActivity" />
+    <activity android:label="EditProfileActivity" android:name="md5bb18f71bf6aa569994f30c1b4391348f.EditProfileActivity" />
+    <activity android:icon="@drawable/icon" android:label="UpgradeApp" android:name="md5bb18f71bf6aa569994f30c1b4391348f.MainActivity">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+    <activity android:label="ProfileActivity" android:name="md5bb18f71bf6aa569994f30c1b4391348f.ProfileActivity" />
+    <provider android:name="mono.MonoRuntimeProvider" android:exported="false" android:initOrder="2147483647" android:authorities="UpgradeApp.UpgradeApp.mono.MonoRuntimeProvider.__mono_init__" />
+    <!--suppress ExportedReceiver-->
+    <receiver android:name="mono.android.Seppuku">
+      <intent-filter>
+        <action android:name="mono.android.intent.action.SEPPUKU" />
+        <category android:name="mono.android.intent.category.SEPPUKU.UpgradeApp.UpgradeApp" />
+      </intent-filter>
+    </receiver>
+  </application>
+</manifest>

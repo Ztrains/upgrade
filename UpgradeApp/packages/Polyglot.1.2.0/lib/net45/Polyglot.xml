@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Polyglot</name>
+    </assembly>
+    <members>
+        <member name="T:Polyglot.AnalysisResult">
+            <summary>
+            Represents the results of an assembly analysis.
+            </summary>
+        </member>
+        <member name="M:Polyglot.AnalysisResult.#ctor(Polyglot.Language,System.Collections.Generic.IEnumerable{System.String},System.Double)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Polyglot.AnalysisResult"/> class.
+            </summary>
+            <param name="langauge">The language.</param>
+            <param name="matches">The matching heuristics, if any.</param>
+            <param name="score">The overall score.</param>
+        </member>
+        <member name="P:Polyglot.AnalysisResult.Language">
+            <summary>
+            Gets the language.
+            </summary>
+        </member>
+        <member name="P:Polyglot.AnalysisResult.MatchingHeuristics">
+            <summary>
+            Gets the matching heuristics, if any.
+            </summary>
+        </member>
+        <member name="P:Polyglot.AnalysisResult.Score">
+            <summary>
+            Gets the score.
+            </summary>
+        </member>
+        <member name="T:Polyglot.AssemblyAnalyzer">
+            <inheritdoc/>
+        </member>
+        <member name="M:Polyglot.AssemblyAnalyzer.#ctor(System.Reflection.Assembly,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Polyglot.AssemblyAnalyzer"/> class based on the given assembly.
+            </summary>
+            <param name="assemblyToAnalyze">The assembly to analyze.</param>
+        </member>
+        <member name="P:Polyglot.AssemblyAnalyzer.AllResults">
+            <inheritdoc/>
+        </member>
+        <member name="P:Polyglot.AssemblyAnalyzer.DetectedLanguage">
+            <inheritdoc/>
+        </member>
+        <member name="T:Polyglot.IAssemblyAnalyzer">
+            <summary>
+            Analyzes an assembly and determines the most likely source language
+            based on the available heuristics.
+            </summary>
+        </member>
+        <member name="P:Polyglot.IAssemblyAnalyzer.DetectedLanguage">
+            <summary>
+            Gets the most likely source language.
+            </summary>
+        </member>
+        <member name="P:Polyglot.IAssemblyAnalyzer.AllResults">
+            <summary>
+            Gets the entire list of heuristic results.
+            </summary>
+        </member>
+        <member name="T:Polyglot.Language">
+            <summary>
+            All supported languages.
+            </summary>
+        </member>
+        <member name="F:Polyglot.Language.CSharp">
+            <summary>
+            C#
+            </summary>
+        </member>
+        <member name="F:Polyglot.Language.Vb">
+            <summary>
+            Visual Basic.NET
+            </summary>
+        </member>
+        <member name="F:Polyglot.Language.FSharp">
+            <summary>
+            F#
+            </summary>
+        </member>
+        <member name="T:Polyglot.Heuristics.IHeuristic">
+            <summary>
+            Represents a heuristic that analyzes indicators for a specific language.
+            </summary>
+        </member>
+        <member name="P:Polyglot.Heuristics.IHeuristic.Name">
+            <summary>
+            Gets the heuristic name.
+            </summary>
+        </member>
+        <member name="P:Polyglot.Heuristics.IHeuristic.Language">
+            <summary>
+            Gets the language the heuristic reports.
+            </summary>
+        </member>
+        <member name="M:Polyglot.Heuristics.IHeuristic.GetResult(Polyglot.AnalysisData)">
+            <summary>
+            Executes the heuristic against a set of input data.
+            </summary>
+            <param name="data">The data to analyze.</param>
+            <returns><see langword="true"/> if the data matches the target language; <see langword="false"/> otherwise.</returns>
+        </member>
+    </members>
+</doc>

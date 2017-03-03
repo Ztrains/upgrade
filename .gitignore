@@ -61,5 +61,6 @@ typings/
 ./UpgradeApp/UpgradeApp/obj
 ./UpgradeApp/UpgradeApp/bin
 ./UpgradeApp/.vs
+./UpgradeApp/UpgradeApp/keys.txt
 
 pathForDb
