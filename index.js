@@ -118,7 +118,7 @@ app.get('/info/:type/:name', stormpath.authenticationRequired, (req,res)=>{
     req.user.customData[req.params.type] = req.params.name;
 
     req.user.customData.save(function(err){
-        if err {
+        if (err) {
             res.status(400).end('Oops!  There was an error: ' + err.userMessage);
         }
         else {
