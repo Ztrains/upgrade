@@ -71,7 +71,18 @@ app.get('/classList', stormpath.authenticationRequired, (req,res)=> {
 })
 
 app.get('/join/:class', stormpath.authenticationRequired, (req,res)=>{
-    db.classes.update({_id: req.params.class}, {$pull: {students: req.user.userName}})
+    var list;
+    db.collection('classes', (err, collection)=>{
+        if (err) {
+          console.log('ERROR:', err);
+          res.redirect('/')
+        }
+        else {
+            collection.find({},{name:1, _id:0}).update({_id: req.params.class}, {$pull: {students: req.user.userName}})
+        }
+    })
+
+    //db.classes.update({_id: req.params.class}, {$pull: {students: req.user.userName}})
 
     //res.send('Hello, ' + req.user.givenName + ', your username is ' + req.params.username)
 })
