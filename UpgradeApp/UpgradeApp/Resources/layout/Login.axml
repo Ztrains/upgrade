@@ -48,4 +48,12 @@
         android:layout_marginLeft="35dp"
         android:layout_marginTop="25dp"
         android:background="#5495ff" />
+    <Button
+        android:text="Recover Password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recoverButton"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginLeft="50dp" />
 </LinearLayout>

@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Stormpath.SDK.Http.SystemNetHttpClient</name>
+    </assembly>
+    <members>
+        <member name="T:Stormpath.SDK.Http.SystemNetHttpClient.SystemNetHttpAdapter">
+            <summary>
+            Translates requests and responses to Stormpath SDK interface types.
+            </summary>
+        </member>
+        <member name="P:Stormpath.SDK.Http.SystemNetHttpClient.SystemNetHttpClient.Stormpath#SDK#Http#IHttpClient#BaseUrl">
+            <inheritdoc/>
+        </member>
+        <member name="P:Stormpath.SDK.Http.SystemNetHttpClient.SystemNetHttpClient.Stormpath#SDK#Http#IHttpClient#ConnectionTimeout">
+            <inheritdoc/>
+        </member>
+        <member name="P:Stormpath.SDK.Http.SystemNetHttpClient.SystemNetHttpClient.Stormpath#SDK#Http#IHttpClient#IsAsynchronousSupported">
+            <inheritdoc/>
+        </member>
+        <member name="P:Stormpath.SDK.Http.SystemNetHttpClient.SystemNetHttpClient.Stormpath#SDK#Http#IHttpClient#IsSynchronousSupported">
+            <inheritdoc/>
+        </member>
+        <member name="P:Stormpath.SDK.Http.SystemNetHttpClient.SystemNetHttpClient.Stormpath#SDK#Http#IHttpClient#Proxy">
+            <inheritdoc/>
+        </member>
+        <member name="M:Stormpath.SDK.Http.SystemNetHttpClient.SystemNetHttpClient.System#IDisposable#Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="M:Stormpath.SDK.Http.SystemNetHttpClient.SystemNetHttpClient.Stormpath#SDK#Http#ISynchronousHttpClient#Execute(Stormpath.SDK.Http.IHttpRequest)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Stormpath.SDK.Http.SystemNetHttpClient.SystemNetHttpClient.Stormpath#SDK#Http#IAsynchronousHttpClient#ExecuteAsync(Stormpath.SDK.Http.IHttpRequest,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Stormpath.SDK.Http.SystemNetHttpClientFactoryExtensions">
+            <summary>
+            Provides access to the SystemNetHttpClient plugin by plugging into <see cref="T:Stormpath.SDK.Http.IHttpClientFactory"/>.
+            </summary>
+        </member>
+    </members>
+</doc>
