@@ -20,6 +20,7 @@ app.use(stormpath.init(app, {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}))
+app.use(favicon(path.join(__dirname, 'docs', 'favicon.ico')))
 
 //const port = 3000
 var db;
@@ -86,4 +87,28 @@ app.get('/join/:class/:type', stormpath.authenticationRequired, (req,res)=>{
 
     //res.send('Hello, ' + req.user.givenName + ', your username is ' + req.params.username)
     res.redirect('/')
+})
+
+app.get('/name/:new', stormpath.authenticationRequired, (req,res)=>{
+    req.user.givenName = req.params.new;
+    req.user.save(function (err) {
+      if (err) {
+        res.status(400).end('Oops!  There was an error: ' + err.userMessage);
+      }
+      else {
+        res.end('Name was changed!');
+      }
+    });
+})
+
+app.get('/email/:new', stormpath.authenticationRequired, (req,res)=>{
+    req.user.email = req.params.new;
+    req.user.save(function (err) {
+      if (err) {
+        res.status(400).end('Oops!  There was an error: ' + err.userMessage);
+      }
+      else {
+        res.end('Email was changed!');
+      }
+    });
 })
