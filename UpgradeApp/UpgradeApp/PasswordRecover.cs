@@ -18,7 +18,20 @@ namespace UpgradeApp
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            SetContentView(Resource.Layout.PasswordRecovery);
 
+            EditText userEmail = FindViewById<EditText>(Resource.Id.userEmail);
+            Button submit = FindViewById<Button>(Resource.Id.submitButton);
+
+
+            submit.Click += (object sender, EventArgs e) =>
+            {
+                var email = userEmail.Text;
+
+
+                var intent = new Android.Content.Intent(this, typeof(MainActivity));
+                StartActivity(intent);
+            };
             // Create your application here
         }
     }
