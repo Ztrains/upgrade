@@ -65,7 +65,7 @@ app.get('/classList', stormpath.authenticationRequired, (req,res)=> {
                     res.redirect('/')
                 }
                 else {
-                    res.send(ret)
+                    res.json(ret)
                 }
             })
         }
