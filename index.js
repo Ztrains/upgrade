@@ -70,7 +70,7 @@ app.get('/classList', stormpath.authenticationRequired, (req,res)=> {
     })
 })
 
-app.get('/join/:class', stormpath.authenticationRequired, (req,res)=>{
+app.get('/join/:class/:type', stormpath.authenticationRequired, (req,res)=>{
     var list;
     db.collection('classes', (err, collection)=>{
         if (err) {
@@ -78,8 +78,7 @@ app.get('/join/:class', stormpath.authenticationRequired, (req,res)=>{
           res.redirect('/')
         }
         else {
-            console.log("BRO: " + req.params.class + " " + req.user.username);
-            collection.update({_id: req.params.class}, {$push: {students: req.user.username}})
+            collection.update({_id: req.params.class}, {$push: {students: {name: req.user.fullName, type: req.params.type}}})
         }
     })
 
