@@ -27,6 +27,11 @@ namespace UpgradeApp {
 
 			//stormPathMain();
 
+			//HTTPHandler.launchStormPath();
+			//HTTPHandler.classListRequest();
+
+
+			Console.WriteLine("test");
 
 			// Set our view from the "main" layout resource
 			SetContentView(Resource.Layout.Login);  // Change Main to Login screen //
@@ -46,7 +51,6 @@ namespace UpgradeApp {
 
 			loginButton.Click += (object sender, EventArgs e) => {
 				//HTTPHandler.loginRequest(email.Text, password.Text);
-
                 var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
                 StartActivity(intent);
             };
