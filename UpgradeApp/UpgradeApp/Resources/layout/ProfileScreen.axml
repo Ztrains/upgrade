@@ -43,6 +43,11 @@
                 android:id="@+id/ContactMethodsLabelTextView"
                 android:textSize="18dp" />
             <TextView
+                android:text="Email shown here"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/EmailTextView" />
+            <TextView
                 android:text="Other info shown here"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
