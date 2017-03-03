@@ -78,7 +78,7 @@ app.get('/join/:class', stormpath.authenticationRequired, (req,res)=>{
           res.redirect('/')
         }
         else {
-            collection.update({_id: ""+req.params.class}, {$push: {students: ""+req.user.userName}})
+            collection.update({_id: ""+req.params.class}, {$push: {students: ""+req.user.username}})
         }
     })
 
