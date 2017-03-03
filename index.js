@@ -17,7 +17,7 @@ app.use(stormpath.init(app, {
     },
     logout: {
         enabled: true,
-        uri: "/logout",
+        uri: "/logmeout",
         nextUri: "/login"
     }
   }
@@ -75,5 +75,6 @@ app.get('/classList', stormpath.authenticationRequired, (req,res)=> {
     })
 })
 
-app.post('/logout', stormpath.authenticationRequired, (req,res)=>{
+app.post('/logmeout', stormpath.authenticationRequired, (req,res)=>{
+    req.logout();
 })
