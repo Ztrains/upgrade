@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Stormpath.SDK.JsonNetSerializer</name>
+    </assembly>
+    <members>
+        <member name="T:Stormpath.SDK.Extensions.Serialization.JsonNetSerializer">
+            <summary>
+            JSON.NET-based serializer for Stormpath.SDK.
+            </summary>
+        </member>
+        <member name="M:Stormpath.SDK.Extensions.Serialization.JsonNetSerializer.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Stormpath.SDK.Extensions.Serialization.JsonNetSerializer"/> class.
+            </summary>
+        </member>
+        <member name="M:Stormpath.SDK.Extensions.Serialization.JsonNetSerializer.Stormpath#SDK#Serialization#IJsonSerializer#Serialize(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <inheritdoc/>
+        </member>
+        <member name="M:Stormpath.SDK.Extensions.Serialization.JsonNetSerializer.Stormpath#SDK#Serialization#IJsonSerializer#Deserialize(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Stormpath.SDK.Extensions.Serialization.JsonNetSerializer.Sanitize(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Converts a nested tree of <see cref="T:Newtonsoft.Json.Linq.JObject"/> instances into nested <see cref="T:System.Collections.Generic.IDictionary`2">dictionaries</see>.
+            </summary>
+            <remarks>JSON.NET deserializes everything into nested JObjects. We want IDictionaries all the way down.</remarks>
+            <param name="map">Deserialized <see cref="T:Newtonsoft.Json.Linq.JObject"/> from JSON.NET</param>
+            <returns><see cref="T:System.Collections.Generic.IDictionary`2"/> of primitive items, and embedded objects as nested <see cref="T:System.Collections.Generic.IDictionary`2"/></returns>
+        </member>
+        <member name="T:Stormpath.SDK.Serialization.JsonNetSerializerFactoryExtensions">
+            <summary>
+            Provides access to JsonNetSerializer by plugging into <see cref="T:Stormpath.SDK.Serialization.ISerializerFactory"/>.
+            </summary>
+        </member>
+        <member name="M:Stormpath.SDK.Serialization.JsonNetSerializerFactoryExtensions.JsonNetSerializer(Stormpath.SDK.Serialization.ISerializerFactory)">
+            <summary>
+            Creates a new JSON.NET-based serializer instance.
+            </summary>
+            <param name="factory">The factory.</param>
+            <returns>A <see cref="T:Stormpath.SDK.Serialization.ISerializerBuilder">builder</see> capable of constructing an instance of the JSON.NET-based serializer.</returns>
+        </member>
+    </members>
+</doc>

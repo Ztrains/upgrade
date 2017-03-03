@@ -4,14 +4,34 @@ using Android.OS;
 using System.Net.Http;
 using System;
 
+using Stormpath.SDK;
+using Stormpath.SDK.Client;
+using Stormpath.SDK.Error;
+
 namespace UpgradeApp {
 	[Activity(Label = "UpgradeApp", MainLauncher = true, Icon = "@drawable/icon")]
 	public class MainActivity : Activity {
+
+		public async void stormPathMain() {
+			var client = Clients.Builder()
+				.SetApiKeyFilePath("./keys.txt")
+				.Build();
+			var myApp = await client.GetApplications()
+				.Where(x => x.Name == "My Application")
+				.SingleAsync();
+		}
+
 		protected override void OnCreate(Bundle bundle) {
             //SetTheme(Android.Resource.Style.ThemeHoloLightNoActionBar);
             base.OnCreate(bundle);
-            // Set our view from the "main" layout resource
-            SetContentView(Resource.Layout.Login);  // Change Main to Login screen //
+
+			//stormPathMain();
+			Console.WriteLine("test");
+
+
+
+			// Set our view from the "main" layout resource
+			SetContentView(Resource.Layout.Login);  // Change Main to Login screen //
            
 
             EditText email = FindViewById<EditText>(Resource.Id.email);
