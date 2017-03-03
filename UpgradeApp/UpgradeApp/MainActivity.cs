@@ -12,15 +12,21 @@ namespace UpgradeApp {
 	[Activity(Label = "UpgradeApp", MainLauncher = true, Icon = "@drawable/icon")]
 	public class MainActivity : Activity {
 
+		public async void stormPathMain() {
+			var client = Clients.Builder()
+				.SetApiKeyFilePath("./keys.txt")
+				.Build();
+			var myApp = await client.GetApplications()
+				.Where(x => x.Name == "My Application")
+				.SingleAsync();
+		}
+
 		protected override void OnCreate(Bundle bundle) {
             //SetTheme(Android.Resource.Style.ThemeHoloLightNoActionBar);
             base.OnCreate(bundle);
 
-
-			HTTPHandler.launchStormPath();
 			//stormPathMain();
 
-			Console.WriteLine("test");
 
 			// Set our view from the "main" layout resource
 			SetContentView(Resource.Layout.Login);  // Change Main to Login screen //
@@ -39,7 +45,8 @@ namespace UpgradeApp {
 			//HTTPHandler.Testfn();
 
 			loginButton.Click += (object sender, EventArgs e) => {
-				int success = HTTPHandler.loginRequest(email.Text, password.Text);
+				//HTTPHandler.loginRequest(email.Text, password.Text);
+
                 var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
                 StartActivity(intent);
             };

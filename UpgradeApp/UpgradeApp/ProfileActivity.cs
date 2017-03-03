@@ -36,6 +36,37 @@ namespace UpgradeApp {
 			TextView availabilityTextView = FindViewById<TextView>(Resource.Id.AvailabilityTextView);
 			TextView pricesLabelTextView = FindViewById<TextView>(Resource.Id.PricesLabelTextView);
 			TextView pricesTextView = FindViewById<TextView>(Resource.Id.PricesTextView);
+            Button classListView = FindViewById<Button>(Resource.Id.classButton);
+
+            if(Intent.GetStringExtra("name") != null)
+            {
+                nameTextView.Text = Intent.GetStringExtra("name");
+            }
+            if (Intent.GetStringExtra("email") != null && Intent.GetStringExtra("contact") != null)
+            {
+                contactMethodsTextView.Text = Intent.GetStringExtra("email") + Intent.GetStringExtra("contact");
+            }
+            if (Intent.GetStringExtra("freeTime") != null)
+            {
+                availabilityTextView.Text = Intent.GetStringExtra("freeTime");
+            }
+            if (Intent.GetStringExtra("prices") != null)
+            {
+                pricesTextView.Text = Intent.GetStringExtra("prices");
+            }
+
+
+            classListView.Click += (object Sender, EventArgs e) =>
+            {
+                var intent = new Android.Content.Intent(this, typeof(ClassList));
+                StartActivity(intent);
+            };
+
+            editButton.Click += (Sender, e) =>
+            {
+                var intent = new Android.Content.Intent(this, typeof(EditProfileActivity));
+                StartActivity(intent);
+            };
 			
 
 			
