@@ -28,7 +28,7 @@ namespace UpgradeApp
 
             subButton.Click += (object sender, EventArgs e) => {
                 //Send information to the server
-                var intent = new Android.Content.Intent(this, typeof(MainActivity));
+                var intent = new Android.Content.Intent(this, typeof(EditProfileActivity));
                 StartActivity(intent);
             };
 
