@@ -1,4 +1,4 @@
-# Logs
+﻿# Logs
 logs
 *.log
 npm-debug.log*
@@ -58,9 +58,9 @@ typings/
 .env
 
 # ignore debuggy files that will create merge conflicts
-./UpgradeApp/UpgradeApp/obj/*
-./UpgradeApp/UpgradeApp/bin/*
-./UpgradeApp/.vs/*
-./UpgradeApp/UpgradeApp/keys.txt
+UpgradeApp/UpgradeApp/obj/*
+UpgradeApp/UpgradeApp/bin/*
+UpgradeApp/.vs/*
+UpgradeApp/UpgradeApp/keys.txt
 
 pathForDb
