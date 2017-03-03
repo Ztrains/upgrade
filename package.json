@@ -24,6 +24,7 @@
     "body-parser": "^1.16.1",
     "express": "^4.14.1",
     "express-stormpath": "^3.2.0",
-    "mongodb": "^2.2.24"
+    "mongodb": "^2.2.24",
+    "serve-favicon": "^2.4.1"
   }
 }

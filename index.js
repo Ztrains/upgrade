@@ -4,6 +4,7 @@ const express = require('express');
 const mongodb = require('mongodb');
 const bodyParser = require('body-parser');
 const stormpath = require('express-stormpath');
+const favicon = require('serve-favicon');
 var app = express();
 
 app.use(stormpath.init(app, {
@@ -20,6 +21,7 @@ app.use(stormpath.init(app, {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}))
+app.use(favicon(__dirname + '/docs/favicon.ico'))
 
 //const port = 3000
 var db;
@@ -48,7 +50,7 @@ app.get('/',stormpath.authenticationRequired, (req,res)=>{
     res.send('Welcome to upgrade, ' + req.user.givenName)
 });
 
-app.get('/classList', stormpath.authenticationRequired, (req,res)=> {
+app.get('/classList', /*stormpath.authenticationRequired,*/ (req,res)=> {
     //res.type('json');
     var list;
     db.collection('classes', (err, collection)=>{
@@ -57,20 +59,20 @@ app.get('/classList', stormpath.authenticationRequired, (req,res)=> {
           res.redirect('/')
         }
         else {
-            collection.find({},{name:1, _id:0}).toArray((err, ret)=>{
+            collection.find({},{_id:1}).toArray((err, ret)=>{
                 if (err){
                     console.log('ERROR:', err)
                     res.redirect('/')
                 }
                 else {
-                    res.send(ret)
+                    res.json(ret)
                 }
             })
         }
     })
 })
 
-app.get('/join/:class', stormpath.authenticationRequired, (req,res)=>{
+app.get('/join/:class/:type', stormpath.authenticationRequired, (req,res)=>{
     var list;
     db.collection('classes', (err, collection)=>{
         if (err) {
@@ -78,8 +80,7 @@ app.get('/join/:class', stormpath.authenticationRequired, (req,res)=>{
           res.redirect('/')
         }
         else {
-            console.log("BRO: " + req.params.class + " " + req.user.username);
-            collection.update({_id: req.params.class}, {$push: {students: req.user.username}})
+            collection.update({_id: req.params.class}, {$push: {students: {name: req.user.fullName, type: req.params.type}}})
         }
     })
 
@@ -87,4 +88,28 @@ app.get('/join/:class', stormpath.authenticationRequired, (req,res)=>{
 
     //res.send('Hello, ' + req.user.givenName + ', your username is ' + req.params.username)
     res.redirect('/')
+})
+
+app.get('/name/:new', stormpath.authenticationRequired, (req,res)=>{
+    req.user.givenName = req.params.new;
+    req.user.save(function (err) {
+      if (err) {
+        res.status(400).end('Oops!  There was an error: ' + err.userMessage);
+      }
+      else {
+        res.end('Name was changed!');
+      }
+    });
+})
+
+app.get('/email/:new', stormpath.authenticationRequired, (req,res)=>{
+    req.user.email = req.params.new;
+    req.user.save(function (err) {
+      if (err) {
+        res.status(400).end('Oops!  There was an error: ' + err.userMessage);
+      }
+      else {
+        res.end('Email was changed!');
+      }
+    });
 })
