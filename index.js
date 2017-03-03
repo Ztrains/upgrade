@@ -8,17 +8,12 @@ var app = express();
 
 app.use(stormpath.init(app, {
   expand: {
-    customData: true,
+    customData: true
   },
   web: {
     login: {
       enabled: true,
-      nextUri: "/dashboard"
-    },
-    logout: {
-        enabled: true,
-        uri: "/logmeout",
-        nextUri: "/login"
+      nextUri: "/"
     }
   }
 }))
@@ -73,8 +68,4 @@ app.get('/classList', stormpath.authenticationRequired, (req,res)=> {
             })
         }
     })
-})
-
-app.post('/logmeout', stormpath.authenticationRequired, (req,res)=>{
-    req.logout();
 })
