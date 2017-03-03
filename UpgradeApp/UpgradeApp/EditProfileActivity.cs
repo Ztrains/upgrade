@@ -40,6 +40,9 @@ namespace UpgradeApp {
 			if (Intent.GetStringExtra("contact") != null) {
 				otherContactMethodsEditText.Text = Intent.GetStringExtra("contact");
 			}
+			if (Intent.GetStringExtra("email") != null) {
+				emailEditText.Text = Intent.GetStringExtra("email");
+			}
 			if (Intent.GetStringExtra("about") != null) {
 				aboutEditText.Text = Intent.GetStringExtra("about");
 			}
