@@ -18,7 +18,19 @@ namespace UpgradeApp
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            //SetTheme(Android.Resource.Style.ThemeHoloLightNoActionBar);
             SetContentView(Resource.Layout.AccountCreationScreen);
+
+            ImageView upgradeLogo = FindViewById<ImageView>(Resource.Id.upgradeLogo);
+            EditText userEmail = FindViewById<EditText>(Resource.Id.email);
+            EditText userPassword = FindViewById<EditText>(Resource.Id.password);
+            Button subButton = FindViewById<Button>(Resource.Id.submitButton);
+
+            subButton.Click += (object sender, EventArgs e) => {
+                //Send information to the server
+                var intent = new Android.Content.Intent(this, typeof(MainActivity));
+                StartActivity(intent);
+            };
 
             // Create your application here
         }

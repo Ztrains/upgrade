@@ -15,9 +15,9 @@ namespace UpgradeApp {
 	public class EditProfileActivity : Activity {
 		protected override void OnCreate(Bundle savedInstanceState) {
 			base.OnCreate(savedInstanceState);
-
-			// Create your application here
-			SetContentView(Resource.Layout.EditProfileScreen);
+           // SetTheme(Android.Resource.Style.ThemeHoloLightNoActionBar);
+            // Create your application here
+            SetContentView(Resource.Layout.EditProfileScreen);
 
 			TextView nameLabelTextView = FindViewById<TextView>(Resource.Id.NameLabelTextView);
 			EditText nameEditText = FindViewById<EditText>(Resource.Id.NameEditText);
