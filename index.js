@@ -28,7 +28,7 @@ var localTestUrl = 'mongodb://localhost:27017/test'
 mongodb.MongoClient.connect(process.env.MONGODB_URI || localTestUrl, function (err, database) {
   if (err) {
     console.log('ERROR:', err);
-    process.exit(1);
+    res.redirect('/')
   }
 
   // Save database object from the callback for reuse.
@@ -54,11 +54,18 @@ app.get('/classList', stormpath.loginRequired, (req,res)=> {
     db.collection('classes', (err, collection)=>{
         if (err) {
           console.log('ERROR:', err);
-          process.exit(1);
+          res.redirect('/')
         }
         else {
-            res.send(collection.find({}));
-            //list = collection.find().toArray();
+            collection.find().toArray((err, ret)=>{
+                if (err){
+                    console.log('ERROR:', err)
+                    res.redirect('/')
+                }
+                else {
+                    res.send(ret);
+                }
+            })
         }
     })
     //res.json(list);
