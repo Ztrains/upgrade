@@ -57,7 +57,7 @@ app.get('/classList', stormpath.loginRequired, (req,res)=> {
           process.exit(1);
         }
         else {
-            list = collection.find({},{name:1, _id:0}).toArray();
+            list = collection.find({},{name:1, _id:1});
         }
     })
     res.json(list);
