@@ -26,6 +26,8 @@ namespace UpgradeApp {
             base.OnCreate(bundle);
 
 			//stormPathMain();
+			Console.WriteLine("test");
+
 
 
 			// Set our view from the "main" layout resource
