@@ -63,7 +63,8 @@ public final class R {
         public static final int classesscreen=0x7f030001;
         public static final int editprofilescreen=0x7f030002;
         public static final int login=0x7f030003;
-        public static final int profilescreen=0x7f030004;
+        public static final int passwordrecovery=0x7f030004;
+        public static final int profilescreen=0x7f030005;
     }
     public static final class string {
         public static final int ApplicationName=0x7f040001;
