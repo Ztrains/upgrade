@@ -114,7 +114,7 @@ app.get('/email/:new', stormpath.authenticationRequired, (req,res)=>{
     });
 })
 
-app.get('/resetpass', stormpath.authenticationRequired, (req,req)=>{
+app.get('/resetpass', stormpath.authenticationRequired, (req,res)=>{
     application.sendPasswordResetEmail(req.user.email, function(err, passwordResetToken) {
       //token = passwordResetToken;
       // The token is the last part of the HREF.
