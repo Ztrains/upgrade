@@ -104,12 +104,13 @@ app.get('/name/:new', stormpath.authenticationRequired, (req,res)=>{
 
 app.get('/email/:new', stormpath.authenticationRequired, (req,res)=>{
     req.user.email = req.params.new;
+    req.user.username = req.params.new;
     req.user.save(function (err) {
       if (err) {
         res.status(400).end('Oops!  There was an error: ' + err.userMessage);
       }
       else {
-        res.end('Email was changed!');
+        res.end('Email/Username was changed!');
       }
     });
 })
@@ -122,7 +123,7 @@ app.get('/info/:type/:name', stormpath.authenticationRequired, (req,res)=>{
             res.status(400).end('Oops!  There was an error: ' + err.userMessage);
         }
         else {
-            res.end('Data added!')
+            res.end('Custom Data added!')
         }
     })
 })
