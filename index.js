@@ -21,7 +21,7 @@ app.use(stormpath.init(app, {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}))
-app.use(favicon(path.join(__dirname, 'docs', 'favicon.ico')))
+app.use(favicon(__dirname + '/docs/favicon.ico')))
 
 //const port = 3000
 var db;
