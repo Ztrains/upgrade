@@ -46,7 +46,10 @@ namespace UpgradeApp {
             {
                 contactMethodsTextView.Text = Intent.GetStringExtra("email") + Intent.GetStringExtra("contact");
             }
-            if (Intent.GetStringExtra("freeTime") != null)
+			if (Intent.GetStringExtra("about") != null) {
+				aboutTextView.Text = Intent.GetStringExtra("about");
+			}
+			if (Intent.GetStringExtra("freeTime") != null)
             {
                 availabilityTextView.Text = Intent.GetStringExtra("freeTime");
             }
@@ -65,7 +68,17 @@ namespace UpgradeApp {
             editButton.Click += (Sender, e) =>
             {
                 var intent = new Android.Content.Intent(this, typeof(EditProfileActivity));
-                StartActivity(intent);
+
+				intent.PutExtra("name", nameTextView.Text);
+				intent.PutExtra("contact", contactMethodsTextView.Text);
+				intent.PutExtra("about", aboutTextView.Text);
+				intent.PutExtra("freeTime", availabilityTextView.Text);
+				intent.PutExtra("prices", pricesTextView.Text);
+				StartActivity(intent);
+
+
+
+				StartActivity(intent);
             };
 			
 

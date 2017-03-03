@@ -24,6 +24,8 @@ namespace UpgradeApp {
 			TextView contactLabelTextView = FindViewById<TextView>(Resource.Id.ContactLabelTextView);
 			EditText emailEditText = FindViewById<EditText>(Resource.Id.EmailEditText);
 			EditText otherContactMethodsEditText = FindViewById<EditText>(Resource.Id.OtherContactMethodsEditText);
+			TextView aboutLabelTextView = FindViewById<TextView>(Resource.Id.AboutLabelTextView);
+			EditText aboutEditText = FindViewById<EditText>(Resource.Id.AboutEditText);
 			TextView iTutorLabelTextView = FindViewById<TextView>(Resource.Id.ITutorLabelTextView);
 			TextView iWantToStudyLabelTextView = FindViewById<TextView>(Resource.Id.IWantToStudyTextView);
 			TextView freeTimeLabelTextView = FindViewById<TextView>(Resource.Id.FreeTimeLabelTextView);
@@ -32,19 +34,40 @@ namespace UpgradeApp {
 			EditText pricesEditText = FindViewById<EditText>(Resource.Id.PricesEditText);
 			Button submitButton = FindViewById<Button>(Resource.Id.SubmitButton);
 
+			if (Intent.GetStringExtra("name") != null) {
+				nameEditText.Text = Intent.GetStringExtra("name");
+			}
+			if (Intent.GetStringExtra("contact") != null) {
+				otherContactMethodsEditText.Text = Intent.GetStringExtra("contact");
+			}
+			if (Intent.GetStringExtra("about") != null) {
+				aboutEditText.Text = Intent.GetStringExtra("about");
+			}
+			if (Intent.GetStringExtra("freeTime") != null) {
+				freeTimeTextView.Text = Intent.GetStringExtra("freeTime");
+			}
+			if (Intent.GetStringExtra("prices") != null) {
+				pricesEditText.Text = Intent.GetStringExtra("prices");
+			}
+
+
+
+
+
+
 			submitButton.Click += (sender, e) => {
 				string newName = nameEditText.Text;
 				string newEmail = emailEditText.Text;
 				string newContact = otherContactMethodsEditText.Text;
+				string newAbout = aboutEditText.Text;
 				string freeTime = freeTimeTextView.Text;
 				string prices = pricesEditText.Text;
-
-                
 
                 var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
                 intent.PutExtra("name", newName);
                 intent.PutExtra("email", newEmail);
                 intent.PutExtra("contact", newContact);
+				intent.PutExtra("about", newAbout);
                 intent.PutExtra("freeTime", freeTime);
                 intent.PutExtra("prices", prices);
                 StartActivity(intent);
