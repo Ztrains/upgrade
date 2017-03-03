@@ -57,13 +57,13 @@ app.get('/classList', stormpath.loginRequired, (req,res)=> {
           res.redirect('/')
         }
         else {
-            collection.find().toArray((err, ret)=>{
+            collection.find({},{name:1, _id:0}).toArray((err, ret)=>{
                 if (err){
                     console.log('ERROR:', err)
                     res.redirect('/')
                 }
                 else {
-                    res.send(ret);
+                    res.send(ret)
                 }
             })
         }
