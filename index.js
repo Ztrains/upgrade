@@ -113,3 +113,16 @@ app.get('/email/:new', stormpath.authenticationRequired, (req,res)=>{
       }
     });
 })
+
+app.get('/info/:type/:name', stormpath.authenticationRequired, (req,res)=>{
+    req.user.customData[req.params.type] = req.params.name;
+
+    req.user.customData.save(function(err){
+        if (err) {
+            res.status(400).end('Oops!  There was an error: ' + err.userMessage);
+        }
+        else {
+            res.end('Data added!')
+        }
+    })
+})

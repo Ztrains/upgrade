@@ -21,8 +21,8 @@ namespace System.Net.Http {
 			//Console.WriteLine(path);
 			var client = Clients.Builder()
 				//.SetApiKeyFilePath()
-				//.SetApiKeyId("") //Redacted for push
-				//.SetApiKeySecret("") //Redacted for push
+				//.SetApiKeyId("5ID2J1CY76G8FYBWIS45HAZ1B") //Redacted for push
+				//.SetApiKeySecret("1JzbsC7Eck/28VDdmmWYSLKIlDv3lY/NFMrLHdDSVGQ") //Redacted for push
 				.Build();
 			myApp = await client.GetApplications()
 				.Where(x => x.Name == "My Application")

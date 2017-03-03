@@ -28,8 +28,7 @@ namespace UpgradeApp
             {
                 var email = userEmail.Text;
 
-
-                var intent = new Android.Content.Intent(this, typeof(MainActivity));
+				var intent = new Android.Content.Intent(this, typeof(MainActivity));
                 StartActivity(intent);
             };
             // Create your application here
