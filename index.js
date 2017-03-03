@@ -44,11 +44,11 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI || localTestUrl, function (e
   });
 });
 
-app.get('/',stormpath.loginRequired, (req,res)=>{
+app.get('/',stormpath.authenticationRequired, (req,res)=>{
     res.send('Welcome to upgrade, ' + req.user.givenName)
 });
 
-app.get('/classList', stormpath.loginRequired, (req,res)=> {
+app.get('/classList', stormpath.authenticationRequired, (req,res)=> {
     //res.type('json');
     var list;
     db.collection('classes', (err, collection)=>{
@@ -68,7 +68,8 @@ app.get('/classList', stormpath.loginRequired, (req,res)=> {
             })
         }
     })
-    //res.json(list);
+})
 
-    //res.json(db.classes.find({},{name:1, _id:0}).toArray());
+app.post('/logout'), stormpath.authenticationRequired, (req,res=>{
+    req.logout();
 })
