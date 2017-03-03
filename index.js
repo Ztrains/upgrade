@@ -61,7 +61,7 @@ app.get('/classList', stormpath.loginRequired, (req,res)=> {
         }
     })
     res.json(list);*/
-    res.send(db.find({}));
+    res.send(db.classes.find({}));
 
     //res.json(db.classes.find({},{name:1, _id:0}).toArray());
 })
