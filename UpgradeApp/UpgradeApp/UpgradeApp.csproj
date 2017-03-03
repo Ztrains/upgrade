@@ -118,6 +118,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountCreationActivity.cs" />
+    <Compile Include="ClassList.cs" />
+    <Compile Include="ListAdapter.cs" />
     <Compile Include="EditProfileActivity.cs" />
     <Compile Include="HTTPHandler.cs" />
     <Compile Include="LoginActivity.cs" />

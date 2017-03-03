@@ -8,7 +8,6 @@
     android:paddingLeft="4dp"
     android:paddingRight="4dp"
     android:background="@android:color/white">
-    
     <TextView
         android:text="Name"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -152,4 +151,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/PricesTextView"
         android:textSize="14dp" />
+    <Button
+        android:text="View Class List"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/classButton"
+        android:layout_marginTop="150dp" />
 </LinearLayout>

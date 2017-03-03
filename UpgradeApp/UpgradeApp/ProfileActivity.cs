@@ -36,6 +36,13 @@ namespace UpgradeApp {
 			TextView availabilityTextView = FindViewById<TextView>(Resource.Id.AvailabilityTextView);
 			TextView pricesLabelTextView = FindViewById<TextView>(Resource.Id.PricesLabelTextView);
 			TextView pricesTextView = FindViewById<TextView>(Resource.Id.PricesTextView);
+            Button classListView = FindViewById<Button>(Resource.Id.classButton);
+
+            classListView.Click += (object Sender, EventArgs e) =>
+            {
+                var intent = new Android.Content.Intent(this, typeof(ClassList));
+                StartActivity(intent);
+            };
 			
 
 			
