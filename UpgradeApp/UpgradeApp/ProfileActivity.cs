@@ -22,6 +22,7 @@ namespace UpgradeApp {
 			ImageView avatarImageView = FindViewById<ImageView>(Resource.Id.AvatarImageView);
 			Button sendMessageButton = FindViewById<Button>(Resource.Id.SendMessageButton);
 			TextView contactMethodsLabelTextView = FindViewById<TextView>(Resource.Id.ContactMethodsLabelTextView);
+			TextView emailTextView = FindViewById<TextView>(Resource.Id.EmailTextView);
 			TextView contactMethodsTextView = FindViewById<TextView>(Resource.Id.ContactMethodsTextView);
 			Button editButton = FindViewById<Button>(Resource.Id.EditButton);
 			Button blockButton = FindViewById<Button>(Resource.Id.BlockButton);
@@ -42,11 +43,18 @@ namespace UpgradeApp {
             {
                 nameTextView.Text = Intent.GetStringExtra("name");
             }
-            if (Intent.GetStringExtra("email") != null && Intent.GetStringExtra("contact") != null)
+			if (Intent.GetStringExtra("email") != null) {
+				emailTextView.Text = Intent.GetStringExtra("email");
+			}
+				
+			if (Intent.GetStringExtra("contact") != null)
             {
-                contactMethodsTextView.Text = Intent.GetStringExtra("email") + Intent.GetStringExtra("contact");
+                contactMethodsTextView.Text = Intent.GetStringExtra("contact");
             }
-            if (Intent.GetStringExtra("freeTime") != null)
+			if (Intent.GetStringExtra("about") != null) {
+				aboutTextView.Text = Intent.GetStringExtra("about");
+			}
+			if (Intent.GetStringExtra("freeTime") != null)
             {
                 availabilityTextView.Text = Intent.GetStringExtra("freeTime");
             }
@@ -65,7 +73,15 @@ namespace UpgradeApp {
             editButton.Click += (Sender, e) =>
             {
                 var intent = new Android.Content.Intent(this, typeof(EditProfileActivity));
-                StartActivity(intent);
+
+				intent.PutExtra("name", nameTextView.Text);
+				intent.PutExtra("email", emailTextView.Text);
+				intent.PutExtra("contact", contactMethodsTextView.Text);
+				intent.PutExtra("about", aboutTextView.Text);
+				intent.PutExtra("freeTime", availabilityTextView.Text);
+				intent.PutExtra("prices", pricesTextView.Text);
+				StartActivity(intent);
+
             };
 			
 

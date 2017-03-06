@@ -50,9 +50,18 @@ namespace UpgradeApp {
 			//HTTPHandler.Testfn();
 
 			loginButton.Click += (object sender, EventArgs e) => {
-				//HTTPHandler.loginRequest(email.Text, password.Text);
-                var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
-                StartActivity(intent);
+                //HTTPHandler.loginRequest(email.Text, password.Text);
+
+                if (!email.Text.Equals("myers259@purdue.edu") || !password.Text.Equals("Thegm_97"))
+                {
+                    Toast toast = Toast.MakeText(this, "Invalid Username or Password", ToastLength.Short);
+                    toast.Show();
+                }
+                else
+                {
+                    var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
+                    StartActivity(intent);
+                }
             };
 
 			newAccountButton.Click += (sender, e) => {

@@ -39,6 +39,17 @@
         android:hint="Skype, Telegram, Whatsapp, etc."
         android:textSize="14dp" />
     <TextView
+        android:text="About me:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/AboutLabelTextView"
+        android:textSize="20dp" />
+    <EditText
+        android:inputType="textMultiLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/AboutEditText" />
+    <TextView
         android:text="Classes I tutor:"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
