@@ -27,7 +27,7 @@ namespace UpgradeApp {
 
 			//stormPathMain();
 
-			HTTPHandler.launchStormPath();
+			//HTTPHandler.launchStormPath();
 			//HTTPHandler.classListRequest();
 
 
