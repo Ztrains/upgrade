@@ -69,9 +69,6 @@ namespace UpgradeApp
 			// aapt resource value: 0x7f05000f
 			public const int AboutLabelTextView = 2131034127;
 			
-
-			
-
 			// aapt resource value: 0x7f050029
 			public const int AboutTextView = 2131034153;
 			
@@ -93,7 +90,6 @@ namespace UpgradeApp
 			// aapt resource value: 0x7f050022
 			public const int ContactMethodsLabelTextView = 2131034146;
 			
-
 			// aapt resource value: 0x7f050024
 			public const int ContactMethodsTextView = 2131034148;
 			
@@ -187,7 +183,6 @@ namespace UpgradeApp
 			// aapt resource value: 0x7f050020
 			public const int linearLayout2 = 2131034144;
 			
-
 			// aapt resource value: 0x7f05002a
 			public const int linearLayout3 = 2131034154;
 			
