@@ -1,4 +1,4 @@
-﻿ 
+﻿
 using System.Collections.Generic;
 using System.IO;
 using System.Json;
@@ -9,6 +9,7 @@ using Stormpath.SDK.Client;
 using Stormpath.SDK.Error;
 using Stormpath.SDK;
 using Stormpath.SDK.Application;
+using Stormpath.SDK.Serialization;
 
 namespace System.Net.Http {
 	public class HTTPHandler {
@@ -32,11 +33,16 @@ namespace System.Net.Http {
 
 		// Initialize Stormpath so the other functions work
 		public static async void launchStormPath() {
-			var client = Clients.Builder()
-				.SetApiKeyFilePath("apiKey.properties")
+			string path = "C:\\Users\\Jonathan\\.stormpath\\apiKey.properties";
+			var client = Clients.Builder().SetApiKeyFilePath("apiKey.properties")
 				.Build();
-			
-			var myApp = await client.GetApplications()
+
+			//.SetApiKeyId("5ID2J1CY76G8FYBWIS45HAZ1B").SetApiKeySecret("1JzbsC7Eck/28VDdmmWYSLKIlDv3lY/NFMrLHdDSVGQ")
+			//	.SetHttpClient(Stormpath.SDK.Http.HttpClients.Create().RestSharpClient())
+			//	.SetSerializer(Stormpath.SDK.Serialization.Serializers.Create().JsonNetSerializer())
+
+
+			myApp = await client.GetApplications()
 				.Where(x => x.Name == "calm-chamber-49049")
 				.SingleAsync();
 			// myApp is an IApplication obj
