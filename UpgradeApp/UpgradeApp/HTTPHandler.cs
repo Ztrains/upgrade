@@ -1,4 +1,4 @@
-﻿
+﻿ 
 using System.Collections.Generic;
 using System.IO;
 using System.Json;
@@ -15,23 +15,39 @@ namespace System.Net.Http {
 
 		private static IApplication myApp;
 
+		
+		/*static void Main(string[] args) {
+			MainAsync().GetAwaiter().GetResult();
+		}
+
+		public static async Task MainAsync() {
+			var client = Clients.Builder()
+				.SetApiKeyFilePath(".\\apiKey.properties")
+				.Build();
+			var myApp = await client.GetApplications()
+				.Where(x => x.Name == "calm-chamber-49049")
+				.SingleAsync();
+		}
+		*/
+
 		// Initialize Stormpath so the other functions work
 		public static async void launchStormPath() {
-			//string path = Directory.GetCurrentDirectory() + "keys.txt";
-			//Console.WriteLine(path);
 			var client = Clients.Builder()
-				//.SetApiKeyFilePath()
-				//.SetApiKeyId("5ID2J1CY76G8FYBWIS45HAZ1B") //Redacted for push
-				//.SetApiKeySecret("1JzbsC7Eck/28VDdmmWYSLKIlDv3lY/NFMrLHdDSVGQ") //Redacted for push
+				.SetApiKeyFilePath("apiKey.properties")
 				.Build();
-			myApp = await client.GetApplications()
-				.Where(x => x.Name == "My Application")
+			
+			var myApp = await client.GetApplications()
+				.Where(x => x.Name == "calm-chamber-49049")
 				.SingleAsync();
+			// myApp is an IApplication obj
 		}
 
 		// Register account function
 		public static async void registerRequest(string first, string last, string email, string password) {
 			var user = await myApp.CreateAccountAsync(first, last, email, password);
+			// Returns an IAccount obj
+
+
 			Console.WriteLine("User " + user.FullName + " created");
 		}
 
@@ -39,11 +55,14 @@ namespace System.Net.Http {
 		public static async void loginRequest(string email, string password) {
 			try {
 				var loginResult = await myApp.AuthenticateAccountAsync(email, password);
+				// Returns an IAuthenticationResult obj
 				var loggedInAccount = await loginResult.GetAccountAsync();
+				//
 
 				Console.WriteLine("User {0} logged in.", loggedInAccount.FullName);
 			}
 			catch (ResourceException rex) {
+				// rex has Message and DeveloperMessage fields
 				Console.WriteLine("Could not log in. Error: " + rex.Message);
 			}
 		}
