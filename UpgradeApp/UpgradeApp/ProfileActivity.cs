@@ -27,6 +27,8 @@ namespace UpgradeApp {
 			Button editButton = FindViewById<Button>(Resource.Id.EditButton);
 			Button blockButton = FindViewById<Button>(Resource.Id.BlockButton);
 			Button reportButton = FindViewById<Button>(Resource.Id.ReportButton);
+			TextView ratingTextView = FindViewById<TextView>(Resource.Id.RatingTextView);
+			Button rateButton = FindViewById<Button>(Resource.Id.RateButton);
 			TextView aboutLabelTextView = FindViewById<TextView>(Resource.Id.AboutLabelTextView);
 			TextView aboutTextView = FindViewById<TextView>(Resource.Id.AboutTextView);
 			TextView iTutorLabelTextView = FindViewById<TextView>(Resource.Id.ITutorLabelTextView);
@@ -83,7 +85,10 @@ namespace UpgradeApp {
 				StartActivity(intent);
 
             };
-			
+
+			rateButton.Click += (Sender, e) => {
+				// Implement rate button clicking here
+			};
 
 			
 

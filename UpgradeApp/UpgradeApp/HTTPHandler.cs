@@ -14,9 +14,13 @@ using Stormpath.SDK.Serialization;
 namespace System.Net.Http {
 	public class HTTPHandler {
 
-		private static IApplication myApp;
+		// TODO Profile Visibility 
 
-		
+
+
+
+
+		private static IApplication myApp;
 		/*static void Main(string[] args) {
 			MainAsync().GetAwaiter().GetResult();
 		}
@@ -30,7 +34,7 @@ namespace System.Net.Http {
 				.SingleAsync();
 		}
 		*/
-
+		/*
 		// Initialize Stormpath so the other functions work
 		public static async void launchStormPath() {
 			string path = "C:\\Users\\Jonathan\\.stormpath\\apiKey.properties";
@@ -72,6 +76,112 @@ namespace System.Net.Http {
 				Console.WriteLine("Could not log in. Error: " + rex.Message);
 			}
 		}
+		*/
+
+
+
+
+
+
+		class Password {
+			public string Pass;
+		}
+
+		class ResetCode {
+			public string Code;
+		}
+
+		class Account {
+			public string Email;
+			public string Password;
+		};
+
+		class Profile {
+			public string Name;
+			public string Email;
+			public string Contact;
+			public int Rating;
+			public string About;
+			public string[] ClassesTutor;
+			public string[] ClassesStudent;
+			public string Time;
+			public string Prices;
+		};
+
+		class ClassList {
+			public string[] Classes;
+		}
+
+		class StudentList {
+			public string[] Students;
+		}
+
+
+
+		// current register function
+		public static int registerRequest(string email, string password) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/register");
+			var request = new RestRequest(Method.POST);
+
+			Account acc = new Account();
+			acc.Email = email;
+			acc.Password = password;
+			string json = JsonConvert.SerializeObject(acc);
+
+			//request.AddHeader("postman-token", "0fccbb68-76d2-f0d9-51f9-c657ce173d67");
+			//request.AddHeader("cache-control", "no-cache");
+			//request.AddHeader("accept", "application/json");
+			//request.AddHeader("content-type", "application/json");
+			//string json = "{ \"email\": \"" + email + "\", \"password\": \"" + password + "\" }";
+
+			//request.AddParameter("application/json", json, ParameterType.RequestBody);
+			IRestResponse response = client.Execute(request);
+
+			return 1;
+		}
+
+		// current login function
+		public static int loginRequest(string email, string password) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/login");
+			var request = new RestRequest(Method.GET);
+
+			Account acc = new Account();
+			acc.Email = email;
+			acc.Password = password;
+			string json = JsonConvert.SerializeObject(acc);
+
+			//request.AddHeader("postman-token", "0fccbb68-76d2-f0d9-51f9-c657ce173d67");
+			//request.AddHeader("cache-control", "no-cache");
+			//request.AddHeader("accept", "application/json");
+			//request.AddHeader("content-type", "application/json");
+			//string json = "{ \"email\": \"" + email + "\", \"password\": \"" + password + "\" }";
+
+			//request.AddParameter("application/json", json, ParameterType.RequestBody);
+			IRestResponse response = client.Execute(request);
+			Console.WriteLine(response.Content + "\n");
+
+			return 1; // success
+		}
+
+		public static void checkPasswordResetCode(string code) {
+			var client = new RestClient(); // needs url
+			var request = new RestRequest(Method.GET);
+
+			ResetCode resetCode = new ResetCode();
+			resetCode.Code = code;
+
+			IRestResponse response = client.Execute(request);
+		}
+
+		public static void updatePassword(string password) {
+			var client = new RestClient(); // needs url
+			var request = new RestRequest(Method.GET);
+
+			Password pass = new Password();
+			pass.Pass = password;
+
+			IRestResponse response = client.Execute(request);
+		}
 
 		public static void classListRequest() {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/classList");
@@ -79,15 +189,74 @@ namespace System.Net.Http {
 			IRestResponse response = client.Execute(request);
 
 			//var classes = JsonConvert.DeserializeObject<dynamic>(response.Content);
-			
 		}
 
-		public static void updateProfile(string name, string email, string contact, string time, string price) {
-			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/classList");
+		public static void studentListRequest(string classToList) {
+			var client = new RestClient(); // needs url
 			var request = new RestRequest(Method.GET);
 			IRestResponse response = client.Execute(request);
-			//
 		}
+
+		public static void updateProfile(string name, string email, string contact, int rating,
+			string about, string[] classesTutor, string[] classesStudent, string time, string prices) {
+			var client = new RestClient(); // needs url
+			var request = new RestRequest(Method.GET);
+
+			Profile profile = new Profile();
+			profile.Name = name;
+			profile.Email = email;
+			profile.Contact = contact;
+			profile.Rating = rating;
+			profile.About = about;
+			profile.ClassesTutor = classesTutor;
+			profile.ClassesStudent = classesStudent;
+			profile.Time = time;
+			profile.Prices = prices;
+
+			IRestResponse response = client.Execute(request);
+		}
+
+		public static void getProfile() {
+			var client = new RestClient(); // Needs url
+			var request = new RestRequest(Method.GET);
+
+			IRestResponse response = client.Execute(request);
+		}
+
+		public static void upvoteProfile() {
+			var client = new RestClient(); // Needs url
+			var request = new RestRequest(Method.GET);
+
+			IRestResponse response = client.Execute(request);
+		}
+
+		public static void reportProfile() {
+			var client = new RestClient(); // Needs url
+			var request = new RestRequest(Method.GET);
+
+			IRestResponse response = client.Execute(request);
+		}
+
+		public static void blockProfile() {
+			var client = new RestClient(); // Needs url
+			var request = new RestRequest(Method.GET);
+
+			IRestResponse response = client.Execute(request);
+		}
+
+		public static void deleteProfile() {
+			var client = new RestClient(); // Needs url
+			var request = new RestRequest(Method.GET);
+
+			IRestResponse response = client.Execute(request);
+		}
+
+
+
+
+
+		// Are we still going to use these?  I'm not sure
+		// I could make a bunch of individual calls to every field, but I'd like to avoid that if possible :S
 
 		public static void changeEmail(string email) {
 			string url = "https://calm-chamber-49049.herokuapp.com/email/";
@@ -110,42 +279,10 @@ namespace System.Net.Http {
 
 
 
-		/*
-		// current register function
-		public static int registerRequest(string email, string password) {
-			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/register");
-			var request = new RestRequest(Method.POST);
-			//request.AddHeader("postman-token", "0fccbb68-76d2-f0d9-51f9-c657ce173d67");
-			//request.AddHeader("cache-control", "no-cache");
-			request.AddHeader("accept", "application/json");
-			request.AddHeader("content-type", "application/json");
-			string json = "{ \"email\": \"" + email + "\", \"password\": \"" + password + "\" }";
 
-			request.AddParameter("application/json", json, ParameterType.RequestBody);
-			IRestResponse response = client.Execute(request);
-
-			return 1;
-
-		}
-
-		// current login function
-		public static int loginRequest(string email, string password) {
-			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/login");
-			var request = new RestRequest(Method.GET);
-			//request.AddHeader("postman-token", "0fccbb68-76d2-f0d9-51f9-c657ce173d67");
-			//request.AddHeader("cache-control", "no-cache");
-			request.AddHeader("accept", "application/json");
-			request.AddHeader("content-type", "application/json");
-			string json = "{ \"email\": \"" + email + "\", \"password\": \"" + password + "\" }";
-
-			request.AddParameter("application/json", json, ParameterType.RequestBody);
-			IRestResponse response = client.Execute(request);
-			Console.WriteLine(response.Content+"\n");
-
-			return 1; // success
-
-		}
-		*/
+		
+		
+		
 
 
 
