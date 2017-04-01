@@ -29,7 +29,7 @@ var localTestUrl = 'mongodb://localhost:27017/test';
 mongodb.MongoClient.connect(process.env.MONGODB_URI || localTestUrl, function(err, database) {
     if (err) {
         console.log('ERROR:', err);
-        res.redirect('/')
+        res.redirect('/');
     }
 
     // Save database object from the callback for reuse.
@@ -40,10 +40,19 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI || localTestUrl, function(er
 });
 
 //function logs in
-app.post('/login', auth.authenticate('local', { failureRedirect: '/login' }),
+app.post('/login', auth.authLocal,
   function(req, res) {
 	if(!res.headersSent) {res.send('you have authenticated properly').redirect('/')};
   });
+
+app.post'/logout', function(req, res) {
+	if(req.user) { 
+		req.logout()
+		req.session.destory();
+		res.send('logout successfully');
+	}
+	//res.redirect('/login');
+});
 
 //function gets salt for user for possible use with HTTP Basic authentication
 app.post('/basic/salt', function(req, res) {
@@ -56,7 +65,7 @@ app.post('/basic/salt', function(req, res) {
 	});
 });
 
-app.post('/basic/test', auth.authenticate('basic', {session: false}), function(req, res) {
+app.post('/basic/test', auth.authBasic, function(req, res) {
 	console.log("basic/test succeeded for " + req.body.email);
 	if(!res.headersSent) {res.send('Test auth succeeded');}
 });
