@@ -48,3 +48,5 @@ passport.use(new BasicStrategy(function(email, hash, done) {
 
 
 module.exports = passport;
+module.exports.authLocal = passport.authenticate('local', { failureRedirect: '/login'});
+module.exports.authBasic = passport.authenticate('basic', { session: false});
