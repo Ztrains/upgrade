@@ -1,0 +1,6 @@
+mongo ds157479.mlab.com:57479/heroku_jl2rfh0d -u heroku_jl2rfh0d -p 9j4n862mb7int639n9ca55bcqo
+
+db.classes.update({_id: "CS250"}, {$pull: {students: "Zach"}})
+    #adds to the 'students' array the name "Zach" under the class with _id "CS250"
+
+db.classes.update({_id: "CS307"}, {$push: {students: {name: "Geoffrey Myers", type:"student"}}})
