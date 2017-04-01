@@ -63,6 +63,6 @@ UpgradeApp/UpgradeApp/bin/*
 UpgradeApp/.vs/*
 UpgradeApp/UpgradeApp/keys.txt
 
-PathForDb
+pathForDb
 Procfile
 .gitattributes
