@@ -1,23 +1,32 @@
 var io = require('socket.io')(app)
+var usernames = {};
 
-var people = {};
+function check_if_exists(id) {
+	for (var name in usernames) {
+		if (name === id) {
+			return true;
+		}
+	}
+	return false;
+}
 
-socket.on("connection", (socket)=>{
+io.on("connection", (socket)=>{
+	console.log('user connected')
 
-	client.on("join", function(name){
-		people[client.id] = name;
-		client.emit("update", "You have connected to the server.");
-		socket.sockets.emit("update", name + " has joined the server.")
-		socket.sockets.emit("update-people", people);
+	socket.on('adduser', (username)=>{
+		//store username in socket session for this client
+		socket.username = username;
+		//add clients username to global list
+		if (check_if_exists(username) === false)
+			usernames[username] = socket.id;
 	});
 
-	client.on("send", function(msg){
-		socket.sockets.emit("chat", people[client.id], msg);
-	});
+	// when the user sends a private message to a user.. perform this
+	socket.on('msg_user', function(user_to, user_from, msg) {
+		console.log("From user: "+user_from);
+		console.log("To user: "+user_to);
+		//console.log(usernames);
+		io.sockets.socket(usernames[user_to]).emit('updatechat', msg);
 
-	client.on("disconnect", function(){
-		socket.sockets.emit("update", people[client.id] + " has left the server.");
-		delete people[client.id];
-		socket.sockets.emit("update-people", people);
 	});
 });

@@ -21,7 +21,7 @@ app.use(require('express-session')({ secret: 'This is a good secret', resave: fa
 
 app.use(favicon(__dirname + '/docs/favicon.ico'));
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 var db;
 var users; //users collection;
 var localTestUrl = 'mongodb://localhost:27017/test';
@@ -47,7 +47,7 @@ app.post('/login', auth.authenticate('local', { failureRedirect: '/login' }),
 
 //function gets salt for user for possible use with HTTP Basic authentication
 app.post('/basic/salt', function(req, res) {
-	//return salt for requested user;	
+	//return salt for requested user;
 	users.findOne({email: req.body.email}, function(err, r) {
 		if(err) {console.log("basic/salt err!!"); res.send("Database error");}
 		else if(!r) {console.log("basic/salt user not found"); res.send("User doesn't exist");}
@@ -72,15 +72,15 @@ app.post('/reg', function(req, res) {
 		users.insertOne({email: req.body.email, hash: hash}, function(err, r) {
 			if(err) {res.send("Database error");}
 			else {res.send("Success adding user");}
-			
-		}); 
+
+		});
 
 	});
 
 });
 
-app.get('/', stormpath.authenticationRequired, (req, res) => {
-    res.send('Welcome to upgrade, ' + req.user.givenName);
+app.get('/', (req, res) => {
+    res.send('Welcome to upgrade!');
 });
 
 app.get('/classList',  (req, res) => {
@@ -105,7 +105,7 @@ app.get('/classList',  (req, res) => {
     })
 })
 
-app.get('/join/:class/:type', stormpath.authenticationRequired, (req, res) => {
+app.get('/join/:class/:type', (req, res) => {
     var list;
     db.collection('classes', (err, collection) => {
         if (err) {
@@ -131,7 +131,7 @@ app.get('/join/:class/:type', stormpath.authenticationRequired, (req, res) => {
     res.redirect('/')
 })
 
-app.get('/name/:new', stormpath.authenticationRequired, (req, res) => {
+app.get('/name/:new', (req, res) => {
     req.user.givenName = req.params.new;
     req.user.save(function(err) {
         if (err) {
@@ -142,7 +142,7 @@ app.get('/name/:new', stormpath.authenticationRequired, (req, res) => {
     });
 });
 
-app.get('/email/:new', stormpath.authenticationRequired, (req, res) => {
+app.get('/email/:new', (req, res) => {
     req.user.email = req.params.new;
     req.user.username = req.params.new;
     req.user.save(function(err) {
@@ -153,7 +153,7 @@ app.get('/email/:new', stormpath.authenticationRequired, (req, res) => {
         }
     });
 });
-app.get('/info/:type/:val', stormpath.authenticationRequired, (req, res) => {
+app.get('/info/:type/:val', (req, res) => {
     req.user.customData[req.params.type] = req.params.val;
 
     req.user.customData.save(function(err) {
@@ -165,4 +165,4 @@ app.get('/info/:type/:val', stormpath.authenticationRequired, (req, res) => {
     });
 });
 
-app.listen(port);
+var server = app.listen(port);
