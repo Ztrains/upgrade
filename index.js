@@ -14,10 +14,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: false
 }));
+app.use(require('express-session')({ secret: 'This is a good secret', resave: false, saveUninitialized: false, cookie: {secure: false, maxAge: 3600000}}));
 app.use(auth.initialize());
 app.use(auth.session());
 app.use(cookieParser());
-app.use(require('express-session')({ secret: 'This is a good secret', resave: false, saveUninitialized: false }));
 
 app.use(favicon(__dirname + '/docs/favicon.ico'));
 
@@ -58,8 +58,8 @@ app.post('/logout', function(req, res) {
 	//res.redirect('/login');
 });
 
-app.post('/testlogin', localAuth, function(req, res) {
-	console.log('testing login: ' + req.user);
+app.post('/testlogin', function(req, res) {
+	console.log('testing login: ',  req.cookies, '\nreq: ', req.session);
 	if(req.user) { res.send('you are logged in as: ' + req.user.email);
 	} else {res.send('login test failed');}
 });
