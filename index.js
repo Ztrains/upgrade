@@ -1,14 +1,19 @@
 const fs = require('fs'); // required to read https certs
 const https = require('https');
+
 const express = require('express');
 const mongodb = require('mongodb');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const stormpath = require('express-stormpath');
+//const stormpath = require('express-stormpath');  RIP Stormpath
 const favicon = require('serve-favicon');
 const bcrypt = require('bcryptjs');
 const auth = require('./auth.js');
+
 var app = express();
+const http = require('http').Server(app)
+var chat = require('./chat.js')
+var io = require('socket.io')(http);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -25,6 +30,7 @@ const port = process.env.PORT || 3000;
 var db;
 var users; //users collection;
 var localTestUrl = 'mongodb://localhost:27017/test';
+
 
 mongodb.MongoClient.connect(process.env.MONGODB_URI || localTestUrl, function(err, database) {
     if (err) {
@@ -50,7 +56,7 @@ app.post('/login', auth.authenticate('local', {failureRedirect: '/login'}),
   });
 
 app.post('/logout', function(req, res) {
-	if(req.user) { 
+	if(req.user) {
 		req.logout()
 		req.session.destory();
 		res.send('logout successfully');
@@ -99,7 +105,8 @@ app.post('/reg', function(req, res) {
 });
 
 app.get('/', (req, res) => {
-    res.send('Welcome to upgrade!');
+    //res.send('Welcome to upgrade!');
+    res.sendFile(__dirname + '/index.html');
 });
 
 app.get('/classList',  (req, res) => {
@@ -184,4 +191,53 @@ app.get('/info/:type/:val', (req, res) => {
     });
 });
 
-var server = app.listen(port);
+http.listen(3000, ()=>{
+    console.log("listening on 3000")
+});
+
+
+/*this is probably a bad idea but im trying it for now
+******************************************************
+******************************************************
+*****************************************************/
+
+var usernames = {};
+
+function check_if_exists(id) {
+	for (var name in usernames) {
+		if (name === id) {
+			return true;
+		}
+	}
+	return false;
+}
+
+io.on("connection", (client)=>{
+	console.log('user connected')
+
+	client.on('adduser', (username)=>{
+		//store username in socket session for this client
+		client.username = username;
+		//add clients username to global list
+		if (check_if_exists(username) === false)
+			usernames[username] = client.id;
+        console.log("*** Usernames ***")
+        for (var name in usernames) {
+    		console.log('\t Name: ' + name)
+    	}
+	});
+
+	// when the user sends a private message to a user.. perform this
+	client.on('msg_user', function(user_to, user_from, msg) {
+		console.log("From user: "+user_from);
+		console.log("To user: "+user_to);
+		//console.log(usernames);
+		io.sockets.client(usernames[user_to]).emit('updatechat', msg);
+
+	});
+});
+
+/***************** end of bad idea *******************
+******************************************************
+******************************************************
+*****************************************************/

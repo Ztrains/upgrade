@@ -1,0 +1,8 @@
+<script src="/socket.io/socket.io.js"></script>
+<h1>Welcome to upgrade!</h1>
+<script>
+  var socket = io();
+  var name = prompt("What's your name?")
+  socket.emit('adduser', name);
+
+</script>
