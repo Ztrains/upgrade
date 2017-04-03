@@ -14,10 +14,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: false
 }));
+app.use(require('express-session')({ secret: 'This is a good secret', resave: false, saveUninitialized: false, cookie: {secure: false, maxAge: 3600000}}));
 app.use(auth.initialize());
 app.use(auth.session());
 app.use(cookieParser());
-app.use(require('express-session')({ secret: 'This is a good secret', resave: false, saveUninitialized: false }));
 
 app.use(favicon(__dirname + '/docs/favicon.ico'));
 
@@ -29,7 +29,7 @@ var localTestUrl = 'mongodb://localhost:27017/test';
 mongodb.MongoClient.connect(process.env.MONGODB_URI || localTestUrl, function(err, database) {
     if (err) {
         console.log('ERROR:', err);
-        res.redirect('/')
+        res.redirect('/');
     }
 
     // Save database object from the callback for reuse.
@@ -39,11 +39,30 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI || localTestUrl, function(er
     console.log("Database connection ready");
 });
 
+var localAuth = auth.authenticate('local', {failureRedirect: '/login'});
+var basicAuth = auth.authenticate('basic', {session: false});
+
 //function logs in
-app.post('/login', auth.authenticate('local', { failureRedirect: '/login' }),
+app.post('/login', auth.authenticate('local', {failureRedirect: '/login'}),
   function(req, res) {
-	if(!res.headersSent) {res.send('you have authenticated properly').redirect('/')};
+	console.log('login successful');
+	if(!res.headersSent) {res.send('you have authenticated properly')};
   });
+
+app.post('/logout', function(req, res) {
+	if(req.user) { 
+		req.logout()
+		req.session.destory();
+		res.send('logout successfully');
+	}
+	//res.redirect('/login');
+});
+
+app.post('/testlogin', function(req, res) {
+	console.log('testing login: ',  req.cookies, '\nreq: ', req.session);
+	if(req.user) { res.send('you are logged in as: ' + req.user.email);
+	} else {res.send('login test failed');}
+});
 
 //function gets salt for user for possible use with HTTP Basic authentication
 app.post('/basic/salt', function(req, res) {
@@ -56,7 +75,7 @@ app.post('/basic/salt', function(req, res) {
 	});
 });
 
-app.post('/basic/test', auth.authenticate('basic', {session: false}), function(req, res) {
+app.post('/basic/test', basicAuth, function(req, res) {
 	console.log("basic/test succeeded for " + req.body.email);
 	if(!res.headersSent) {res.send('Test auth succeeded');}
 });
@@ -66,7 +85,7 @@ app.post('/basic/test', auth.authenticate('basic', {session: false}), function(r
 app.post('/reg', function(req, res) {
 	users.findOne({email: req.body.email}, function(err, r) {
 		if(err) {res.send("Database error");}
-		else if(r) {res.send("User exists");}
+		else if(r) {res.send("User exists"); return;}
 		var salt = bcrypt.genSaltSync(10);
 		var hash = bcrypt.hashSync(req.body.password, salt);
 		users.insertOne({email: req.body.email, hash: hash}, function(err, r) {

@@ -10,6 +10,7 @@ var users; //users collection
 
 passport.use(new LocalStrategy(
     function(email, password, done) {
+		console.log("Local Strategy called");
 		if(!users) {users = require('./index.js').users;}
 		console.log("Autheticating email: %s", email);
         users.findOne( {email: email}, function (err, user) {
@@ -25,11 +26,13 @@ passport.use(new LocalStrategy(
 }));
 
 passport.serializeUser(function(user, cb) {
+	console.log("serialized called");
 	cb(null, user.email);
 });
 
 passport.deserializeUser(function(email, cb) {
-	users.find( {email: email}, function(err, user) {
+	console.log("deserialized called");
+	users.findOne( {email: email}, function(err, user) {
 		if(err) { return cb(err);}
 		if(!user) {return cb(null, false); }
 		cb(null, user);
@@ -37,6 +40,7 @@ passport.deserializeUser(function(email, cb) {
 });
 
 passport.use(new BasicStrategy(function(email, hash, done) {
+	console.log("Basic Strategy called");
 	if(!users) {users = require('./index.js').users;}
 	users.findOne( {email: email}, function(err, user) {
 		if(err) {return done(err);}
