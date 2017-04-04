@@ -27,12 +27,12 @@ passport.use(new LocalStrategy(
 
 passport.serializeUser(function(user, cb) {
 	console.log("serialized called");
-	cb(null, user.email);
+	cb(null, user._id);
 });
 
-passport.deserializeUser(function(email, cb) {
+passport.deserializeUser(function(id, cb) {
 	console.log("deserialized called");
-	users.findOne( {email: email}, function(err, user) {
+	users.findOne( {_id: id}, function(err, user) {
 		if(err) { return cb(err);}
 		if(!user) {return cb(null, false); }
 		cb(null, user);
