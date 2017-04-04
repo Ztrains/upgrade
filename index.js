@@ -104,6 +104,7 @@ app.post('/reg', function(req, res) {
 
 });
 
+
 app.get('/', (req, res) => {
     //res.send('Welcome to upgrade!');
     res.sendFile(__dirname + '/index.html');
