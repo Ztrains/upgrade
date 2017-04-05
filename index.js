@@ -192,14 +192,22 @@ app.get('/info/:type/:val', (req, res) => {
     });
 });
 
+app.get('/retrieveProfile', (req, req)=>{
+    users.findOne({email: req.body.email}, function(err, profile) {
+		if(err) {console.log("Retrieval error"); res.send("retrieval error");}
+		else if(!profile) {console.log("email not found"); res.send("User doesn't exist/Email not found");}
+		console.log("result of salt search: " + JSON.stringify(JSON.parse(profile),null,2));  //should log everything in the profile in theory
+		res.json(profile);    //up to client to parse i guess lol sorry
+	});
+})
+
 http.listen(port, ()=>{
     console.log("listening on " + port)
 });
 
 
-/*this is probably a bad idea but im trying it for now
-******************************************************
-******************************************************
+/*****************************************************
+**************This is staying in for now**************
 *****************************************************/
 
 var usernames = {};
@@ -238,7 +246,6 @@ io.on("connection", (client)=>{
 	});
 });
 
-/***************** end of bad idea *******************
-******************************************************
-******************************************************
+/*****************************************************
+**********************End of chat*********************
 *****************************************************/
