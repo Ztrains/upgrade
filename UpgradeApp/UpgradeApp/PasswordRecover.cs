@@ -23,15 +23,14 @@ namespace UpgradeApp
             EditText userEmail = FindViewById<EditText>(Resource.Id.userEmail);
             Button submit = FindViewById<Button>(Resource.Id.submitButton);
 
-
             submit.Click += (object sender, EventArgs e) =>
             {
-                var email = userEmail.Text;
-
+				// Ask server to send recovery email
+				HTTPHandler.recoverPassword(userEmail.Text);
+				// Return to login page
 				var intent = new Android.Content.Intent(this, typeof(MainActivity));
                 StartActivity(intent);
             };
-            // Create your application here
         }
     }
 }

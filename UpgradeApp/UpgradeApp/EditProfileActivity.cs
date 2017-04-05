@@ -13,6 +13,7 @@ using Android.Widget;
 namespace UpgradeApp {
 	[Activity(Label = "EditProfileActivity")]
 	public class EditProfileActivity : Activity {
+
 		protected override void OnCreate(Bundle savedInstanceState) {
 			base.OnCreate(savedInstanceState);
            // SetTheme(Android.Resource.Style.ThemeHoloLightNoActionBar);
@@ -65,6 +66,10 @@ namespace UpgradeApp {
 				string newAbout = aboutEditText.Text;
 				string freeTime = freeTimeTextView.Text;
 				string prices = pricesEditText.Text;
+				
+				// Send server the changes
+				// Needs to have other fields fixed
+				HTTPHandler.updateProfile(newName, newEmail, newContact, -5, newAbout, null, null, freeTime, prices);
 
                 var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
                 intent.PutExtra("name", newName);
