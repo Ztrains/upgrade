@@ -132,7 +132,7 @@ app.get('/classList',  (req, res) => {
     })
 })
 
-app.get('/join/:class/:type', (req, res) => {
+app.get('/join/:class/:type/:name', (req, res) => {     //TODO: instead of :name use from database later
     var list;
     db.collection('classes', (err, collection) => {
         if (err) {
@@ -144,7 +144,7 @@ app.get('/join/:class/:type', (req, res) => {
             }, {
                 $push: {
                     students: {
-                        name: req.user.fullName,
+                        name: req.params.name,
                         type: req.params.type
                     }
                 }
@@ -158,7 +158,7 @@ app.get('/join/:class/:type', (req, res) => {
     res.redirect('/')
 })
 
-app.get('/name/:new', (req, res) => {
+/*app.get('/name/:new', (req, res) => {
     req.user.givenName = req.params.new;
     req.user.save(function(err) {
         if (err) {
@@ -179,7 +179,8 @@ app.get('/email/:new', (req, res) => {
             res.end('Email/Username was changed!');
         }
     });
-});
+});*/
+
 app.get('/info/:type/:val', (req, res) => {
     req.user.customData[req.params.type] = req.params.val;
 

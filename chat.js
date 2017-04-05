@@ -23,7 +23,7 @@ socket.on("connection", (client)=>{
 	});
 
 	// when the user sends a private message to a user.. perform this
-	client.on('msg_user', function(user_to, user_from, msg) {
+	client.on('msg_user', (user_to, user_from, msg)=>{
 		console.log("From user: "+user_from);
 		console.log("To user: "+user_to);
 		//console.log(usernames);
