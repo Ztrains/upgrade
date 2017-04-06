@@ -32,7 +32,7 @@ namespace UpgradeApp
 			SetContentView(Resource.Layout.listOfStudents);
 
             listView = FindViewById<ListView>(Resource.Id.students);
-            listView.Adapter = new StudentAdapter(this, students.students); //
+            listView.Adapter = new StudentAdapter(this, students.students);
 			listView.ItemClick += ListView_ItemClick;
         }
 
