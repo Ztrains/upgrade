@@ -49,7 +49,7 @@ var localAuth = auth.authenticate('local', {failureRedirect: '/login'});
 var basicAuth = auth.authenticate('basic', {session: false});
 
 //function logs in
-app.post('/login', auth.authenticate('local', {failureRedirect: '/login'}),
+app.post('/login', auth.authenticate('local'),
   function(req, res) {
 	console.log('login successful');
 	if(!res.headersSent) {res.send('you have authenticated properly')};
