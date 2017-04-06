@@ -259,7 +259,7 @@ app.post('/studentsInClass', (req,res)=>{
                 else {
                     //console.log("listofstudents= " + JSON.stringify(listofstudents));
                     var tmp = JSON.stringify(listofstudents)
-                    var tmp2 = tmp.substring(1, listofstudents.length-1)
+                    var tmp2 = tmp.substring(1, tmp.length-1)
                     res.json(tmp2)
                 }
             })
