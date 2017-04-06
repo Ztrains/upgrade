@@ -198,7 +198,7 @@ app.get('/info/:type/:val', (req, res) => {
     });
 });
 
-app.get('/retrieveProfile', (req, res)=>{
+app.post('/retrieveProfile', (req, res)=>{
     users.findOne({email: req.body.email}, function(err, profile) {
 		if(err) {console.log("Retrieval error"); return res.send("retrieval error");}
 		else if(!profile) {console.log("email not found"); return res.send("User doesn't exist/Email not found");}
