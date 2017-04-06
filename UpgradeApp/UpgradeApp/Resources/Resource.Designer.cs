@@ -257,12 +257,16 @@ namespace UpgradeApp
 			public const int Login = 2130903044;
 			
 			// aapt resource value: 0x7f030005
-			public const int PasswordRecovery = 2130903045;
+			public const int messaging = 2130903045;
 			
 			// aapt resource value: 0x7f030006
-			public const int ProfileScreen = 2130903046;
+			public const int PasswordRecovery = 2130903046;
 			
-			static Layout()
+			// aapt resource value: 0x7f030007
+			public const int ProfileScreen = 2130903047;
+            internal static int bubble;
+
+            static Layout()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
 			}
