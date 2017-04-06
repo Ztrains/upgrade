@@ -95,7 +95,7 @@ app.post('/reg', function(req, res) {
 		else if(r) {res.send("User exists"); return;}
 		var salt = bcrypt.genSaltSync(10);
 		var hash = bcrypt.hashSync(req.body.password, salt);
-		users.insertOne({email: req.body.email, hash: hash}, function(err, r) {
+		users.insertOne({email: req.body.email, hash: hash, rating:0}, function(err, r) {
 			if(err) {res.send("Database error");}
 			else {res.send("Success adding user");}
 
@@ -312,6 +312,33 @@ app.post('/studentsInClass', (req,res)=>{
     })
     */
 
+})
+
+app.post('/upvote', (req,res)=>{
+    users.findOne({email: req.body.email}, function(err, profile) {
+        if (err) {
+            console.log("ERROR: " + err);
+            res.send(1);
+        }
+        if (req.body.vote == 'up') {
+            users.findOneAndUpdate(
+                {"email":req.body.email},
+                { $inc: {"rating":1}}
+            )
+            console.log("rating raised by 1")
+        }
+        else if (req.body.vote == 'down') {
+            users.findOneAndUpdate(
+                {"email":req.body.email},
+                { $inc: {"rating":-1}}
+            )
+            console.log("rating lowered by 1")
+        }
+        else {
+            console.log("must send 'up' or 'down' in vote field")
+        }
+	});
+    res.send("rating updated")
 })
 
 http.listen(port, ()=>{
