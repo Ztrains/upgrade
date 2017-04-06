@@ -8,11 +8,11 @@ const bodyParser = require('body-parser');
 //const stormpath = require('express-stormpath');  RIP Stormpath
 const favicon = require('serve-favicon');
 const bcrypt = require('bcryptjs');
-const auth = require('./auth.js');
+const auth = require('./auth.js')(passport);
 
 var app = express();
 const http = require('http').Server(app)
-var chat = require('./chat.js')
+//var chat = require('./chat.js')
 var io = require('socket.io')(http);
 
 app.use(bodyParser.json());
