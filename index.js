@@ -209,10 +209,16 @@ app.post('/retrieveProfile', (req, res)=>{
 
 app.post('/updateProfile', (req,res)=>{
     users.findOne({email: req.body.email}, function(err, profile) {
-		var data = req.body;
+        if (err) {
+            console.log("ERROR: " + err);
+            res.send(1);
+        }
+        console.log('Profile found =' + JSON.stringify(profile))
+        var data = req.body;
         console.log('Full update request =' + JSON.stringify(data))
         if (data.name) {
-            users.update({'name': data.name})
+            profile.update({'name': data.name})
+
         }
         if (data.newemail) {
             users.update({'email': data.newemail})
