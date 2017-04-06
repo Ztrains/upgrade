@@ -10,8 +10,10 @@ using Stormpath.SDK.Error;
 using Stormpath.SDK;
 using Stormpath.SDK.Application;
 using Stormpath.SDK.Serialization;
+using System;
+using System.Net.Http;
 
-namespace System.Net.Http {
+namespace UpgradeApp {
 	public class HTTPHandler {
 
 		// TODO Profile Visibility 
@@ -83,38 +85,7 @@ namespace System.Net.Http {
 
 
 
-		class Password {
-			public string Pass;
-		}
 
-		class ResetCode {
-			public string Code;
-		}
-
-		class Account {
-			public string Email;
-			public string Password;
-		};
-
-		class Profile {
-			public string Name;
-			public string Email;
-			public string Contact;
-			public int Rating;
-			public string About;
-			public string[] ClassesTutor;
-			public string[] ClassesStudent;
-			public string Time;
-			public string Prices;
-		};
-
-		class ClassList {
-			public string[] Classes;
-		}
-
-		class StudentList {
-			public string[] Students;
-		}
 
 
 
@@ -134,7 +105,7 @@ namespace System.Net.Http {
 			//request.AddHeader("content-type", "application/json");
 			//string json = "{ \"email\": \"" + email + "\", \"password\": \"" + password + "\" }";
 
-			//request.AddParameter("application/json", json, ParameterType.RequestBody);
+			request.AddParameter("application/json", json, ParameterType.RequestBody);
 			IRestResponse response = client.Execute(request);
 
 			return 1;
@@ -156,11 +127,21 @@ namespace System.Net.Http {
 			//request.AddHeader("content-type", "application/json");
 			//string json = "{ \"email\": \"" + email + "\", \"password\": \"" + password + "\" }";
 
-			//request.AddParameter("application/json", json, ParameterType.RequestBody);
+			request.AddParameter("application/json", json, ParameterType.RequestBody);
 			IRestResponse response = client.Execute(request);
 			Console.WriteLine(response.Content + "\n");
 
 			return 1; // success
+		}
+
+		public static void recoverPassword(string email) {
+			var client = new RestClient(); // needs url
+			var request = new RestRequest(Method.GET);
+
+			EmailRecovery er = new EmailRecovery();
+			er.Email = email;
+
+			IRestResponse response = client.Execute(request);
 		}
 
 		public static void checkPasswordResetCode(string code) {
@@ -183,18 +164,22 @@ namespace System.Net.Http {
 			IRestResponse response = client.Execute(request);
 		}
 
-		public static void classListRequest() {
+		public static ClassList classListRequest() {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/classList");
 			var request = new RestRequest(Method.GET);
 			IRestResponse response = client.Execute(request);
 
-			//var classes = JsonConvert.DeserializeObject<dynamic>(response.Content);
+			ClassList classes = JsonConvert.DeserializeObject<dynamic>(response.Content);
+			return classes;
 		}
 
-		public static void studentListRequest(string classToList) {
+		public static StudentList studentListRequest(string classToList) {
 			var client = new RestClient(); // needs url
 			var request = new RestRequest(Method.GET);
 			IRestResponse response = client.Execute(request);
+
+			StudentList students = JsonConvert.DeserializeObject<dynamic>(response.Content);
+			return students;
 		}
 
 		public static void updateProfile(string name, string email, string contact, int rating,
@@ -216,11 +201,17 @@ namespace System.Net.Http {
 			IRestResponse response = client.Execute(request);
 		}
 
-		public static void getProfile() {
+		public static Profile getProfile(string email) {
 			var client = new RestClient(); // Needs url
 			var request = new RestRequest(Method.GET);
 
+			WhichProfile wp = new WhichProfile();
+			wp.Email = email;
+
 			IRestResponse response = client.Execute(request);
+
+			Profile profile = JsonConvert.DeserializeObject<dynamic>(response.Content);
+			return profile;
 		}
 
 		public static void upvoteProfile() {

@@ -13,23 +13,37 @@ using Android.Widget;
 namespace UpgradeApp
 {
     [Activity(Label = "StudentList")]
-    public class StudentList : Activity
+    public class StudentListActivity : Activity
     {
-        ListView listView;
-		string[] items = { "Bob Ross", "Curtis Maves", "Mitch Daniels" };
-	protected override void OnCreate(Bundle savedInstanceState)
+
+
+		StudentList students;
+		ListView listView;
+		//string[] items = { "Bob Ross", "Curtis Maves", "Mitch Daniels" };
+
+		protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
-            SetContentView(Resource.Layout.listOfStudents);
+			string c = Intent.GetStringExtra("className");
+			// Get information from server
+			students = HTTPHandler.studentListRequest(c);
+
+			SetContentView(Resource.Layout.listOfStudents);
 
             listView = FindViewById<ListView>(Resource.Id.students);
-            listView.Adapter = new StudentAdapter(this, items);
+            listView.Adapter = new StudentAdapter(this, students.Students);
 			listView.ItemClick += ListView_ItemClick;
         }
 
 		public void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e) {
-			if (items[e.Position] == "Bob Ross") {
+
+			// Send the student name to the new screen
+			var intent = new Android.Content.Intent(this, typeof(StudentListActivity));
+			intent.PutExtra("studentName", students.Students[e.Position]);
+			StartActivity(intent);
+
+			/*if (items[e.Position] == "Bob Ross") {
 				var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
 				StartActivity(intent);
 			}
@@ -41,6 +55,7 @@ namespace UpgradeApp
 				var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
 				StartActivity(intent);
 			}
+			*/
 		}
 
 	}

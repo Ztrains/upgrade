@@ -10,6 +10,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
+using System.Net.Http;
+
 namespace UpgradeApp
 {
     [Activity(Label = "AccountCreation")]
@@ -27,12 +29,13 @@ namespace UpgradeApp
             Button subButton = FindViewById<Button>(Resource.Id.submitButton);
 
             subButton.Click += (object sender, EventArgs e) => {
-                //Send information to the server
+				// Send information to the server
+				HTTPHandler.registerRequest(userEmail.Text, userPassword.Text);
+				// Change screen
                 var intent = new Android.Content.Intent(this, typeof(EditProfileActivity));
                 StartActivity(intent);
             };
 
-            // Create your application here
         }
     }
 }

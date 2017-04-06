@@ -41,7 +41,18 @@ namespace UpgradeApp {
 			TextView pricesTextView = FindViewById<TextView>(Resource.Id.PricesTextView);
             Button classListView = FindViewById<Button>(Resource.Id.classButton);
 
-            if(Intent.GetStringExtra("name") != null)
+			// Get profile information from the server
+			Profile p = HTTPHandler.getProfile(Intent.GetStringExtra("email"));
+			nameTextView.Text = p.Name;
+			emailTextView.Text = p.Email;
+			ratingTextView.Text = p.Rating.ToString();
+			aboutTextView.Text = p.About;
+			//iTutorTextView.Text
+			//iNeedATutorTextView.Text
+			availabilityTextView.Text = p.Time;
+			pricesTextView.Text = p.Prices;
+
+            /*if(Intent.GetStringExtra("name") != null)
             {
                 nameTextView.Text = Intent.GetStringExtra("name");
             }
@@ -63,12 +74,12 @@ namespace UpgradeApp {
             if (Intent.GetStringExtra("prices") != null)
             {
                 pricesTextView.Text = Intent.GetStringExtra("prices");
-            }
+            }*/
 
 
             classListView.Click += (object Sender, EventArgs e) =>
             {
-                var intent = new Android.Content.Intent(this, typeof(ClassList));
+                var intent = new Android.Content.Intent(this, typeof(ClassListActivity));
                 StartActivity(intent);
             };
 
