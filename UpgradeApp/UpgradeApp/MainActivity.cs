@@ -60,6 +60,7 @@ namespace UpgradeApp {
 					toast.Show();
 					var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
 					intent.PutExtra("email", email.Text);
+					HTTPHandler.emailLoggedIn = email.Text;
 					StartActivity(intent);
 				}
 				else if (status == -2) {

@@ -305,27 +305,53 @@ app.post('/studentsInClass', (req,res)=>{
             })
         }
     })
+})
 
-    /*
-    db.collection('classes', (err, collection) => {
+app.post('/upvote', (req,res)=>{
+    users.findOne({email: req.body.email}, function(err, profile) {
         if (err) {
-            console.log('ERROR:', err);
-            res.redirect('/')
-        } else {
-            collection.update({
-                _id: req.params.class
-            }, {
-                $push: {
-                    students: {
-                        name: req.params.name,
-                        type: req.params.type
-                    }
-                }
-            })
+            console.log("ERROR: " + err);
+            res.send(1);
         }
-    })
-    */
+        if (req.body.vote == 'up') {
+            users.findOneAndUpdate(
+                {"email":req.body.email},
+                { $inc: {"rating":1}}
+            )
+            console.log("rating raised by 1")
+        }
+        else if (req.body.vote == 'down') {
+            users.findOneAndUpdate(
+                {"email":req.body.email},
+                { $inc: {"rating":-1}}
+            )
+            console.log("rating lowered by 1")
+        }
+        else {
+            console.log("must send 'up' or 'down' in vote field")
+            return res.send("invalid vote, must be up or down")
+        }
+	});
+    res.send("rating updated")
+})
 
+app.post('/setRecovery', (req,res)=>{
+    users.findOne({email: req.body.email}, function(err, profile) {
+        if (err) {
+            console.log("ERROR: " + err);
+            res.send(1);
+        }
+        var data = req.body
+        //if (req.body.vote == 'up') {
+            users.findOneAndUpdate(
+                {"email":req.body.email},
+                { $set: {"question":req.body.question, "answer":req.body.answer}}
+            )
+            console.log("Security question: " + req.body.question)
+            console.log("Question Answer: " + req.body.answer)
+        //}
+	});
+    res.send("recovery set")
 })
 
 http.listen(port, ()=>{

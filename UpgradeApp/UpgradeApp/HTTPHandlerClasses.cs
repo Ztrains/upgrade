@@ -48,7 +48,12 @@ namespace UpgradeApp {
 	}
 
 	public class StudentList {
-		public string[] students;
+		public Student[] students;
+	}
+
+	public class Student {
+		public string name;
+		public string type;
 	}
 
 	public class WhichProfile {
