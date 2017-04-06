@@ -219,35 +219,35 @@ app.post('/updateProfile', (req,res)=>{
         console.log('Full update request =' + JSON.stringify(data))
         if (data.name) {
             users.update(profile, {'name': data.name})
-            console.log("name updated to: " + name)
+            console.log("name updated to: " + data.name)
         }
         if (data.newemail) {
             users.update(profile, {'email': data.newemail})
-            console.log("email updated to: " + newemail)
+            console.log("email updated to: " + data.newemail)
         }
         if (data.contact) {
             users.update(profile, {'contact': data.contact})
-            console.log("contact updated to: " + contact)
+            console.log("contact updated to: " + data.contact)
         }
         if (data.about) {
             users.update(profile, {'about': data.about})
-            console.log("about updated to: " + about)
+            console.log("about updated to: " + data.about)
         }
         if (data.tutor) {
             users.update(profile, {'tutor': data.tutor})
-            console.log("tutor updated to: " + tutor)
+            console.log("tutor updated to: " + data.tutor)
         }
         if (data.student) {
             users.update(profile, {'student': data.student})
-            console.log("student updated to: " + student)
+            console.log("student updated to: " + data.student)
         }
         if (data.time) {
             users.update(profile, {'time': data.time})
-            console.log("time updated to: " + time)
+            console.log("time updated to: " + data.time)
         }
         if (data.price) {
             users.update(profile, {'price': data.price})
-            console.log("price updated to: " + price)
+            console.log("price updated to: " + data.price)
         }
 	});
 })
