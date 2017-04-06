@@ -218,11 +218,11 @@ app.post('/updateProfile', (req,res)=>{
         var data = req.body;
         console.log('Full update request =' + JSON.stringify(data))
         if (data.name) {
-            users.update(profile, {'name': data.name})
+            users.update({'name': profile.name}, {$set: {'name': data.name}})
             console.log("name updated to: " + data.name)
         }
         if (data.newemail != null) {
-            users.update(profile, {'email': data.newemail})
+            users.update({'email': profile.email}, {$set: {'email': data.newemail}})
             console.log("email updated to: " + data.newemail)
         }
         if (data.contact) {
