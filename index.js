@@ -249,8 +249,9 @@ app.post('/studentsInClass', (req,res)=>{
         if (err) {
             console.log('ERROR:', err);
             res.redirect('/')
-        } else {
-            classes.find({_id: req.body.class},{students:1, _id:0} function(err, listofstudents) {
+        }
+        else {
+            collection.find({_id: req.body.class},{students:1, _id:0}, function(err, listofstudents) {
                 if (err) {
                     console.log('ERROR:', err);
                     res.redirect('/')
