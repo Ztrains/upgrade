@@ -49,7 +49,7 @@ var localAuth = passport.authenticate('local', {failureRedirect: '/login'});
 var basicAuth = passport.authenticate('basic', {session: false});
 
 //function logs in
-app.post('/login', passport.authenticate('local'),
+app.post('/login', localAuth,
   function(req, res) {
 	console.log('login successful');
 	if(!res.headersSent) {res.send('you have authenticated properly')};
