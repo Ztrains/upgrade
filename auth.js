@@ -16,8 +16,11 @@ function(email, password, done) {
        	users.findOne( {email: email}, function (err, user) {
     		console.log("Err: " + err);
     		console.log("User: " + user);
-        	if(err)
+        	if(err) {
+				console.log("Error in Local Auth find function:");
+				conslle.log(err);
          		return  done(err);
+			}
         	if(!user || !bcrypt.compareSync(password, user.hash))
 			return done(null, false, {message: 'Incorrect email/password combo'});
 		console.log("Auth succeeded for user: " + user.email);
@@ -26,12 +29,10 @@ function(email, password, done) {
 }));
 
 passport.serializeUser(function(user, cb) {
-    	console.log("serialized called");
     	cb(null, user._id);
 });
 
 passport.deserializeUser(function(id, cb) {
-    	console.log("deserialized called");
     	users.findOne( {_id: id}, function(err, user) {
     		if(err) { return cb(err);}
     		if(!user) {return cb(null, false); }
@@ -40,11 +41,13 @@ passport.deserializeUser(function(id, cb) {
 });
 
 passport.use(new BasicStrategy({usernameField: "email"}, function(email, hash, done) {
-    	console.log("Basic Strategy called");
     	if(!users) {users = require('./index.js').users;}
     	users.findOne( {email: email}, function(err, user) {
-    		if(err) {return done(err);}
-		if(!user || !(hash == user.hash)) {return done(null, false, {message: "bad return"});}
+    		if(err) {
+				console.log("Error in Baic Auth find function:")
+				console.log(err);
+				return done(err);}
+			if(!user || !(hash == user.hash)) {return done(null, false, {message: "bad return"});}
     		console.log("Basic auth succeeded for user: " + user.email);
     		done(null, user);
   	});

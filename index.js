@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const favicon = require('serve-favicon');
 const bcrypt = require('bcryptjs');
 const auth = require('./auth.js');
+const firebase = require('./firebase.js');
 
 var app = express();
 const http = require('http').Server(app)
@@ -86,15 +87,15 @@ app.post('/basic/test', basicAuth, function(req, res) {
 	if(!res.headersSent) {res.send('Test auth succeeded');}
 });
 
-
 //registers a user in the user database
 app.post('/reg', function(req, res) {
 	users.findOne({email: req.body.email}, function(err, r) {
+		console.log(r);
 		if(err) {res.send("Database error");}
 		else if(r) {res.send("User exists"); return;}
 		var salt = bcrypt.genSaltSync(10);
 		var hash = bcrypt.hashSync(req.body.password, salt);
-		users.insertOne({email: req.body.email, hash: hash}, function(err, r) {
+		users.insertOne({email: req.body.email, hash: hash, rating:0}, function(err, r) {
 			if(err) {res.send("Database error");}
 			else {res.send("Success adding user");}
 
@@ -102,6 +103,32 @@ app.post('/reg', function(req, res) {
 
 	});
 
+});
+//register Device in Database
+//JSON fields: "regKey"
+app.post('/regDevice', function(req, res) {
+	if(!req.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+	firebase.addDevice(req, res);
+});
+app.post('/basic/regDevice', basicAuth, function(req, res) {
+	firebase.addDevice(req, res);
+});
+
+
+//check device in database
+//JSON fields: "regKey"
+app.post('/checkDevice', function(req, res) {
+	if(!req.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+	firebase.checkDevice(req, res);
+});
+app.post('/basic/checkDevice', basicAuth, function(req, res) {
+	firebase.checkDevice(req, res);
 });
 
 
@@ -163,41 +190,6 @@ app.get('/join/:class/:type/:name', (req, res) => {     //TODO: instead of :name
     res.redirect('/')
 })
 
-/*app.get('/name/:new', (req, res) => {
-    req.user.givenName = req.params.new;
-    req.user.save(function(err) {
-        if (err) {
-            res.status(400).end('Oops!  There was an error: ' + err.userMessage);
-        } else {
-            res.end('Name was changed!');
-        }
-    });
-});
-
-app.get('/email/:new', (req, res) => {
-    req.user.email = req.params.new;
-    req.user.username = req.params.new;
-    req.user.save(function(err) {
-        if (err) {
-            res.status(400).end('Oops!  There was an error: ' + err.userMessage);
-        } else {
-            res.end('Email/Username was changed!');
-        }
-    });
-});*/
-
-app.get('/info/:type/:val', (req, res) => {
-    req.user.customData[req.params.type] = req.params.val;
-
-    req.user.customData.save(function(err) {
-        if (err) {
-            res.status(400).end('Oops!  There was an error: ' + err.userMessage);
-        } else {
-            res.end('Custom Data added!');
-        }
-    });
-});
-
 app.post('/retrieveProfile', (req, res)=>{
     users.findOne({email: req.body.email}, function(err, profile) {
 		if(err) {console.log("Retrieval error"); return res.send("retrieval error");}
@@ -223,44 +215,131 @@ app.post('/updateProfile', (req,res)=>{
                 {"email":data.email},
                 { $set: {"name":data.name}}
             )
-        }
-
-        /*
-
-        if (data.name) {
-            users.update({'name': profile.name}, {$set: {'name': data.name}})
             console.log("name updated to: " + data.name)
         }
         if (data.newemail) {
-            users.update({'email': profile.email}, {$set: {'email': data.newemail}})
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"email":data.newemail}}
+            )
             console.log("email updated to: " + data.newemail)
         }
         if (data.contact) {
-            users.update({'contact': profile.contact}, {$set: {'contact': data.contact}})
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"contact":data.contact}}
+            )
             console.log("contact updated to: " + data.contact)
         }
         if (data.about) {
-            users.update({'about': profile.about}, {$set: {'about': data.about}})
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"about":data.about}}
+            )
             console.log("about updated to: " + data.about)
         }
         if (data.tutor) {
-            users.update({'tutor': profile.tutor}, {$set: {'tutor': data.tutor}})
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"tutor":data.tutor}}
+            )
             console.log("tutor updated to: " + data.tutor)
         }
         if (data.student) {
-            users.update({'student': profile.student}, {$set: {'student': data.student}})
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"student":data.student}}
+            )
             console.log("student updated to: " + data.student)
         }
         if (data.time) {
-            users.update({'time': profile.time}, {$set: {'time': data.time}})
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"time":data.time}}
+            )
             console.log("time updated to: " + data.time)
         }
         if (data.price) {
-            users.update({'price': profile.price}, {$set: {'price': data.price}})
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"price":data.price}}
+            )
             console.log("price updated to: " + data.price)
-        }*/
+        }
 	});
     res.send("profile updated")
+})
+
+app.post('/studentsInClass', (req,res)=>{
+    //res.type('json')
+    db.collection('classes', (err, collection)=>{
+        if (err) {
+            console.log('ERROR:', err);
+            res.redirect('/')
+        }
+        else {
+            collection.find({_id: req.body.class},{students:1, _id:0}).toArray(function(err, listofstudents) {
+                if (err) {
+                    console.log('ERROR:', err);
+                    res.redirect('/')
+                }
+                else {
+                    //console.log("listofstudents= " + JSON.stringify(listofstudents));
+                    listofstudents = listofstudents[0]
+                    res.json(listofstudents)
+                }
+            })
+        }
+    })
+
+    /*
+    db.collection('classes', (err, collection) => {
+        if (err) {
+            console.log('ERROR:', err);
+            res.redirect('/')
+        } else {
+            collection.update({
+                _id: req.params.class
+            }, {
+                $push: {
+                    students: {
+                        name: req.params.name,
+                        type: req.params.type
+                    }
+                }
+            })
+        }
+    })
+    */
+
+})
+
+app.post('/upvote', (req,res)=>{
+    users.findOne({email: req.body.email}, function(err, profile) {
+        if (err) {
+            console.log("ERROR: " + err);
+            res.send(1);
+        }
+        if (req.body.vote == 'up') {
+            users.findOneAndUpdate(
+                {"email":req.body.email},
+                { $inc: {"rating":1}}
+            )
+            console.log("rating raised by 1")
+        }
+        else if (req.body.vote == 'down') {
+            users.findOneAndUpdate(
+                {"email":req.body.email},
+                { $inc: {"rating":-1}}
+            )
+            console.log("rating lowered by 1")
+        }
+        else {
+            console.log("must send 'up' or 'down' in vote field")
+            return res.send("invalid vote, must be up or down")
+        }
+	});
+    res.send("rating updated")
 })
 
 http.listen(port, ()=>{
