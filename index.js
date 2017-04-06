@@ -163,41 +163,6 @@ app.get('/join/:class/:type/:name', (req, res) => {     //TODO: instead of :name
     res.redirect('/')
 })
 
-/*app.get('/name/:new', (req, res) => {
-    req.user.givenName = req.params.new;
-    req.user.save(function(err) {
-        if (err) {
-            res.status(400).end('Oops!  There was an error: ' + err.userMessage);
-        } else {
-            res.end('Name was changed!');
-        }
-    });
-});
-
-app.get('/email/:new', (req, res) => {
-    req.user.email = req.params.new;
-    req.user.username = req.params.new;
-    req.user.save(function(err) {
-        if (err) {
-            res.status(400).end('Oops!  There was an error: ' + err.userMessage);
-        } else {
-            res.end('Email/Username was changed!');
-        }
-    });
-});*/
-
-app.get('/info/:type/:val', (req, res) => {
-    req.user.customData[req.params.type] = req.params.val;
-
-    req.user.customData.save(function(err) {
-        if (err) {
-            res.status(400).end('Oops!  There was an error: ' + err.userMessage);
-        } else {
-            res.end('Custom Data added!');
-        }
-    });
-});
-
 app.post('/retrieveProfile', (req, res)=>{
     users.findOne({email: req.body.email}, function(err, profile) {
 		if(err) {console.log("Retrieval error"); return res.send("retrieval error");}
@@ -276,6 +241,26 @@ app.post('/updateProfile', (req,res)=>{
         }
 	});
     res.send("profile updated")
+})
+
+app.post('/studentsInClass', (req,res)=>{
+    res.type('json')
+    db.collection('classes', (err, collection)=>{
+        if (err) {
+            console.log('ERROR:', err);
+            res.redirect('/')
+        } else {
+            classes.find({_id: req.body.class},{students:1, _id:0} function(err, listofstudents) {
+                if (err) {
+                    console.log('ERROR:', err);
+                    res.redirect('/')
+                }
+                else {
+                    res.json(listofstudents)
+                }
+            })
+        }
+    })
 })
 
 http.listen(port, ()=>{
