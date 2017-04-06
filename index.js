@@ -214,8 +214,8 @@ app.post('/updateProfile', (req,res)=>{
         if (data.name) {
             users.update({'name': data.name})
         }
-        if (data.email) {
-            usersn.update({'email': data.email})
+        if (data.newemail) {
+            users.update({'email': data.newemail})
         }
         if (data.contact) {
             users.update({'name': data.contact})
