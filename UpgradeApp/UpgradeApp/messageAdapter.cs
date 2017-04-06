@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
+using Android.Content.Res;
 using Android.Views;
 using Android.Widget;
 
@@ -39,10 +33,11 @@ namespace UpgradeApp
             View view = convertView;
             if (view == null)
             {
-                view = context.LayoutInflater.Inflate(Resource.Layout.bubble, null);
+                view = context.LayoutInflater.Inflate(Resource.Layout.bubbler, null);
 
             }
-            TextView message = (TextView) view.FindViewById(Resource.Id.message_text)
+            TextView message = (TextView)view.FindViewById(Resource.Id.message_text);
+            
             return view;
         }
     }
