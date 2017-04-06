@@ -134,15 +134,19 @@ app.post('/basic/checkDevice', basicAuth, function(req, res) {
 //possibly unneccessary
 //get direct messages;
 //JSON fields: N/A
-app.post('/get/dms', function(req, res) {
+app.post('/dms/get', function(req, res) {
 	if(!req.user) {
 		res.status(401).send("Not logged in");
 		return;
 	}
 	chat.getDms(req, res);
 });
-app.post('/basic/get/dms', basicAuth, function(req, res) {
+app.post('/basic/dms/get', basicAuth, function(req, res) {
 	chat.getDms(req, res);
+});
+//start a dm with the
+app.post('/dms/start', function(req, res) {
+
 });
 
 

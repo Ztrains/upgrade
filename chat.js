@@ -26,14 +26,69 @@ module.exports.getMessageCount = function(req, res) {
 			console.log(chat);
 			res.status(403).send("Chat not found or you are not a member of the chat");	
 		} else {
-			
+			res.json({chatID: req.body.chatID, m_count: chat.m_count});			
 		}
 	});
 
 };
 
 module.exports.getMessages = function (req, res) {
+	if(!chats) {chats = require('./index.js').chats;}
+	if(!users) {users = require('./index.js').users;}
 
+};
+
+module.exports.startDM = function(req, res) {
+	if(!req.body.dm_user) {
+		console.log("Missing dm_user in request");
+		res.status(400).send("Bad Request: no dm_user key");	
+		return;
+	}
+	users.findOne({_id: req.body.dm_user}, function(err, user) {
+		if(err) {
+			console.log("chat.startDM database error");
+			res.send("Database error occured!");
+			return;
+		}
+		if (!user) {
+			console.log("Err: could not find user");
+			res.send("Could not find user");
+			return;
+		}
+		chats.findOne({isDM: true, "members.user": user._id}, function(err, chat) {
+			if(err) {
+				console.log("chat.startDM database error");
+				res.send("Database error occured!");
+				return;
+			}
+			if(chat) {
+				console.log("Error: Tried to create exisiting dm");
+				res.send("Chat exists");
+				return;
+			}
+			chats.insertOne({isDM: true, members: [{user: req.user._id, muted: false}, {user: user._id, muted: false}], messageCount: 0}, function(err, result) {
+				if(err) {
+					console.log("chat.startDM database error");
+					res.send("Database error occurred!");
+					return;
+				} 
+				users.updateMany({$or: [{_id: req.user._id}, {_id: user._id}]}, {$push: {chats: result.insertedId}}, function(err, u_result) {
+					if(err) {
+						console.log("chat.startDM database error");
+						res.send("Database error occurred!");
+						return;
+					}
+					if(u_result.modifiedCount != 2) {
+						console.log("chat.startDM did not insert two items");
+						res.send("Database error occurred!");
+						return;
+					}
+					res.send("DM successfully created");
+				});
+			
+			});
+		});
+	});
 };
 /******************************************
  * left over from previous file
