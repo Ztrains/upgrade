@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const favicon = require('serve-favicon');
 const bcrypt = require('bcryptjs');
 const auth = require('./auth.js');
+const firebase = require('./firebase.js');
 
 var app = express();
 const http = require('http').Server(app)
@@ -86,7 +87,6 @@ app.post('/basic/test', basicAuth, function(req, res) {
 	if(!res.headersSent) {res.send('Test auth succeeded');}
 });
 
-
 //registers a user in the user database
 app.post('/reg', function(req, res) {
 	users.findOne({email: req.body.email}, function(err, r) {
@@ -102,6 +102,32 @@ app.post('/reg', function(req, res) {
 
 	});
 
+});
+//register Device in Database
+//JSON fields: "regKey"
+app.post('/regDevice', function(req, res) {
+	if(!req.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+	firebase.addDevice(req, res);
+});
+app.post('/basic/regDevice', basicAuth, function(req, res) {
+	firebase.addDevice(req, res);
+});
+
+
+//check device in database
+//JSON fields: "regKey"
+app.post('/checkDevice', function(req, res) {
+	if(!req.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+	firebase.checkDevice(req, res);
+});
+app.post('/basic/checkDevice', basicAuth, function(req, res) {
+	firebase.checkDevice(req, res);
 });
 
 
