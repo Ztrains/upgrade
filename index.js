@@ -45,7 +45,7 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI || localTestUrl, function(er
     console.log("Database connection ready");
 });
 
-var localAuth = auth.authenticate('local');
+var localAuth = passport.authenticate('local');
 var basicAuth = passport.authenticate('basic', {session: false});
 
 //function logs in
