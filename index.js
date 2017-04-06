@@ -129,11 +129,11 @@ app.get('/classList',  (req, res) => {
                 }
             })*/
             collection.distinct('_id', {}, {}, (err, result)=>{
-                res.send(result)
+                res.json(result)
             })
         }
     })
-    res.json(list);
+    //res.json(list);
 })
 
 app.get('/join/:class/:type/:name', (req, res) => {     //TODO: instead of :name use from database later
