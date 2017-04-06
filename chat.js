@@ -11,7 +11,7 @@ module.exports.sendMessage = function (req, res) {
 //	chats.findOne({req
 		
 	
-});
+};
 
 module.exports.getMessageCount = function(req, res) {
 	if(!chats) {chats = require('./index.js').chats;}
