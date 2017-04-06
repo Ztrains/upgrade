@@ -118,7 +118,7 @@ app.get('/classList',  (req, res) => {
             console.log('ERROR:', err);
             res.redirect('/')
         } else {
-            collection.find({}, {
+            /*collection.find({}, {
                 _id: 1
             }).forEach((err, doc) => {
                 if (err) {
@@ -127,6 +127,9 @@ app.get('/classList',  (req, res) => {
                 } else {
                     list.push(doc)
                 }
+            })*/
+            collection.distinct('_id', {}, {}, (err, result)=>{
+                res.json(result)
             })
         }
     })
