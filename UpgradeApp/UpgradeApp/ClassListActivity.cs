@@ -34,7 +34,7 @@ namespace UpgradeApp
 
 			// Populate listView from server received information
 			listView = FindViewById<ListView>(Resource.Id.classList);
-			listView.Adapter = new ListAdapter(this, classes.Classes);
+			listView.Adapter = new ListAdapter(this, classes.classes);
 
             listView.ItemClick += ListView_ItemClick;     
         }
@@ -43,7 +43,7 @@ namespace UpgradeApp
         {
 			// Send the class name to the new screen
 			var intent = new Android.Content.Intent(this, typeof(StudentListActivity));
-			intent.PutExtra("className", classes.Classes[e.Position]);
+			intent.PutExtra("className", classes.classes[e.Position]);
 			StartActivity(intent);
 
 

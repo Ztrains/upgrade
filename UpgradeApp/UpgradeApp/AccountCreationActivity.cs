@@ -29,11 +29,33 @@ namespace UpgradeApp
             Button subButton = FindViewById<Button>(Resource.Id.submitButton);
 
             subButton.Click += (object sender, EventArgs e) => {
+				
+				Toast toast = Toast.MakeText(this, "Attempting registration...", ToastLength.Short);
+				toast.Show();
 				// Send information to the server
-				HTTPHandler.registerRequest(userEmail.Text, userPassword.Text);
-				// Change screen
-                var intent = new Android.Content.Intent(this, typeof(EditProfileActivity));
-                StartActivity(intent);
+				int status = HTTPHandler.registerRequest(userEmail.Text, userPassword.Text);
+				if (status == 1) {
+					toast = Toast.MakeText(this, "Registration successful!", ToastLength.Short);
+					toast.Show();
+					// Now login to new account
+					status = HTTPHandler.loginRequest(userEmail.Text, userPassword.Text);
+					// Change screen
+					var intent = new Android.Content.Intent(this, typeof(EditProfileActivity));
+					StartActivity(intent);
+				}
+				else if (status == -2) {
+					toast = Toast.MakeText(this, "Database error.", ToastLength.Short);
+					toast.Show();
+				}
+				else if (status == -3) {
+					toast = Toast.MakeText(this, "Account already exists with that email.", ToastLength.Short);
+					toast.Show();
+				}
+				else if (status == -1) {
+					toast = Toast.MakeText(this, "Unknown error.", ToastLength.Short);
+					toast.Show();
+				}
+				
             };
 
         }
