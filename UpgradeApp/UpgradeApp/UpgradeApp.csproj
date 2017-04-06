@@ -43,6 +43,10 @@
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EngineIoClientDotNet, Version=0.9.22.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EngineIoClientDotNet.0.9.22\lib\monoandroid10\EngineIoClientDotNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="FlexibleConfiguration, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FlexibleConfiguration.1.2.0\lib\netstandard1.3\FlexibleConfiguration.dll</HintPath>
       <Private>True</Private>
@@ -82,6 +86,10 @@
       <HintPath>..\packages\RestSharp.105.2.3\lib\MonoAndroid10\RestSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SocketIoClientDotNet, Version=0.9.13.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SocketIoClientDotNet.0.9.13\lib\monoandroid10\SocketIoClientDotNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Stormpath.Configuration, Version=6.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Stormpath.Configuration.6.0.0\lib\netstandard1.3\Stormpath.Configuration.dll</HintPath>
       <Private>True</Private>
@@ -117,6 +125,10 @@
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
+    <Reference Include="WebSocket4Net, Version=0.14.1.0, Culture=neutral, PublicKeyToken=eb4e154b696bf72a, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebSocket4Net.0.14.1\lib\monoandroid23\WebSocket4Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="YamlDotNet, Version=4.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\YamlDotNet.4.1.0\lib\dotnet\YamlDotNet.dll</HintPath>
       <Private>True</Private>
@@ -124,9 +136,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountCreationActivity.cs" />
+    <Compile Include="HTTPHandlerClasses.cs" />
     <Compile Include="StudentAdapter.cs" />
-    <Compile Include="StudentList.cs" />
-    <Compile Include="ClassList.cs" />
+    <Compile Include="StudentListActivity.cs" />
+    <Compile Include="ClassListActivity.cs" />
     <Compile Include="ListAdapter.cs" />
     <Compile Include="EditProfileActivity.cs" />
     <Compile Include="HTTPHandler.cs" />

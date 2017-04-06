@@ -31,7 +31,7 @@ namespace UpgradeApp {
 			//HTTPHandler.classListRequest();
 
 
-			Console.WriteLine("test");
+			//Console.WriteLine("test");
 
 			// Set our view from the "main" layout resource
 			SetContentView(Resource.Layout.Login);  // Change Main to Login screen //
@@ -50,8 +50,20 @@ namespace UpgradeApp {
 			//HTTPHandler.Testfn();
 
 			loginButton.Click += (object sender, EventArgs e) => {
-                //HTTPHandler.loginRequest(email.Text, password.Text);
+                int status = HTTPHandler.loginRequest(email.Text, password.Text);
 
+				if (status == 1) {
+					Toast toast = Toast.MakeText(this, "Login successful", ToastLength.Short);
+					toast.Show();
+					var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
+					intent.PutExtra("email", email.Text);
+					StartActivity(intent);
+				}
+				else {
+					Toast toast = Toast.MakeText(this, "Email/Password incorrect.  Try again.", ToastLength.Short);
+					toast.Show();
+				}
+				/*
                 if (!email.Text.Equals("myers259@purdue.edu") || !password.Text.Equals("Thegm_97"))
                 {
                     Toast toast = Toast.MakeText(this, "Invalid Username or Password", ToastLength.Short);
@@ -62,6 +74,7 @@ namespace UpgradeApp {
                     var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
                     StartActivity(intent);
                 }
+				*/
             };
 
 			newAccountButton.Click += (sender, e) => {
