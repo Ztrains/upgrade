@@ -45,7 +45,7 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI || localTestUrl, function(er
     console.log("Database connection ready");
 });
 
-var localAuth = passport.authenticate('local', {failureRedirect: '/login'});
+var localAuth = auth.authenticate('local');
 var basicAuth = passport.authenticate('basic', {session: false});
 
 //function logs in
@@ -112,7 +112,7 @@ app.get('/', (req, res) => {
 
 app.get('/classList',  (req, res) => {
     //res.type('json');
-    var list;
+    var list=[];
     db.collection('classes', (err, collection) => {
         if (err) {
             console.log('ERROR:', err);
@@ -120,16 +120,17 @@ app.get('/classList',  (req, res) => {
         } else {
             collection.find({}, {
                 _id: 1
-            }).toArray((err, ret) => {
+            }).forEach((err, doc) => {
                 if (err) {
                     console.log('ERROR:', err)
                     res.redirect('/')
                 } else {
-                    res.json(ret)
+                    list.push(doc)
                 }
             })
         }
     })
+    res.json(list);
 })
 
 app.get('/join/:class/:type/:name', (req, res) => {     //TODO: instead of :name use from database later
