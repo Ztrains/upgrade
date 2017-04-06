@@ -223,42 +223,57 @@ app.post('/updateProfile', (req,res)=>{
                 {"email":data.email},
                 { $set: {"name":data.name}}
             )
-        }
-
-        /*
-
-        if (data.name) {
-            users.update({'name': profile.name}, {$set: {'name': data.name}})
             console.log("name updated to: " + data.name)
         }
         if (data.newemail) {
-            users.update({'email': profile.email}, {$set: {'email': data.newemail}})
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"email":data.newemail}}
+            )
             console.log("email updated to: " + data.newemail)
         }
         if (data.contact) {
-            users.update({'contact': profile.contact}, {$set: {'contact': data.contact}})
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"contact":data.contact}}
+            )
             console.log("contact updated to: " + data.contact)
         }
         if (data.about) {
-            users.update({'about': profile.about}, {$set: {'about': data.about}})
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"about":data.about}}
+            )
             console.log("about updated to: " + data.about)
         }
         if (data.tutor) {
-            users.update({'tutor': profile.tutor}, {$set: {'tutor': data.tutor}})
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"tutor":data.tutor}}
+            )
             console.log("tutor updated to: " + data.tutor)
         }
         if (data.student) {
-            users.update({'student': profile.student}, {$set: {'student': data.student}})
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"student":data.student}}
+            )
             console.log("student updated to: " + data.student)
         }
         if (data.time) {
-            users.update({'time': profile.time}, {$set: {'time': data.time}})
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"time":data.time}}
+            )
             console.log("time updated to: " + data.time)
         }
         if (data.price) {
-            users.update({'price': profile.price}, {$set: {'price': data.price}})
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"price":data.price}}
+            )
             console.log("price updated to: " + data.price)
-        }*/
+        }
 	});
     res.send("profile updated")
 })
