@@ -321,7 +321,7 @@ app.post('/upvote', (req,res)=>{
     res.send("rating updated")
 })
 
-app.post('setRecovery', (req,res)=>{
+app.post('/setRecovery', (req,res)=>{
     users.findOne({email: req.body.email}, function(err, profile) {
         if (err) {
             console.log("ERROR: " + err);
