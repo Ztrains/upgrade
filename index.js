@@ -129,7 +129,7 @@ app.get('/classList',  (req, res) => {
                 }
             })*/
             collection.distinct('_id', {}, {}, (err, result)=>{
-                res.json(result)
+                res.send(result)
             })
         }
     })
