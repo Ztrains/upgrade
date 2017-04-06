@@ -69,7 +69,7 @@ namespace UpgradeApp {
 				
 				// Send server the changes
 				// Needs to have other fields fixed
-				HTTPHandler.updateProfile(newName, newEmail, newContact, -5, newAbout, null, null, freeTime, prices);
+				//HTTPHandler.updateProfile(newName, newEmail, newContact, -5, newAbout, null, null, freeTime, prices);
 
                 var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
                 intent.PutExtra("name", newName);

@@ -12,6 +12,7 @@ using Stormpath.SDK.Application;
 using Stormpath.SDK.Serialization;
 using System;
 using System.Net.Http;
+using System.Diagnostics;
 
 namespace UpgradeApp {
 	public class HTTPHandler {
@@ -20,9 +21,6 @@ namespace UpgradeApp {
 
 
 
-
-
-		private static IApplication myApp;
 		/*static void Main(string[] args) {
 			MainAsync().GetAwaiter().GetResult();
 		}
@@ -91,47 +89,54 @@ namespace UpgradeApp {
 
 		// current register function
 		public static int registerRequest(string email, string password) {
-			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/register");
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/reg");
 			var request = new RestRequest(Method.POST);
 
 			Account acc = new Account();
-			acc.Email = email;
-			acc.Password = password;
-			string json = JsonConvert.SerializeObject(acc);
+			acc.email = email;
+			acc.password = password;
+			//string json = JsonConvert.SerializeObject(acc);
 
-			//request.AddHeader("postman-token", "0fccbb68-76d2-f0d9-51f9-c657ce173d67");
-			//request.AddHeader("cache-control", "no-cache");
-			//request.AddHeader("accept", "application/json");
-			//request.AddHeader("content-type", "application/json");
-			//string json = "{ \"email\": \"" + email + "\", \"password\": \"" + password + "\" }";
-
-			request.AddParameter("application/json", json, ParameterType.RequestBody);
+			request.AddJsonBody(acc);
+			//request.AddParameter("application/json", json, ParameterType.RequestBody);
 			IRestResponse response = client.Execute(request);
-
-			return 1;
+			//Console.WriteLine(response.Content);
+			string r = response.Content;
+			if (r.Equals("Database error"))
+				return -2;
+			else if (r.Equals("User exists"))
+				return -3;
+			else if (r.Equals("Success adding user"))
+				return 1;
+			else return -1;
 		}
 
 		// current login function
 		public static int loginRequest(string email, string password) {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/login");
-			var request = new RestRequest(Method.GET);
+			var request = new RestRequest(Method.POST);
 
 			Account acc = new Account();
-			acc.Email = email;
-			acc.Password = password;
-			string json = JsonConvert.SerializeObject(acc);
+			acc.email = email;
+			acc.password = password;
+			//string json = JsonConvert.SerializeObject(acc);
 
 			//request.AddHeader("postman-token", "0fccbb68-76d2-f0d9-51f9-c657ce173d67");
 			//request.AddHeader("cache-control", "no-cache");
 			//request.AddHeader("accept", "application/json");
 			//request.AddHeader("content-type", "application/json");
 			//string json = "{ \"email\": \"" + email + "\", \"password\": \"" + password + "\" }";
-
-			request.AddParameter("application/json", json, ParameterType.RequestBody);
+			request.AddJsonBody(acc);
+			//request.AddParameter("application/json", json, ParameterType.RequestBody);
 			IRestResponse response = client.Execute(request);
-			Console.WriteLine(response.Content + "\n");
-
-			return 1; // success
+			//Console.WriteLine(response.Content + "\n");
+			if (response.Content.Equals("you have authenticated properly")) {
+				return 1;
+			}
+			else if (response.Content.Equals("Incorrect email/password combo")) {
+				return -2;
+			}
+			else return -1;	
 		}
 
 		public static void recoverPassword(string email) {
@@ -139,7 +144,7 @@ namespace UpgradeApp {
 			var request = new RestRequest(Method.GET);
 
 			EmailRecovery er = new EmailRecovery();
-			er.Email = email;
+			er.email = email;
 
 			IRestResponse response = client.Execute(request);
 		}
@@ -149,7 +154,7 @@ namespace UpgradeApp {
 			var request = new RestRequest(Method.GET);
 
 			ResetCode resetCode = new ResetCode();
-			resetCode.Code = code;
+			resetCode.code = code;
 
 			IRestResponse response = client.Execute(request);
 		}
@@ -159,7 +164,7 @@ namespace UpgradeApp {
 			var request = new RestRequest(Method.GET);
 
 			Password pass = new Password();
-			pass.Pass = password;
+			pass.pass = password;
 
 			IRestResponse response = client.Execute(request);
 		}
@@ -168,15 +173,22 @@ namespace UpgradeApp {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/classList");
 			var request = new RestRequest(Method.GET);
 			IRestResponse response = client.Execute(request);
-
-			ClassList classes = JsonConvert.DeserializeObject<dynamic>(response.Content);
+			
+			ClassList classes = JsonConvert.DeserializeObject<ClassList>(response.Content);
+			//ClassList classes = new ClassList();
+			//classes.classes = response.Content;
 			return classes;
 		}
 
 		public static StudentList studentListRequest(string classToList) {
 			var client = new RestClient(); // needs url
 			var request = new RestRequest(Method.GET);
+			WhichClass wc = new WhichClass();
+			wc.className = classToList;
+			request.AddJsonBody(wc);
+
 			IRestResponse response = client.Execute(request);
+			
 
 			StudentList students = JsonConvert.DeserializeObject<dynamic>(response.Content);
 			return students;
@@ -188,29 +200,34 @@ namespace UpgradeApp {
 			var request = new RestRequest(Method.GET);
 
 			Profile profile = new Profile();
-			profile.Name = name;
-			profile.Email = email;
-			profile.Contact = contact;
-			profile.Rating = rating;
-			profile.About = about;
-			profile.ClassesTutor = classesTutor;
-			profile.ClassesStudent = classesStudent;
-			profile.Time = time;
-			profile.Prices = prices;
+			profile.name = name;
+			profile.email = email;
+			profile.contact = contact;
+			profile.rating = rating;
+			profile.about = about;
+			profile.classesTutor = classesTutor;
+			profile.classesStudent = classesStudent;
+			profile.time = time;
+			profile.prices = prices;
+
+			request.AddJsonBody(profile);
 
 			IRestResponse response = client.Execute(request);
 		}
 
 		public static Profile getProfile(string email) {
-			var client = new RestClient(); // Needs url
-			var request = new RestRequest(Method.GET);
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/retrieveProfile");
+			var request = new RestRequest(Method.POST);
 
 			WhichProfile wp = new WhichProfile();
-			wp.Email = email;
+			wp.email = email;
+			request.AddJsonBody(wp);
 
 			IRestResponse response = client.Execute(request);
-
-			Profile profile = JsonConvert.DeserializeObject<dynamic>(response.Content);
+			
+			Debug.WriteLine("THIS IS WHERE THE ERROR ERRORS\n\n\n");
+			Debug.WriteLine(response.Content);
+			Profile profile = JsonConvert.DeserializeObject<Profile>(response.Content);
 			return profile;
 		}
 

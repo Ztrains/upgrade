@@ -1,6 +1,6 @@
 const fs = require('fs'); // required to read https certs
 const https = require('https');
-
+const passport = require('passport');
 const express = require('express');
 const mongodb = require('mongodb');
 const cookieParser = require('cookie-parser');
@@ -12,7 +12,7 @@ const auth = require('./auth.js');
 
 var app = express();
 const http = require('http').Server(app)
-var chat = require('./chat.js')
+//var chat = require('./chat.js')
 var io = require('socket.io')(http);
 
 app.use(bodyParser.json());
@@ -20,8 +20,8 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 app.use(require('express-session')({ secret: 'This is a good secret', resave: false, saveUninitialized: false, cookie: {secure: false, maxAge: 3600000}}));
-app.use(auth.initialize());
-app.use(auth.session());
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(cookieParser());
 
 app.use(favicon(__dirname + '/docs/favicon.ico'));
@@ -45,11 +45,11 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI || localTestUrl, function(er
     console.log("Database connection ready");
 });
 
-var localAuth = auth.authenticate('local', {failureRedirect: '/login'});
-var basicAuth = auth.authenticate('basic', {session: false});
+var localAuth = passport.authenticate('local');
+var basicAuth = passport.authenticate('basic', {session: false});
 
 //function logs in
-app.post('/login', auth.authenticate('local', {failureRedirect: '/login'}),
+app.post('/login', localAuth,
   function(req, res) {
 	console.log('login successful');
 	if(!res.headersSent) {res.send('you have authenticated properly')};
@@ -111,25 +111,30 @@ app.get('/', (req, res) => {
 });
 
 app.get('/classList',  (req, res) => {
-    //res.type('json');
-    var list;
+    res.type('json');
+    var list=[];
     db.collection('classes', (err, collection) => {
         if (err) {
             console.log('ERROR:', err);
             res.redirect('/')
         } else {
-            collection.find({}, {
+            /*collection.find({}, {
                 _id: 1
-            }).toArray((err, ret) => {
+            }).forEach((err, doc) => {
                 if (err) {
                     console.log('ERROR:', err)
                     res.redirect('/')
                 } else {
-                    res.json(ret)
+                    list.push(doc)
                 }
+            })*/
+            collection.distinct('_id', {}, {}, (err, result)=>{
+                //res.send(JSON.stringify({classes: result})
+                res.json({"classes": result})
             })
         }
     })
+    //res.json(list);
 })
 
 app.get('/join/:class/:type/:name', (req, res) => {     //TODO: instead of :name use from database later
@@ -158,79 +163,104 @@ app.get('/join/:class/:type/:name', (req, res) => {     //TODO: instead of :name
     res.redirect('/')
 })
 
-/*app.get('/name/:new', (req, res) => {
-    req.user.givenName = req.params.new;
-    req.user.save(function(err) {
-        if (err) {
-            res.status(400).end('Oops!  There was an error: ' + err.userMessage);
-        } else {
-            res.end('Name was changed!');
-        }
-    });
-});
-
-app.get('/email/:new', (req, res) => {
-    req.user.email = req.params.new;
-    req.user.username = req.params.new;
-    req.user.save(function(err) {
-        if (err) {
-            res.status(400).end('Oops!  There was an error: ' + err.userMessage);
-        } else {
-            res.end('Email/Username was changed!');
-        }
-    });
-});*/
-
-app.get('/info/:type/:val', (req, res) => {
-    req.user.customData[req.params.type] = req.params.val;
-
-    req.user.customData.save(function(err) {
-        if (err) {
-            res.status(400).end('Oops!  There was an error: ' + err.userMessage);
-        } else {
-            res.end('Custom Data added!');
-        }
-    });
-});
-
-app.get('/retrieveProfile', (req, res)=>{
+app.post('/retrieveProfile', (req, res)=>{
     users.findOne({email: req.body.email}, function(err, profile) {
-		if(err) {console.log("Retrieval error"); res.send("retrieval error");}
-		else if(!profile) {console.log("email not found"); res.send("User doesn't exist/Email not found");}
-		console.log("result of salt search: " + JSON.stringify(JSON.parse(profile),null,2));  //should log everything in the profile in theory
+		if(err) {console.log("Retrieval error"); return res.send("retrieval error");}
+		else if(!profile) {console.log("email not found"); return res.send("User doesn't exist/Email not found");}
+		console.log("result of salt search: " + JSON.stringify(profile,null,2));  //should log everything in the profile in theory
+        res.type('json');
 		res.json(profile);    //up to client to parse i guess lol sorry
 	});
 })
 
 app.post('/updateProfile', (req,res)=>{
     users.findOne({email: req.body.email}, function(err, profile) {
-		var data = req.body;
-        console.log('Full update request =' + JSON.stringify(data))
-        if (data.name) {
-            collection.update({'name': data.name})
+        if (err) {
+            console.log("ERROR: " + err);
+            res.send(1);
         }
-        if (data.email) {
-            collection.update({'email': data.email})
+        console.log('Profile found =' + JSON.stringify(profile))
+        var data = req.body;
+        console.log('Full update request =' + JSON.stringify(data))
+
+        if (data.name) {
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"name":data.name}}
+            )
+            console.log("name updated to: " + data.name)
+        }
+        if (data.newemail) {
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"email":data.newemail}}
+            )
+            console.log("email updated to: " + data.newemail)
         }
         if (data.contact) {
-            collection.update({'name': data.contact})
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"contact":data.contact}}
+            )
+            console.log("contact updated to: " + data.contact)
         }
         if (data.about) {
-            collection.update({'name': data.about})
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"about":data.about}}
+            )
+            console.log("about updated to: " + data.about)
         }
         if (data.tutor) {
-            collection.update({'name': data.tutor})
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"tutor":data.tutor}}
+            )
+            console.log("tutor updated to: " + data.tutor)
         }
         if (data.student) {
-            collection.update({'name': data.student})
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"student":data.student}}
+            )
+            console.log("student updated to: " + data.student)
         }
         if (data.time) {
-            collection.update({'name': data.time})
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"time":data.time}}
+            )
+            console.log("time updated to: " + data.time)
         }
         if (data.price) {
-            collection.update({'name': data.price})
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"price":data.price}}
+            )
+            console.log("price updated to: " + data.price)
         }
 	});
+    res.send("profile updated")
+})
+
+app.post('/studentsInClass', (req,res)=>{
+    res.type('json')
+    db.collection('classes', (err, collection)=>{
+        if (err) {
+            console.log('ERROR:', err);
+            res.redirect('/')
+        } else {
+            classes.find({_id: req.body.class},{students:1, _id:0} function(err, listofstudents) {
+                if (err) {
+                    console.log('ERROR:', err);
+                    res.redirect('/')
+                }
+                else {
+                    res.json(listofstudents)
+                }
+            })
+        }
+    })
 })
 
 http.listen(port, ()=>{

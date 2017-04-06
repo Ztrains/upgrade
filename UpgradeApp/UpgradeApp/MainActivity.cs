@@ -50,17 +50,24 @@ namespace UpgradeApp {
 			//HTTPHandler.Testfn();
 
 			loginButton.Click += (object sender, EventArgs e) => {
-                int status = HTTPHandler.loginRequest(email.Text, password.Text);
+				Toast toast = Toast.MakeText(this, "Attempting login...", ToastLength.Short);
+				toast.Show();
+				// Send information to the server
+				int status = HTTPHandler.loginRequest(email.Text, password.Text);
 
 				if (status == 1) {
-					Toast toast = Toast.MakeText(this, "Login successful", ToastLength.Short);
+					toast = Toast.MakeText(this, "Login successful", ToastLength.Short);
 					toast.Show();
 					var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
 					intent.PutExtra("email", email.Text);
 					StartActivity(intent);
 				}
-				else {
-					Toast toast = Toast.MakeText(this, "Email/Password incorrect.  Try again.", ToastLength.Short);
+				else if (status == -2) {
+					toast = Toast.MakeText(this, "Email/Password incorrect.  Try again.", ToastLength.Short);
+					toast.Show();
+				}
+				else if (status == -1) {
+					toast = Toast.MakeText(this, "Unknown error.", ToastLength.Short);
 					toast.Show();
 				}
 				/*

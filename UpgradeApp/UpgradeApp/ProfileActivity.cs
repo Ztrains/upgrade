@@ -43,14 +43,15 @@ namespace UpgradeApp {
 
 			// Get profile information from the server
 			Profile p = HTTPHandler.getProfile(Intent.GetStringExtra("email"));
-			nameTextView.Text = p.Name;
-			emailTextView.Text = p.Email;
-			ratingTextView.Text = p.Rating.ToString();
-			aboutTextView.Text = p.About;
+			nameTextView.Text = p.name;
+			emailTextView.Text = p.email;
+			ratingTextView.Text = p.rating.ToString();
+			aboutTextView.Text = p.about;
 			//iTutorTextView.Text
 			//iNeedATutorTextView.Text
-			availabilityTextView.Text = p.Time;
-			pricesTextView.Text = p.Prices;
+			availabilityTextView.Text = p.time;
+			pricesTextView.Text = p.prices;
+			
 
             /*if(Intent.GetStringExtra("name") != null)
             {

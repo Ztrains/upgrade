@@ -12,43 +12,50 @@ using Android.Widget;
 
 namespace UpgradeApp {
 	public class Password {
-		public string Pass;
+		public string pass;
 	}
 
 	public class EmailRecovery {
-		public string Email;
+		public string email;
 	}
 
 	public class ResetCode {
-		public string Code;
+		public string code;
 	}
 
 	public class Account {
-		public string Email;
-		public string Password;
+		public string email;
+		public string password;
 	};
 
 	public class Profile {
-		public string Name;
-		public string Email;
-		public string Contact;
-		public int Rating;
-		public string About;
-		public string[] ClassesTutor;
-		public string[] ClassesStudent;
-		public string Time;
-		public string Prices;
+		public string _id;
+		public string hash;
+		public string name;
+		public string email;
+		public string newemail; // used if updating the email associated with the account
+		public string contact;
+		public int rating;
+		public string about;
+		public string[] classesTutor;
+		public string[] classesStudent;
+		public string time;
+		public string prices;
 	};
 
 	public class ClassList {
-		public string[] Classes;
+		public string[] classes;
 	}
 
 	public class StudentList {
-		public string[] Students;
+		public string[] students;
 	}
 
 	public class WhichProfile {
-		public string Email;
+		public string email;
+	}
+
+	public class WhichClass {
+		public string className;
 	}
 }
