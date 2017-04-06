@@ -336,6 +336,7 @@ app.post('/upvote', (req,res)=>{
         }
         else {
             console.log("must send 'up' or 'down' in vote field")
+            return res.send("invalid vote, must be up or down")
         }
 	});
     res.send("rating updated")
