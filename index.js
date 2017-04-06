@@ -221,32 +221,32 @@ app.post('/updateProfile', (req,res)=>{
             users.update({'name': profile.name}, {$set: {'name': data.name}})
             console.log("name updated to: " + data.name)
         }
-        if (data.newemail != null) {
+        if (data.newemail) {
             users.update({'email': profile.email}, {$set: {'email': data.newemail}})
             console.log("email updated to: " + data.newemail)
         }
         if (data.contact) {
-            users.update(profile, {'contact': data.contact})
+            users.update({'contact': profile.contact}, {$set: {'contact': data.contact}})
             console.log("contact updated to: " + data.contact)
         }
         if (data.about) {
-            users.update(profile, {'about': data.about})
+            users.update({'about': profile.about}, {$set: {'about': data.about}})
             console.log("about updated to: " + data.about)
         }
         if (data.tutor) {
-            users.update(profile, {'tutor': data.tutor})
+            users.update({'tutor': profile.tutor}, {$set: {'tutor': data.tutor}})
             console.log("tutor updated to: " + data.tutor)
         }
         if (data.student) {
-            users.update(profile, {'student': data.student})
+            users.update({'student': profile.student}, {$set: {'student': data.student}})
             console.log("student updated to: " + data.student)
         }
         if (data.time) {
-            users.update(profile, {'time': data.time})
+            users.update({'time': profile.time}, {$set: {'time': data.time}})
             console.log("time updated to: " + data.time)
         }
         if (data.price) {
-            users.update(profile, {'price': data.price})
+            users.update({'price': profile.price}, {$set: {'price': data.price}})
             console.log("price updated to: " + data.price)
         }
 	});
