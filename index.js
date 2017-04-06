@@ -202,6 +202,37 @@ app.get('/retrieveProfile', (req, req)=>{
 	});
 })
 
+app.post('/updateProfile', (req,res)=>{
+    users.findOne({email: req.body.email}, function(err, profile) {
+		var data = req.body;
+        console.log('Full update request =' + JSON.stringify(data))
+        if (data.name) {
+            collection.update({'name': data.name})
+        }
+        if (data.email) {
+            collection.update({'email': data.email})
+        }
+        if (data.contact) {
+            collection.update({'name': data.contact})
+        }
+        if (data.about) {
+            collection.update({'name': data.about})
+        }
+        if (data.tutor) {
+            collection.update({'name': data.tutor})
+        }
+        if (data.student) {
+            collection.update({'name': data.student})
+        }
+        if (data.time) {
+            collection.update({'name': data.time})
+        }
+        if (data.price) {
+            collection.update({'name': data.price})
+        }
+	});
+})
+
 http.listen(port, ()=>{
     console.log("listening on " + port)
 });
