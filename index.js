@@ -221,7 +221,7 @@ app.post('/updateProfile', (req,res)=>{
             users.update(profile, {'name': data.name})
             console.log("name updated to: " + data.name)
         }
-        if (data.newemail) {
+        if (data.newemail != null) {
             users.update(profile, {'email': data.newemail})
             console.log("email updated to: " + data.newemail)
         }
@@ -250,6 +250,7 @@ app.post('/updateProfile', (req,res)=>{
             console.log("price updated to: " + data.price)
         }
 	});
+    res.send("profile updated")
 })
 
 http.listen(port, ()=>{
