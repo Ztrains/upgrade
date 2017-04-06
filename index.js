@@ -258,7 +258,8 @@ app.post('/studentsInClass', (req,res)=>{
                 }
                 else {
                     //console.log("listofstudents= " + JSON.stringify(listofstudents));
-                    res.json(listofstudents)
+                    var nobrack = listofstudents.substring(1, listofstudents.length-1)
+                    res.json(nobrack)
                 }
             })
         }
