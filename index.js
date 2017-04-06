@@ -256,8 +256,9 @@ app.post('/studentsInClass', (req,res)=>{
                     console.log('ERROR:', err);
                     res.redirect('/')
                 }
+                console.log("listofstudents= " + listofstudents)
                 else {
-                    res.json(listofstudents)
+                    res.send(listofstudents)
                 }
             })
         }
