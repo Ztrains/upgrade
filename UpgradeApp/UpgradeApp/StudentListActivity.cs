@@ -32,7 +32,7 @@ namespace UpgradeApp
 			SetContentView(Resource.Layout.listOfStudents);
 
             listView = FindViewById<ListView>(Resource.Id.students);
-            listView.Adapter = new StudentAdapter(this, students.Students);
+            listView.Adapter = new StudentAdapter(this, students.students);
 			listView.ItemClick += ListView_ItemClick;
         }
 
@@ -40,7 +40,7 @@ namespace UpgradeApp
 
 			// Send the student name to the new screen
 			var intent = new Android.Content.Intent(this, typeof(StudentListActivity));
-			intent.PutExtra("studentName", students.Students[e.Position]);
+			intent.PutExtra("studentName", students.students[e.Position]);
 			StartActivity(intent);
 
 			/*if (items[e.Position] == "Bob Ross") {
