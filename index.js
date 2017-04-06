@@ -258,9 +258,8 @@ app.post('/studentsInClass', (req,res)=>{
                 }
                 else {
                     //console.log("listofstudents= " + JSON.stringify(listofstudents));
-                    var tmp = JSON.stringify(listofstudents)
-                    var tmp2 = tmp.substring(1, tmp.length-1)
-                    res.json(tmp2)
+                    listofstudents = listofstudents[0]
+                    res.json(listofstudents)
                 }
             })
         }
