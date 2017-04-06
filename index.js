@@ -132,7 +132,7 @@ app.get('/classList',  (req, res) => {
     })
 })
 
-app.get('/join/:class/:type', (req, res) => {
+app.get('/join/:class/:type/:name', (req, res) => {     //TODO: instead of :name use from database later
     var list;
     db.collection('classes', (err, collection) => {
         if (err) {
@@ -144,7 +144,7 @@ app.get('/join/:class/:type', (req, res) => {
             }, {
                 $push: {
                     students: {
-                        name: req.user.fullName,
+                        name: req.params.name,
                         type: req.params.type
                     }
                 }
@@ -158,7 +158,7 @@ app.get('/join/:class/:type', (req, res) => {
     res.redirect('/')
 })
 
-app.get('/name/:new', (req, res) => {
+/*app.get('/name/:new', (req, res) => {
     req.user.givenName = req.params.new;
     req.user.save(function(err) {
         if (err) {
@@ -179,7 +179,8 @@ app.get('/email/:new', (req, res) => {
             res.end('Email/Username was changed!');
         }
     });
-});
+});*/
+
 app.get('/info/:type/:val', (req, res) => {
     req.user.customData[req.params.type] = req.params.val;
 
@@ -192,14 +193,53 @@ app.get('/info/:type/:val', (req, res) => {
     });
 });
 
+app.get('/retrieveProfile', (req, res)=>{
+    users.findOne({email: req.body.email}, function(err, profile) {
+		if(err) {console.log("Retrieval error"); res.send("retrieval error");}
+		else if(!profile) {console.log("email not found"); res.send("User doesn't exist/Email not found");}
+		console.log("result of salt search: " + JSON.stringify(JSON.parse(profile),null,2));  //should log everything in the profile in theory
+		res.json(profile);    //up to client to parse i guess lol sorry
+	});
+})
+
+app.post('/updateProfile', (req,res)=>{
+    users.findOne({email: req.body.email}, function(err, profile) {
+		var data = req.body;
+        console.log('Full update request =' + JSON.stringify(data))
+        if (data.name) {
+            collection.update({'name': data.name})
+        }
+        if (data.email) {
+            collection.update({'email': data.email})
+        }
+        if (data.contact) {
+            collection.update({'name': data.contact})
+        }
+        if (data.about) {
+            collection.update({'name': data.about})
+        }
+        if (data.tutor) {
+            collection.update({'name': data.tutor})
+        }
+        if (data.student) {
+            collection.update({'name': data.student})
+        }
+        if (data.time) {
+            collection.update({'name': data.time})
+        }
+        if (data.price) {
+            collection.update({'name': data.price})
+        }
+	});
+})
+
 http.listen(port, ()=>{
     console.log("listening on " + port)
 });
 
 
-/*this is probably a bad idea but im trying it for now
-******************************************************
-******************************************************
+/*****************************************************
+**************This is staying in for now**************
 *****************************************************/
 
 var usernames = {};
@@ -238,7 +278,6 @@ io.on("connection", (client)=>{
 	});
 });
 
-/***************** end of bad idea *******************
-******************************************************
-******************************************************
+/*****************************************************
+**********************End of chat*********************
 *****************************************************/
