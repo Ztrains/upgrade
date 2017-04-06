@@ -17,6 +17,8 @@ using System.Diagnostics;
 namespace UpgradeApp {
 	public class HTTPHandler {
 
+		public static string emailLoggedIn;
+
 		// TODO Profile Visibility 
 
 
@@ -188,25 +190,29 @@ namespace UpgradeApp {
 			request.AddJsonBody(wc);
 
 			IRestResponse response = client.Execute(request);
-			
 
-			StudentList students = JsonConvert.DeserializeObject<dynamic>(response.Content);
+			StudentList students = JsonConvert.DeserializeObject<StudentList>(response.Content);
 			return students;
 		}
 
-		public static void updateProfile(string name, string email, string contact, int rating,
-			string about, string[] classesTutor, string[] classesStudent, string time, string prices) {
+		public static void updateProfile(string name, string email, string contact, string about, 
+			string[] classesTutor, string[] classesStudent, string time, string prices) {
 			var client = new RestClient(); // needs url
 			var request = new RestRequest(Method.GET);
 
 			Profile profile = new Profile();
 			profile.name = name;
-			profile.email = email;
+			if (!email.Equals(emailLoggedIn) && email != "") {
+				profile.email = emailLoggedIn;
+				profile.newemail = email;
+			}
+			else {
+				profile.email = email;
+			}
 			profile.contact = contact;
-			profile.rating = rating;
 			profile.about = about;
-			profile.classesTutor = classesTutor;
-			profile.classesStudent = classesStudent;
+			//profile.classesTutor = classesTutor;
+			//profile.classesStudent = classesStudent;
 			profile.time = time;
 			profile.prices = prices;
 
@@ -232,7 +238,7 @@ namespace UpgradeApp {
 		}
 
 		public static void upvoteProfile() {
-			var client = new RestClient(); // Needs url
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/retrieveProfile");
 			var request = new RestRequest(Method.GET);
 
 			IRestResponse response = client.Execute(request);
