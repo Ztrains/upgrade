@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 //const stormpath = require('express-stormpath');  RIP Stormpath
 const favicon = require('serve-favicon');
 const bcrypt = require('bcryptjs');
-const auth = require('./auth.js')(passport);
+const auth = require('./auth.js');
 
 var app = express();
 const http = require('http').Server(app)
