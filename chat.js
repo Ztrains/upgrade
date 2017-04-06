@@ -1,3 +1,43 @@
+var users;
+var chats;
+
+module.exports.getDms= function(req, res) {
+	res.json({dms: req.user.dms});
+}
+
+module.exports.sendMessage = function (req, res) {
+	if(!chats) {chats = require('./index.js').chats;}
+	if(!users) {users = require('./index.js').users;}
+//	chats.findOne({req
+		
+	
+});
+
+module.exports.getMessageCount = function(req, res) {
+	if(!chats) {chats = require('./index.js').chats;}
+	if(!users) {users = require('./index.js').users;}
+	chats.findOne({_id: req.body.chatID, members: req.user._id}, function(err, chat) {
+		if(err) {
+			console.log("chat.getMessageCount database err:");
+			console.log(err);
+			res.send("Database error occured!");
+		} else if(!chat) {
+			console.log("User: '" + req.user.email + "' attempted to access chat: '" + req.body.chatID + "':");
+			console.log(chat);
+			res.status(403).send("Chat not found or you are not a member of the chat");	
+		} else {
+			
+		}
+	});
+
+});
+
+module.exports.getMessages = function (req, res) {
+
+});
+/******************************************
+ * left over from previous file
+ * ****************************************
 var io = require('socket.io')
 var socket = io()	//change to process.env.PORT when in prod
 var usernames = {};
@@ -31,3 +71,4 @@ socket.on("connection", (client)=>{
 
 	});
 });
+*/

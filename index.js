@@ -13,7 +13,7 @@ const firebase = require('./firebase.js');
 
 var app = express();
 const http = require('http').Server(app)
-//var chat = require('./chat.js')
+var chat = require('./chat.js')
 var io = require('socket.io')(http);
 
 app.use(bodyParser.json());
@@ -129,6 +129,20 @@ app.post('/checkDevice', function(req, res) {
 });
 app.post('/basic/checkDevice', basicAuth, function(req, res) {
 	firebase.checkDevice(req, res);
+});
+
+//possibly unneccessary
+//get direct messages;
+//JSON fields: N/A
+app.post('/get/dms', function(req, res) {
+	if(!req.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+	chat.getDms(req, res);
+});
+app.post('/basic/get/dms', basicAuth, function(req, res) {
+	chat.getDms(req, res);
 });
 
 
