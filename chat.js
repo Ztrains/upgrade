@@ -30,11 +30,11 @@ module.exports.getMessageCount = function(req, res) {
 		}
 	});
 
-});
+};
 
 module.exports.getMessages = function (req, res) {
 
-});
+};
 /******************************************
  * left over from previous file
  * ****************************************
