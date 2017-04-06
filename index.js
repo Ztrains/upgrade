@@ -202,7 +202,7 @@ app.post('/retrieveProfile', (req, res)=>{
     users.findOne({email: req.body.email}, function(err, profile) {
 		if(err) {console.log("Retrieval error"); return res.send("retrieval error");}
 		else if(!profile) {console.log("email not found"); return res.send("User doesn't exist/Email not found");}
-		console.log("result of salt search: " + JSON.stringify((profile),null,2);  //should log everything in the profile in theory
+		console.log("result of salt search: " + JSON.stringify(profile,null,2));  //should log everything in the profile in theory
 		res.json(profile);    //up to client to parse i guess lol sorry
 	});
 })
