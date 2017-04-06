@@ -111,7 +111,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/classList',  (req, res) => {
-    //res.type('json');
+    res.type('json');
     var list=[];
     db.collection('classes', (err, collection) => {
         if (err) {
@@ -129,7 +129,8 @@ app.get('/classList',  (req, res) => {
                 }
             })*/
             collection.distinct('_id', {}, {}, (err, result)=>{
-                res.send(JSON.stringify(result))
+                //res.send(JSON.stringify({classes: result})
+                res.json({"classes": result})
             })
         }
     })
