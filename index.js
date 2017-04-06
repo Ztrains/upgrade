@@ -217,6 +217,16 @@ app.post('/updateProfile', (req,res)=>{
         console.log('Profile found =' + JSON.stringify(profile))
         var data = req.body;
         console.log('Full update request =' + JSON.stringify(data))
+
+        if (data.name) {
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"name":data.name}}
+            )
+        }
+
+        /*
+
         if (data.name) {
             users.update({'name': profile.name}, {$set: {'name': data.name}})
             console.log("name updated to: " + data.name)
@@ -248,7 +258,7 @@ app.post('/updateProfile', (req,res)=>{
         if (data.price) {
             users.update({'price': profile.price}, {$set: {'price': data.price}})
             console.log("price updated to: " + data.price)
-        }
+        }*/
 	});
     res.send("profile updated")
 })
