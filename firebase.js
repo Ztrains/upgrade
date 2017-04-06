@@ -34,10 +34,12 @@ module.exports.checkDevice = function(req, res) {
 		res.status(400).send("Bad Request: no regKey");
 	} else {
 		users.findOneAndUpdate({_id: req.user._id, "devices.regKey": req.body.regKey}, {$set: {"devices.$.date": new Date()}}, function(err, reg) {
+			console.log(reg);
 			if(err) {
+				console.log("firebase.checkDevice find error:");
 				console.log(err);
 				res.send("Database error");
-			} else if(reg) {
+			} else if(reg.value) {
 				res.send("Device key found");
 			} else {
 				res.send("Device key not found");

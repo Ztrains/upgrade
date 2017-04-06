@@ -90,6 +90,7 @@ app.post('/basic/test', basicAuth, function(req, res) {
 //registers a user in the user database
 app.post('/reg', function(req, res) {
 	users.findOne({email: req.body.email}, function(err, r) {
+		console.log(r);
 		if(err) {res.send("Database error");}
 		else if(r) {res.send("User exists"); return;}
 		var salt = bcrypt.genSaltSync(10);
