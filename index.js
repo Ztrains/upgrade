@@ -212,28 +212,28 @@ app.post('/updateProfile', (req,res)=>{
 		var data = req.body;
         console.log('Full update request =' + JSON.stringify(data))
         if (data.name) {
-            collection.update({'name': data.name})
+            users.update({'name': data.name})
         }
         if (data.email) {
-            collection.update({'email': data.email})
+            usersn.update({'email': data.email})
         }
         if (data.contact) {
-            collection.update({'name': data.contact})
+            users.update({'name': data.contact})
         }
         if (data.about) {
-            collection.update({'name': data.about})
+            users.update({'name': data.about})
         }
         if (data.tutor) {
-            collection.update({'name': data.tutor})
+            users.update({'name': data.tutor})
         }
         if (data.student) {
-            collection.update({'name': data.student})
+            users.update({'name': data.student})
         }
         if (data.time) {
-            collection.update({'name': data.time})
+            users.update({'name': data.time})
         }
         if (data.price) {
-            collection.update({'name': data.price})
+            users.update({'name': data.price})
         }
 	});
 })
