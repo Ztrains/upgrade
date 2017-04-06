@@ -20,8 +20,8 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 app.use(require('express-session')({ secret: 'This is a good secret', resave: false, saveUninitialized: false, cookie: {secure: false, maxAge: 3600000}}));
-app.use(auth.initialize());
-app.use(auth.session());
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(cookieParser());
 
 app.use(favicon(__dirname + '/docs/favicon.ico'));
@@ -49,7 +49,7 @@ var localAuth = auth.authenticate('local', {failureRedirect: '/login'});
 var basicAuth = auth.authenticate('basic', {session: false});
 
 //function logs in
-app.post('/login', auth.authenticate('local'),
+app.post('/login', passport.authenticate('local'),
   function(req, res) {
 	console.log('login successful');
 	if(!res.headersSent) {res.send('you have authenticated properly')};
