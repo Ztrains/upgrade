@@ -95,7 +95,7 @@ app.post('/reg', function(req, res) {
 		else if(r) {res.send("User exists"); return;}
 		var salt = bcrypt.genSaltSync(10);
 		var hash = bcrypt.hashSync(req.body.password, salt);
-		users.insertOne({email: req.body.email, hash: hash, rating:0}, function(err, r) {
+		users.insertOne({email: req.body.email, hash: hash}, function(err, r) {
 			if(err) {res.send("Database error");}
 			else {res.send("Success adding user");}
 
@@ -291,27 +291,6 @@ app.post('/studentsInClass', (req,res)=>{
             })
         }
     })
-
-    /*
-    db.collection('classes', (err, collection) => {
-        if (err) {
-            console.log('ERROR:', err);
-            res.redirect('/')
-        } else {
-            collection.update({
-                _id: req.params.class
-            }, {
-                $push: {
-                    students: {
-                        name: req.params.name,
-                        type: req.params.type
-                    }
-                }
-            })
-        }
-    })
-    */
-
 })
 
 app.post('/upvote', (req,res)=>{
@@ -340,6 +319,24 @@ app.post('/upvote', (req,res)=>{
         }
 	});
     res.send("rating updated")
+})
+
+app.post('setRecovery', (req,res)=>{
+    users.findOne({email: req.body.email}, function(err, profile) {
+        if (err) {
+            console.log("ERROR: " + err);
+            res.send(1);
+        }
+        //if (req.body.vote == 'up') {
+            users.findOneAndUpdate(
+                {"email":req.body.email},
+                { $set: {req.body.question:req.body.answer}}
+            )
+            console.log("Security question: " + req.body.question)
+            console.log("Question Answer: " + req.body.answer)
+        //}
+	});
+    res.send("recovery set")
 })
 
 http.listen(port, ()=>{
