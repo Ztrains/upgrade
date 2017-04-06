@@ -257,8 +257,8 @@ app.post('/studentsInClass', (req,res)=>{
                     res.redirect('/')
                 }
                 else {
-                    console.log("listofstudents= " + JSON.stringify(listofstudents));
-                    res.json({"classes": listofstudent})
+                    //console.log("listofstudents= " + JSON.stringify(listofstudents));
+                    res.send({"students": listofstudent})
                 }
             })
         }
