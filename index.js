@@ -244,7 +244,7 @@ app.post('/updateProfile', (req,res)=>{
 })
 
 app.post('/studentsInClass', (req,res)=>{
-    res.type('json')
+    //res.type('json')
     db.collection('classes', (err, collection)=>{
         if (err) {
             console.log('ERROR:', err);
@@ -263,6 +263,27 @@ app.post('/studentsInClass', (req,res)=>{
             })
         }
     })
+
+    /*
+    db.collection('classes', (err, collection) => {
+        if (err) {
+            console.log('ERROR:', err);
+            res.redirect('/')
+        } else {
+            collection.update({
+                _id: req.params.class
+            }, {
+                $push: {
+                    students: {
+                        name: req.params.name,
+                        type: req.params.type
+                    }
+                }
+            })
+        }
+    })
+    */
+
 })
 
 http.listen(port, ()=>{
