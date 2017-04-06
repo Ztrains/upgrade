@@ -327,10 +327,11 @@ app.post('setRecovery', (req,res)=>{
             console.log("ERROR: " + err);
             res.send(1);
         }
+        var data = req.body
         //if (req.body.vote == 'up') {
             users.findOneAndUpdate(
                 {"email":req.body.email},
-                { $set: {req.body.question:req.body.answer}}
+                { $set: {"question":req.body.question, "answer":req.body.answer}}
             )
             console.log("Security question: " + req.body.question)
             console.log("Question Answer: " + req.body.answer)
