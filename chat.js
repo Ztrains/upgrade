@@ -78,7 +78,8 @@ module.exports.getMessages = function (req, res) {
 			//console.log(chat);	chat never defined
 			res.status(403).send("Chat doesn't exist or you are not a member of the chat");
 		} else {
-			res.json({messages: result.messages.slice(Math.max(result.messages.length - req.body.num, 1))});
+			res.json({messages:result.messages})
+			//res.json({messages: result.messages.slice(Math.max(result.messages.length - req.body.num, 1))});
 		}
 	});
 
