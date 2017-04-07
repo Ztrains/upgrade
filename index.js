@@ -243,12 +243,12 @@ app.post('/joinClass', (req,res)=>{
             res.redirect('/')
         } else {
             collection.update({
-                _id: req.className
+                _id: req.body.className
             }, {
                 $push: {
                     students: {
                         name: req.user.name,
-                        type: req.type
+                        type: req.body.type
                     }
                 }
             })
