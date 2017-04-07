@@ -43,6 +43,8 @@ namespace UpgradeApp
 			submitButton.Click += (object sender, EventArgs e) =>
             {
 				// Talk to server and return to main page
+				Toast toast = Toast.MakeText(this, "Password has been reset.  Check your email.", ToastLength.Short);
+				toast.Show();
 				HTTPHandler.checkRecoveryAnswer(email.Text, recoveryAnswer.Text);
                 var intent = new Android.Content.Intent(this, typeof(MainActivity));
                 StartActivity(intent);
