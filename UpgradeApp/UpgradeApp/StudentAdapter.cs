@@ -27,11 +27,11 @@ namespace UpgradeApp
         }
         public override string this[int position]
         {
-            get { return items[position]; }
+            get { return students[position].name; }
         }
         public override int Count
         {
-            get { return items.Length; }
+            get { return students.Length; }
         }
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
@@ -41,8 +41,8 @@ namespace UpgradeApp
                 view = context.LayoutInflater.Inflate(Android.Resource.Layout.TwoLineListItem, null);
 
             }
-            view.FindViewById<TextView>(Android.Resource.Id.Text1).Text = students.students[position];
-            view.FindViewById<TextView>(Android.Resource.Id.Text2).Text = items[position++];
+            view.FindViewById<TextView>(Android.Resource.Id.Text1).Text = students[position].name;
+            view.FindViewById<TextView>(Android.Resource.Id.Text2).Text = students[position].type;
             return view;
         }
     }
