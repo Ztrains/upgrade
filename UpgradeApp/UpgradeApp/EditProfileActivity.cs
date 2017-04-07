@@ -89,6 +89,7 @@ namespace UpgradeApp {
 
                 var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
                 intent.PutExtra("name", newName);
+				intent.PutExtra("studentName", newName);
                 intent.PutExtra("email", newEmail);
                 intent.PutExtra("contact", newContact);
 				intent.PutExtra("about", newAbout);
