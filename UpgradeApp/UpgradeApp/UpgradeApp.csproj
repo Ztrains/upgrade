@@ -150,10 +150,7 @@
     <Compile Include="HTTPHandler.cs" />
     <Compile Include="LoginActivity.cs" />
     <Compile Include="MainActivity.cs" />
-<<<<<<< HEAD
-=======
     <Compile Include="PasswordRecoverSet.cs" />
->>>>>>> 6c71f9f8acfdfb99c1ad06c97d7d342c977439fa
     <Compile Include="ProfileActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -172,24 +169,16 @@
     <AndroidResource Include="Resources\layout\ClassesScreen.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-<<<<<<< HEAD
-=======
     <AndroidResource Include="Resources\layout\PasswordRecoverySet.axml" />
->>>>>>> 6c71f9f8acfdfb99c1ad06c97d7d342c977439fa
     <AndroidResource Include="Resources\layout\listOfStudents.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\messaging.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-<<<<<<< HEAD
-    <AndroidResource Include="Resources\layout\PasswordRecoverySet.axml" />
-    <AndroidResource Include="Resources\layout\PasswordRecoveryUseScreen.axml" />
-=======
     <AndroidResource Include="Resources\layout\PasswordRecoveryUseScreen.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
->>>>>>> 6c71f9f8acfdfb99c1ad06c97d7d342c977439fa
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Login.axml">
