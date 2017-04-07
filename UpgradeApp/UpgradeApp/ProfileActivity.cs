@@ -109,7 +109,13 @@ namespace UpgradeApp {
 				toast.Show();
 			};
 
-			
+			rateButton.Click += (Sender, e) => {
+				HTTPHandler.startAChat(p._id);
+				//var intent = new Android.Content.Intent(this, typeof(EditProfileActivity));
+				//StartActivity(intent);
+			};
+
+
 
 
 		}
