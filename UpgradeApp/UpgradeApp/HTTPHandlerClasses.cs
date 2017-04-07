@@ -64,8 +64,9 @@ namespace UpgradeApp {
 	}
 
 	public class SendUpvote {
+		public string name;
 		public string email;
-		public string vote; // has to be up or down
+		public string vote; // has to be "up" or "down"
 	}
 
 	public class WhichProfile {
@@ -79,4 +80,18 @@ namespace UpgradeApp {
 	public class WhichClass {
 		public string className;
 	}
+
+	public class ChatID {
+		public string chatID;
+	}
+
+	public class MessageInfo {
+		public string chatID;
+		public string message;
+	}
+
+	public class UserID {
+		public string dm_user;
+	}
+
 }
