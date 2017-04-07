@@ -68,7 +68,7 @@ namespace UpgradeApp {
             tutorButton.Click += (sender, e) =>
             {
                 var intent = new Android.Content.Intent(this, typeof(classPickerActivity));
-                
+                intent.PutExtra("tutor", true);
                 StartActivity(intent);
             };
 
@@ -81,7 +81,8 @@ namespace UpgradeApp {
 				string newAbout = aboutEditText.Text;
 				string freeTime = freeTimeTextView.Text;
 				string prices = pricesEditText.Text;
-                string studentClasses = Intent.GetStringExtra("classes");
+                string studentClasses = Intent.GetStringExtra("studyClasses");
+                string tutorClasses = Intent.GetStringExtra("tutorClasses");
                 // Send server the changes
                 // Needs to have other fields fixed
                 HTTPHandler.updateProfile(newName, newEmail, newContact, newAbout, null, null, freeTime, prices);
@@ -96,6 +97,7 @@ namespace UpgradeApp {
                 intent.PutExtra("freeTime", freeTime);
                 intent.PutExtra("prices", prices);
                 intent.PutExtra("studentClasses", studentClasses);
+                intent.PutExtra("tutorClasses", tutorClasses);
                 StartActivity(intent);
             };
 
