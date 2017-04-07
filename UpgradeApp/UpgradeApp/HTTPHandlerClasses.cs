@@ -47,7 +47,7 @@ namespace UpgradeApp {
 		public string[] classesTutor;
 		public string[] classesStudent;
 		public string time;
-		public string prices;
+		public string price;
 	};
 
 	public class ClassList {
@@ -70,6 +70,10 @@ namespace UpgradeApp {
 
 	public class WhichProfile {
 		public string email;
+	}
+
+	public class WhichStudent {
+		public string name;
 	}
 
 	public class WhichClass {

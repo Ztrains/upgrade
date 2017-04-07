@@ -42,6 +42,7 @@ namespace UpgradeApp
 					HTTPHandler.emailLoggedIn = userEmail.Text;
 					// Change screen
 					var intent = new Android.Content.Intent(this, typeof(PasswordRecoverSet));
+					intent.PutExtra("email", userEmail.Text);
 					StartActivity(intent);
 				}
 				else if (status == -2) {

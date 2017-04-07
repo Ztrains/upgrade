@@ -19,8 +19,9 @@ namespace UpgradeApp
         {
             base.OnCreate(savedInstanceState);
 
+			SetContentView(Resource.Layout.PasswordRecoveryUseScreen);
 
-            ImageView upgradeLogo = FindViewById<ImageView>(Resource.Id.upgradeLogo);
+			ImageView upgradeLogo = FindViewById<ImageView>(Resource.Id.upgradeLogo);
             TextView recoveryQuestion = FindViewById<TextView>(Resource.Id.RecoveryQuestion);
             EditText recoveryAnswer = FindViewById<EditText>(Resource.Id.recoverAnswer);
             Button submitButton = FindViewById<Button>(Resource.Id.submitButton);
@@ -31,16 +32,34 @@ namespace UpgradeApp
             
 			//recoveryQuestion.SetText(some string)
 
-            SetContentView(Resource.Layout.PasswordRecoveryUseScreen);
+            
 
+			submitButton.Enabled = false;
+			recoveryAnswer.Enabled = false;
+			recoveryQuestion.Enabled = false;
 
-            submitButton.Click += (object sender, EventArgs e) =>
+			
+
+			submitButton.Click += (object sender, EventArgs e) =>
             {
-                 
-                // Return to login page
+				// Talk to server and return to main page
+				HTTPHandler.checkRecoveryAnswer(email.Text, recoveryAnswer.Text);
                 var intent = new Android.Content.Intent(this, typeof(MainActivity));
                 StartActivity(intent);
             };
-        }
+
+			submitEmailButton.Click += (object sender, EventArgs e) => {
+				// Update w/ question
+				email.Enabled = false;
+				submitEmailButton.Enabled = false;
+				submitButton.Enabled = true;
+				recoveryQuestion.Enabled = true;
+				recoveryAnswer.Enabled = true;
+				Toast toast = Toast.MakeText(this, "Retrieving question...", ToastLength.Short);
+				toast.Show();
+				Question q = HTTPHandler.getRecoveryQuestion(email.Text);
+				recoveryQuestion.Text = q.question;
+			};
+		}
     }
 }
