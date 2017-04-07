@@ -24,6 +24,7 @@ namespace UpgradeApp
             TextView recoveryQuestion = FindViewById<TextView>(Resource.Id.RecoveryQuestion);
             EditText recoveryAnswer = FindViewById<EditText>(Resource.Id.recoverAnswer);
             Button submitButton = FindViewById<Button>(Resource.Id.submitButton);
+            EditText email = FindViewById<EditText>(Resource.Id.email);
 
             //Add some HTTP handler to get the question and set the TextView recvoeryQuestion 
             

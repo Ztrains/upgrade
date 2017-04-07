@@ -136,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountCreationActivity.cs" />
+    <Compile Include="classPickerAdapter.cs" />
     <Compile Include="PasswordRecoveryUse.cs" />
     <Compile Include="chatClass.cs" />
     <Compile Include="messageAdapter.cs" />
@@ -175,6 +176,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\PasswordRecoveryUseScreen.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\classPickerScreen.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

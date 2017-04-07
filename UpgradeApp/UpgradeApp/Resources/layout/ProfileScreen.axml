@@ -177,5 +177,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/classButton"
-        android:layout_marginTop="150dp" />
+        android:layout_marginTop="125dp" />
 </LinearLayout>
