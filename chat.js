@@ -106,17 +106,17 @@ module.exports.startDM = function(req, res) {
 			res.send("Could not find user");
 			return;
 		}
-		chats.findOne({isDM: true, "members.user": user._id}, function(err, chat) {
+		chats.findOne({$and [{isDM: true, "members.user": user._id}, {isDM: true, "members.user": req.user._id}]}, function(err, chat) {
 			if(err) {
 				console.log("chat.startDM database error");
 				res.status(500).send("Database error occured!");
 				return;
 			}
-			/*if(chat) {
+			if(chat) {
 				console.log("Error: Tried to create exisiting dm");
 				res.send("Chat exists");
 				return;
-			}*/
+			}
 			chats.insertOne({isDM: true, members: [{user: req.user._id, muted: false}, {user: user._id, muted: false}], messageCount: 0}, function(err, result) {
 				if(err) {
 					console.log("chat.startDM database error");
