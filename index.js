@@ -382,14 +382,12 @@ app.post('/setRecovery', (req,res)=>{
 })
 
 app.post('/getQuestion', (req,res)=>{
-    var cursor = users.findOne({email: req.body.email});
+    var cursor = users.findOne({"email": req.body.email}, {"question":1});
         if (!cursor) {
             res.send("Email does not exist")
         }
         console.log("found cursor")
-        console.log("name: " + cursor[0])
-        console.log("sending question: " + cursor.question)
-        res.json(cursor.question)
+        res.json(cursor)
     //res.send("recovery set")
 })
 
