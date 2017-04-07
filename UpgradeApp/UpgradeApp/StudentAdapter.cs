@@ -14,12 +14,12 @@ namespace UpgradeApp
 {
     public class StudentAdapter : BaseAdapter<string>
     {
-        string[] items;
+        Student students;
         Activity context;
-        public StudentAdapter(Activity context, string[] items) : base()
+        public StudentAdapter(Activity context, Student students) : base()
         {
             this.context = context;
-            this.items = items;
+            this.students = students;
         }
         public override long GetItemId(int position)
         {
@@ -38,10 +38,11 @@ namespace UpgradeApp
             View view = convertView;
             if (view == null)
             {
-                view = context.LayoutInflater.Inflate(Android.Resource.Layout.SimpleListItem1, null);
+                view = context.LayoutInflater.Inflate(Android.Resource.Layout.TwoLineListItem, null);
 
             }
-            view.FindViewById<TextView>(Android.Resource.Id.Text1).Text = items[position];
+            view.FindViewById<TextView>(Android.Resource.Id.Text1).Text = students.students[position];
+            view.FindViewById<TextView>(Android.Resource.Id.Text2).Text = items[position++];
             return view;
         }
     }

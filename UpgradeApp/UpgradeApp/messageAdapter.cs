@@ -3,6 +3,8 @@ using Android.App;
 using Android.Content.Res;
 using Android.Views;
 using Android.Widget;
+using System;
+using System.Collections;
 
 namespace UpgradeApp
 {
@@ -10,10 +12,11 @@ namespace UpgradeApp
     {
         string[] items;
         Activity context;
-        public messageAdapter(Activity context, string[] items) : base()
+        ArrayList chatList;
+        public messageAdapter(Activity context, ArrayList chatList) : base()
         {
             this.context = context;
-            this.items = items;
+            this.chatList = chatList;
         }
         public override long GetItemId(int position)
         {
@@ -29,7 +32,7 @@ namespace UpgradeApp
         }
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
-            chatClass chatObject = (chatClass)GetItem(position);
+            chatClass chatObject = (chatClass)chatList[position];
             View view = convertView;
             if (view == null)
             {
@@ -37,6 +40,7 @@ namespace UpgradeApp
 
             }
             TextView message = (TextView)view.FindViewById(Resource.Id.message_text);
+            //message.SetText();
             
             return view;
         }
