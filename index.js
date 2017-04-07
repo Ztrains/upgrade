@@ -279,7 +279,7 @@ app.post('/leaveClass', (req,res)=>{
             })
         }
     })
-    res.send("added " + req.user.name + " as a " + req.body.type + " to class " + req.body.className)
+    res.send("removed " + req.user.name + " as a " + req.body.type + " from class " + req.body.className)
 })
 
 app.post('/retrieveProfile', (req, res)=>{
@@ -408,14 +408,14 @@ app.post('/upvote', (req,res)=>{
         }
         if (req.body.vote == 'up') {
             users.findOneAndUpdate(
-                {"email":req.body.email},
+                {"name":req.body.name},
                 { $inc: {"rating":1}}
             )
             console.log("rating raised by 1")
         }
         else if (req.body.vote == 'down') {
             users.findOneAndUpdate(
-                {"email":req.body.email},
+                {"name":req.body.name},
                 { $inc: {"rating":-1}}
             )
             console.log("rating lowered by 1")
