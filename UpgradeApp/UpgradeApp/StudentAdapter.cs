@@ -14,9 +14,9 @@ namespace UpgradeApp
 {
     public class StudentAdapter : BaseAdapter<string>
     {
-        Student students;
+        Student[] students;
         Activity context;
-        public StudentAdapter(Activity context, Student students) : base()
+        public StudentAdapter(Activity context, Student[] students) : base()
         {
             this.context = context;
             this.students = students;
