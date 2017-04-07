@@ -20,6 +20,8 @@ namespace UpgradeApp
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.messaging);
+			string cid = Intent.GetStringExtra("cid");
+			HTTPHandler.getMessages(cid);
 
             // Create your application here
         }
