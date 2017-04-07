@@ -26,11 +26,13 @@ namespace UpgradeApp
 
             submit.Click += (object sender, EventArgs e) =>
             {
-				// Ask server to send recovery email
+				// Call server function to set the recovery
+				HTTPHandler.setRecovery(question.Text, answer.Text);
 				
-				// Return to login page
-				var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
-                StartActivity(intent);
+				// Continue to profile setup
+				var intent = new Android.Content.Intent(this, typeof(EditProfileActivity));
+				intent.PutExtra("email", Intent.GetStringExtra("email"));
+				StartActivity(intent);
             };
         }
     }
