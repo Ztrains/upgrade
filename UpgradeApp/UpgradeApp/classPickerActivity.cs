@@ -35,13 +35,21 @@ namespace UpgradeApp
             list.ItemClick += ListView_ItemClick;
             list.ChoiceMode = ChoiceMode.Multiple;
             classes = HTTPHandler.classListRequest();
+            //Trying to fix errors
             
 
             submit.Click += (object sender, EventArgs e) =>
             {
                 var intent = new Android.Content.Intent(this, typeof(EditProfileActivity));
                 string returnString = string.Join(" ", returner);
-                intent.PutExtra("classes", returnString);
+                if (Intent.GetBooleanExtra("study", true))
+                {
+                    intent.PutExtra("studyClasses", returnString);
+                }
+                else
+                {
+                    intent.PutExtra("tutorClasses", returnString);
+                }
                 StartActivity(intent);
             };
 

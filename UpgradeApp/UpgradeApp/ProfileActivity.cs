@@ -62,6 +62,9 @@ namespace UpgradeApp {
             {
                 iNeedATutorTextView.Text = Intent.GetStringExtra("studentClasses");
             }
+            if(Intent.GetStringExtra("tutorClasses") != null) {
+                iTutorTextView.Text = Intent.GetStringExtra("tutorClasses");
+            }
 			/*if (Intent.GetStringExtra("email") != null) {
 				emailTextView.Text = Intent.GetStringExtra("email");
 			}
@@ -110,9 +113,10 @@ namespace UpgradeApp {
 			};
 
 			rateButton.Click += (Sender, e) => {
-				HTTPHandler.startAChat(p._id);
-				//var intent = new Android.Content.Intent(this, typeof(EditProfileActivity));
-				//StartActivity(intent);
+				ChatID cid = HTTPHandler.startAChat(p._id);
+				var intent = new Android.Content.Intent(this, typeof(messagingActivity));
+				intent.PutExtra("cid", cid.chatID);
+				StartActivity(intent);
 			};
 
 
