@@ -6,6 +6,7 @@ const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const LocalStrategy = require('passport-local').Strategy;
 const BasicStrategy = require('passport-http').BasicStrategy;
+const objectID = require('mongodb').ObjectID
 var users; //users collection
 
 passport.use(new LocalStrategy({usernameField: "email"},
@@ -33,7 +34,9 @@ passport.serializeUser(function(user, cb) {
 });
 
 passport.deserializeUser(function(id, cb) {
-    	users.findOne( {_id: id}, function(err, user) {
+		console.log("deserialize function");
+		console.log(id);
+    	users.findOne( {_id: new objectID(id)}, function(err, user) {
     		if(err) { return cb(err);}
     		if(!user) {return cb(null, false); }
     		cb(null, user);
