@@ -136,22 +136,39 @@ namespace UpgradeApp {
 			else return -1;	
 		}
 
-		public static void recoverPassword(string email) {
-			var client = new RestClient(); // needs url
-			var request = new RestRequest(Method.GET);
+		public static void setRecovery(string question, string answer) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/setRecovery"); 
+			var request = new RestRequest(Method.POST);
 
-			EmailRecovery er = new EmailRecovery();
-			er.email = email;
+			RecoveryInfo ri = new RecoveryInfo();
+			ri.email = emailLoggedIn;
+			ri.question = question;
+			ri.answer = answer;
+			request.AddJsonBody(ri);
 
 			IRestResponse response = client.Execute(request);
 		}
 
-		public static void checkPasswordResetCode(string code) {
-			var client = new RestClient(); // needs url
-			var request = new RestRequest(Method.GET);
+		public static Question getRecoveryQuestion(string email) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/getQuestion");
+			var request = new RestRequest(Method.POST);
 
-			ResetCode resetCode = new ResetCode();
-			resetCode.code = code;
+			WhichProfile wp = new WhichProfile();
+			wp.email = email;
+			request.AddJsonBody(wp);
+			IRestResponse response = client.Execute(request);
+			Question question = JsonConvert.DeserializeObject<Question>(response.Content);
+			return question;
+		}
+
+		public static void checkRecoveryAnswer(string email, string answer) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/setRecovery");
+			var request = new RestRequest(Method.POST);
+
+			RecoveryInfo ri = new RecoveryInfo();
+			ri.email = emailLoggedIn;
+			ri.answer = answer;
+			request.AddJsonBody(ri);
 
 			IRestResponse response = client.Execute(request);
 		}

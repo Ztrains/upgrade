@@ -15,12 +15,14 @@ namespace UpgradeApp {
 		public string pass;
 	}
 
-	public class EmailRecovery {
+	public class RecoveryInfo {
 		public string email;
+		public string question;
+		public string answer;
 	}
 
-	public class ResetCode {
-		public string code;
+	public class Question {
+		public string question;
 	}
 
 	public class Account {

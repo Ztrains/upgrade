@@ -39,7 +39,7 @@ namespace UpgradeApp
 		public void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e) {
 
 			// Send the student name to the new screen
-			var intent = new Android.Content.Intent(this, typeof(StudentListActivity));
+			var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
 			intent.PutExtra("studentName", students.students[e.Position].name); //students.students[e.Position]
 			StartActivity(intent);
 

@@ -140,8 +140,6 @@
     <Compile Include="chatClass.cs" />
     <Compile Include="messageAdapter.cs" />
     <Compile Include="HTTPHandlerClasses.cs" />
-    <Compile Include="PasswordRecoverSet.cs" />
-    <Compile Include="PasswordRecoveryUse.cs" />
     <Compile Include="StudentAdapter.cs" />
     <Compile Include="StudentListActivity.cs" />
     <Compile Include="ClassListActivity.cs" />
