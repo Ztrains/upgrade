@@ -13,12 +13,12 @@ using Android.Widget;
 namespace UpgradeApp
 {
     [Activity(Label = "Activity1")]
-    public class PasswordRecover : Activity
+    public class PasswordRecoverSet : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.PasswordRecovery);
+            SetContentView(Resource.Layout.PasswordRecoverySet);
 
             EditText userEmail = FindViewById<EditText>(Resource.Id.userEmail);
             Button submit = FindViewById<Button>(Resource.Id.submitButton);
@@ -28,7 +28,7 @@ namespace UpgradeApp
 				// Ask server to send recovery email
 				HTTPHandler.recoverPassword(userEmail.Text);
 				// Return to login page
-				var intent = new Android.Content.Intent(this, typeof(MainActivity));
+				var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
                 StartActivity(intent);
             };
         }

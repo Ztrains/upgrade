@@ -136,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountCreationActivity.cs" />
+    <Compile Include="PasswordRecoveryUse.cs" />
     <Compile Include="chatClass.cs" />
     <Compile Include="messageAdapter.cs" />
     <Compile Include="HTTPHandlerClasses.cs" />
@@ -147,7 +148,7 @@
     <Compile Include="HTTPHandler.cs" />
     <Compile Include="LoginActivity.cs" />
     <Compile Include="MainActivity.cs" />
-    <Compile Include="PasswordRecover.cs" />
+    <Compile Include="PasswordRecoverSet.cs" />
     <Compile Include="ProfileActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -166,11 +167,14 @@
     <AndroidResource Include="Resources\layout\ClassesScreen.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\PasswordRecovery.axml" />
+    <AndroidResource Include="Resources\layout\PasswordRecoverySet.axml" />
     <AndroidResource Include="Resources\layout\listOfStudents.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\messaging.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\PasswordRecoveryUseScreen.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

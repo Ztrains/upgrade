@@ -41,7 +41,7 @@ namespace UpgradeApp
 					status = HTTPHandler.loginRequest(userEmail.Text, userPassword.Text);
 					HTTPHandler.emailLoggedIn = userEmail.Text;
 					// Change screen
-					var intent = new Android.Content.Intent(this, typeof(EditProfileActivity));
+					var intent = new Android.Content.Intent(this, typeof(PasswordRecoverSet));
 					StartActivity(intent);
 				}
 				else if (status == -2) {
