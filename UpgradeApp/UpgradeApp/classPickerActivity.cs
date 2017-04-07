@@ -35,6 +35,7 @@ namespace UpgradeApp
             list.ItemClick += ListView_ItemClick;
             list.ChoiceMode = ChoiceMode.Multiple;
             classes = HTTPHandler.classListRequest();
+            //Trying to fix errors
             
 
             submit.Click += (object sender, EventArgs e) =>
