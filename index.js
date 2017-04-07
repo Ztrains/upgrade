@@ -142,7 +142,7 @@ app.post('/dms/get', function(req, res) {
 		res.status(401).send("Not logged in");
 		return;
 	}
-	chat.getDms(req, res);
+	chat.getMessages(req, res);
 });
 app.post('/basic/dms/get', basicAuth, function(req, res) {
 	chat.getDms(req, res);
@@ -402,6 +402,10 @@ app.post('/doRecovery', (req,res)=>{
         if (req.body.answer == ans) {
             console.log("updating password happens here")
             res.send("Password change successful")
+        }
+        else {
+            console.log("wrong answer sent")
+            res.send("Incorrect answer")
         }
 	});
 })
