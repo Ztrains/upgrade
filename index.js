@@ -295,7 +295,7 @@ app.post('/retrieveProfile', (req, res)=>{
 })
 
 //call this one right after login
-app.get('/retrieveProfile', (req,res)=>{
+app.post('/retrieveLogin', (req,res)=>{
     //console.log('login profile name: ' + req.body.name)
     console.log('login profile email: ' + req.body.email)
     users.findOne({email: req.body.email}, function(err, profile) {
