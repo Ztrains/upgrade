@@ -40,7 +40,7 @@ namespace UpgradeApp
 
 			// Send the student name to the new screen
 			var intent = new Android.Content.Intent(this, typeof(StudentListActivity));
-			intent.PutExtra("studentName", students.students[e.Position]); //students.students[e.Position]
+			intent.PutExtra("studentName", students.students[e.Position].name); //students.students[e.Position]
 			StartActivity(intent);
 
 			/*if (items[e.Position] == "Bob Ross") {

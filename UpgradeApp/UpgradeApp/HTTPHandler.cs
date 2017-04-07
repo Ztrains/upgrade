@@ -22,7 +22,6 @@ namespace UpgradeApp {
 		// TODO Profile Visibility 
 
 
-
 		/*static void Main(string[] args) {
 			MainAsync().GetAwaiter().GetResult();
 		}
@@ -79,10 +78,6 @@ namespace UpgradeApp {
 			}
 		}
 		*/
-
-
-
-
 
 
 
@@ -183,13 +178,15 @@ namespace UpgradeApp {
 		}
 
 		public static StudentList studentListRequest(string classToList) {
-			var client = new RestClient(); // needs url
-			var request = new RestRequest(Method.GET);
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/studentsInClass"); 
+			var request = new RestRequest(Method.POST);
 			WhichClass wc = new WhichClass();
 			wc.className = classToList;
 			request.AddJsonBody(wc);
 
 			IRestResponse response = client.Execute(request);
+			Debug.WriteLine("\n\n\n\n\n\n\n\n\n\n\n a a a a a a a a a a a a a a a a a a \n\n\n\n\n\n\n\n\n\n");
+			Debug.WriteLine(response.Content);
 
 			StudentList students = JsonConvert.DeserializeObject<StudentList>(response.Content);
 			return students;
@@ -231,14 +228,14 @@ namespace UpgradeApp {
 
 			IRestResponse response = client.Execute(request);
 			
-			Debug.WriteLine("THIS IS WHERE THE ERROR ERRORS\n\n\n");
-			Debug.WriteLine(response.Content);
+			//Debug.WriteLine("THIS IS WHERE THE ERROR ERRORS\n\n\n");
+			//Debug.WriteLine(response.Content);
 			Profile profile = JsonConvert.DeserializeObject<Profile>(response.Content);
 			return profile;
 		}
 
 		public static void upvoteProfile() {
-			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/retrieveProfile");
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/");
 			var request = new RestRequest(Method.GET);
 
 			IRestResponse response = client.Execute(request);
