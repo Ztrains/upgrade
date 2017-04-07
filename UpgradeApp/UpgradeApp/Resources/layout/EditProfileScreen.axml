@@ -56,6 +56,11 @@
         android:id="@+id/ITutorLabelTextView"
         android:textSize="20dp"
         android:paddingTop="16dp" />
+    <Button
+        android:text="Edit Classes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tutorButton" />
     <TextView
         android:text="Classes I want to study:"
         android:layout_width="match_parent"
@@ -63,6 +68,11 @@
         android:id="@+id/IWantToStudyTextView"
         android:textSize="20dp"
         android:paddingTop="16dp" />
+    <Button
+        android:text="Edit Classes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/studyButton" />
     <TextView
         android:text="Time I'm free to study:"
         android:layout_width="match_parent"

@@ -42,7 +42,12 @@ namespace UpgradeApp {
             Button classListView = FindViewById<Button>(Resource.Id.classButton);
 
 			// Get profile information from the server
-			Profile p = HTTPHandler.getProfile(Intent.GetStringExtra("email"));
+			Profile p;
+			if (Intent.GetStringExtra("studentName") != null)
+				p = HTTPHandler.getProfileByName(Intent.GetStringExtra("studentName"));
+			else {
+				p = HTTPHandler.getProfile(Intent.GetStringExtra("email"));
+			}
 			nameTextView.Text = p.name;
 			emailTextView.Text = p.email;
 			ratingTextView.Text = p.rating.ToString();
@@ -50,7 +55,7 @@ namespace UpgradeApp {
 			//iTutorTextView.Text
 			//iNeedATutorTextView.Text
 			availabilityTextView.Text = p.time;
-			pricesTextView.Text = p.prices;
+			pricesTextView.Text = p.price;
 			
 
             /*if(Intent.GetStringExtra("name") != null)

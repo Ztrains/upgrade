@@ -157,7 +157,7 @@ namespace UpgradeApp {
 			wp.email = email;
 			request.AddJsonBody(wp);
 			IRestResponse response = client.Execute(request);
-			Question question = JsonConvert.DeserializeObject<Question>(response.Content);
+			Question question = JsonConvert.DeserializeObject<Question>(response.Content); // Broken
 			return question;
 		}
 
@@ -212,8 +212,8 @@ namespace UpgradeApp {
 
 		public static void updateProfile(string name, string email, string contact, string about, 
 			string[] classesTutor, string[] classesStudent, string time, string prices) {
-			var client = new RestClient(); // needs url
-			var request = new RestRequest(Method.GET);
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/updateProfile"); 
+			var request = new RestRequest(Method.POST);
 
 			Profile profile = new Profile();
 			profile.name = name;
@@ -229,7 +229,7 @@ namespace UpgradeApp {
 			//profile.classesTutor = classesTutor;
 			//profile.classesStudent = classesStudent;
 			profile.time = time;
-			profile.prices = prices;
+			profile.price = prices;
 
 			request.AddJsonBody(profile);
 
@@ -248,6 +248,20 @@ namespace UpgradeApp {
 			
 			//Debug.WriteLine("THIS IS WHERE THE ERROR ERRORS\n\n\n");
 			//Debug.WriteLine(response.Content);
+			Profile profile = JsonConvert.DeserializeObject<Profile>(response.Content);
+			return profile;
+		}
+
+		public static Profile getProfileByName(string name) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/retrieveProfile");
+			var request = new RestRequest(Method.POST);
+
+			WhichStudent ws = new WhichStudent();
+			ws.name = name;
+			request.AddJsonBody(ws);
+
+			IRestResponse response = client.Execute(request);
+			
 			Profile profile = JsonConvert.DeserializeObject<Profile>(response.Content);
 			return profile;
 		}

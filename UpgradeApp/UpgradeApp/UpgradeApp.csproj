@@ -136,11 +136,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountCreationActivity.cs" />
-    <Compile Include="classPickerAdapter.cs" />
+    <Compile Include="pickAdapter.cs" />
     <Compile Include="PasswordRecoveryUse.cs" />
     <Compile Include="chatClass.cs" />
     <Compile Include="messageAdapter.cs" />
     <Compile Include="HTTPHandlerClasses.cs" />
+    <Compile Include="classPickerActivity.cs" />
     <Compile Include="StudentAdapter.cs" />
     <Compile Include="StudentListActivity.cs" />
     <Compile Include="ClassListActivity.cs" />
