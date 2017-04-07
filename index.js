@@ -386,7 +386,6 @@ app.post('/getQuestion', (req,res)=>{
         if (err) {
             res.send("Email does not exist")
         }
-        ret = ret[0];
         console.log('sending question: ' + ret )
         res.json(ret)
 	});
