@@ -19,12 +19,15 @@ namespace UpgradeApp
         {
             base.OnCreate(savedInstanceState);
 
-
             ImageView upgradeLogo = FindViewById<ImageView>(Resource.Id.upgradeLogo);
             TextView recoveryQuestion = FindViewById<TextView>(Resource.Id.RecoveryQuestion);
             EditText recoveryAnswer = FindViewById<EditText>(Resource.Id.recoverAnswer);
             Button submitButton = FindViewById<Button>(Resource.Id.submitButton);
             EditText email = FindViewById<EditText>(Resource.Id.email);
+
+			submitButton.Enabled = false;
+			recoveryAnswer.Enabled = false;
+			recoveryQuestion.Enabled = false;
 
             //Add some HTTP handler to get the question and set the TextView recvoeryQuestion 
             
