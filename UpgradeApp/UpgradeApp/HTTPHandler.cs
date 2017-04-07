@@ -108,6 +108,12 @@ namespace UpgradeApp {
 			else return -1;
 		}
 
+		public static void testLogin() {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/testlogin");
+			var request = new RestRequest(Method.POST);
+			IRestResponse r = client.Execute(request);
+		}
+
 		// current login function
 		public static int loginRequest(string email, string password) {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/login");
@@ -237,7 +243,7 @@ namespace UpgradeApp {
 		}
 
 		public static Profile getProfile(string email) {
-			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/retrieveProfile");
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/retrieveLogin");
 			var request = new RestRequest(Method.POST);
 
 			WhichProfile wp = new WhichProfile();
@@ -266,13 +272,17 @@ namespace UpgradeApp {
 			return profile;
 		}
 
-		public static void upvoteProfile() {
+		public static void upvoteProfile(string name) {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/upvote");
-			var request = new RestRequest(Method.GET);
+			var request = new RestRequest(Method.POST);
 			SendUpvote su = new SendUpvote();
+			su.name = name;
 			su.email = emailLoggedIn;
 			su.vote = "up";
 			request.AddJsonBody(su);
+			//WhichStudent ws = new WhichStudent();
+			//ws.name = name;
+			//request.AddJsonBody(ws);
 
 			IRestResponse response = client.Execute(request);
 		}
@@ -298,13 +308,41 @@ namespace UpgradeApp {
 			IRestResponse response = client.Execute(request);
 		}
 
+		// Messaging functions
+		public static void startAChat() {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/dms/start");
+			var request = new RestRequest(Method.POST);
+			
+
+			IRestResponse response = client.Execute(request);
+		}
+
+		public static void getMessages() {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/chat/dms/get");
+			var request = new RestRequest(Method.POST);
+			
+
+			IRestResponse response = client.Execute(request);
+		}
+
+		public static void sendMessage() {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/chat/sendMessage");
+			var request = new RestRequest(Method.POST);
+			SendUpvote su = new SendUpvote();
+			
+
+			IRestResponse response = client.Execute(request);
+		}
 
 
 
 
-		// Are we still going to use these?  I'm not sure
-		// I could make a bunch of individual calls to every field, but I'd like to avoid that if possible :S
 
+
+
+
+		// Deprecated
+		/*
 		public static void changeEmail(string email) {
 			string url = "https://calm-chamber-49049.herokuapp.com/email/";
 			url += email;
@@ -322,14 +360,15 @@ namespace UpgradeApp {
 			IRestResponse response = client.Execute(request);
 			//
 		}
+		*/
 
 
 
 
 
-		
-		
-		
+
+
+
 
 
 

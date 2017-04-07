@@ -54,6 +54,7 @@ namespace UpgradeApp {
 				toast.Show();
 				// Send information to the server
 				int status = HTTPHandler.loginRequest(email.Text, password.Text);
+				//HTTPHandler.testLogin();
 
 				if (status == 1) {
 					toast = Toast.MakeText(this, "Login successful", ToastLength.Short);
