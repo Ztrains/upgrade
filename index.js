@@ -13,7 +13,7 @@ const firebase = require('./firebase.js');
 
 var app = express();
 const http = require('http').Server(app)
-//var chat = require('./chat.js')
+var chat = require('./chat.js')
 var io = require('socket.io')(http);
 
 app.use(bodyParser.json());
@@ -30,6 +30,7 @@ app.use(favicon(__dirname + '/docs/favicon.ico'));
 const port = process.env.PORT || 3000;
 var db;
 var users; //users collection;
+var chats; //chats collection;
 var localTestUrl = 'mongodb://localhost:27017/test';
 
 
@@ -43,6 +44,8 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI || localTestUrl, function(er
     db = database;
 	users = database.collection("users");
 	module.exports.users = users; //export users collection from module for use in auth.js
+	chats = database.collection("chats");
+	module.exports.chats = chats;
     console.log("Database connection ready");
 });
 
@@ -131,6 +134,44 @@ app.post('/basic/checkDevice', basicAuth, function(req, res) {
 	firebase.checkDevice(req, res);
 });
 
+//possibly unneccessary
+//get direct messages;
+//JSON fields: N/A
+app.post('/dms/get', function(req, res) {
+	if(!req.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+	chat.getDms(req, res);
+});
+app.post('/basic/dms/get', basicAuth, function(req, res) {
+	chat.getDms(req, res);
+});
+//start a dm with a new user
+//JSON fields: "dm_user" (user id of target user)
+app.post('/dms/start', function(req, res) {
+	if(!req.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+	chat.startDM(req, res);
+});
+app.post('/basic/dms/start', basicAuth, function(req, res) { 
+	chat.startDM(req, res);
+});
+
+//send a message in specified chat
+//JSON fields: "chatID", "message" (just payload, no timestamp or sender info)
+app.post('/chat/sendMessage', function(req, res) {
+	if(!req.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+	chat.sendMessage(req, res);
+});
+app.post('/basic/chat/sendMessage', basicAuth, function(req ,res) {
+	chat.sendMessage(req, res);	
+});
 
 app.get('/', (req, res) => {
     //res.send('Welcome to upgrade!');
