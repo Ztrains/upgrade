@@ -135,7 +135,12 @@ module.exports.startDM = function(req, res) {
 						return;
 					}
 					console.log("DM successfully created");
-					res.json({_id:u_result._id})
+
+					chats.findOne({$and: [{isDM: true, "members.user": user._id}, {isDM: true, "members.user": req.user._id}]}, function(err, chat) {
+						res.json({_id:chat._id}) //maybe works
+					}
+
+					//res.json({_id:result._id})
 				});
 
 			});
