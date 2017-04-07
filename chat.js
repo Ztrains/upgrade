@@ -134,7 +134,7 @@ module.exports.startDM = function(req, res) {
 						return;
 					}
 					console.log("DM successfully created");
-					res.json({_id:chat._id})
+					res.json({_id:result._id})
 				});
 
 			});
