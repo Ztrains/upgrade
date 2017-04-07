@@ -61,11 +61,11 @@ module.exports.getMessages = function (req, res) {
 		res.status(400).send("Bad Request: missing chatID key");
 		return;
 	}
-	if(!req.body.num) {
+	/*if(!req.body.num) {
 		res.status(400).send("Bad Request: missing num key");
 		return;
 
-	}
+	}*/
 
 	chats.findOne({_id: new objectID(req.body.chatID), "members.user": req.user._id}, function(err, result) {
 		if(err) {
