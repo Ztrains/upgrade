@@ -273,7 +273,7 @@ app.post('/retrieveProfile', (req, res)=>{
 app.get('/retrieveProfile', (req,res)=>{
     //console.log('login profile name: ' + req.body.name)
     console.log('login profile email: ' + req.user.email)
-    users.findOne({name: req.user.email}, function(err, profile) {
+    users.findOne({email: req.user.email}, function(err, profile) {
 		if(err) {console.log("Retrieval error"); return res.send("retrieval error");}
 		else if(!profile) {console.log("email not found"); return res.send("User doesn't exist/Email not found");}
 		console.log("Profile retrieved: " + JSON.stringify(profile,null,2));  //should log everything in the profile in theory
