@@ -61,12 +61,14 @@ namespace UpgradeApp {
             studyButton.Click += (sender, e) =>
             {
                 var intent = new Android.Content.Intent(this, typeof(classPickerActivity));
+                intent.PutExtra("study", true);
                 StartActivity(intent);
             };
 
             tutorButton.Click += (sender, e) =>
             {
                 var intent = new Android.Content.Intent(this, typeof(classPickerActivity));
+                
                 StartActivity(intent);
             };
 
