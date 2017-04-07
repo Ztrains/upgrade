@@ -29,7 +29,7 @@ module.exports.sendMessage = function (req, res) {
 			console.log(chat);
 			res.status(403).send("Chat not found or you are not a member of the chat");
 		} else {
-			chats.updateOne({_id: chat._id}, {$push: {messages: {message: req.body.message, date: new Date(), sender: req.user._id}}});
+			chats.updateOne({_id: chat._id}, {$push: {messages: {message: req.body.message, date: new Date().toString(), sender: req.user._id}}});
 			res.send("Message sent");
 		}
 	});
@@ -135,7 +135,7 @@ module.exports.startDM = function(req, res) {
 						return;
 					}
 					console.log("DM successfully created");
-					res.json({_id:result._id})
+					res.json({_id:u_result._id})
 				});
 
 			});
