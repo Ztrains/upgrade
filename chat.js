@@ -112,11 +112,11 @@ module.exports.startDM = function(req, res) {
 				res.status(500).send("Database error occured!");
 				return;
 			}
-			if(chat) {
+			/*if(chat) {
 				console.log("Error: Tried to create exisiting dm");
 				res.send("Chat exists");
 				return;
-			}
+			}*/
 			chats.insertOne({isDM: true, members: [{user: req.user._id, muted: false}, {user: user._id, muted: false}], messageCount: 0}, function(err, result) {
 				if(err) {
 					console.log("chat.startDM database error");
