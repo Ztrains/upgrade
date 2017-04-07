@@ -142,7 +142,7 @@ app.post('/dms/get', function(req, res) {
 		res.status(401).send("Not logged in");
 		return;
 	}
-	chat.getDms(req, res);
+	chat.getMessages(req, res);
 });
 app.post('/basic/dms/get', basicAuth, function(req, res) {
 	chat.getDms(req, res);
@@ -382,14 +382,12 @@ app.post('/setRecovery', (req,res)=>{
 })
 
 app.post('/getQuestion', (req,res)=>{
-    var cursor = users.findOne({email: req.body.email});
-        if (!cursor) {
-            res.send("Email does not exist")
-        }
-        console.log("found cursor")
-        console.log("sending question: " + cursor.answer)
-        res.json(cursor.answer)
-    //res.send("recovery set")
+    users.findOne({email: req.body.email}, function(err, r) {
+		if(err) {console.log("Could not find email"); res.send("Database error");}
+		else if(!r) {console.log("user not found"); res.send("User doesn't exist");}
+		console.log("result of salt search: " + r.question);
+		res.json({question: r.question});
+	});
 })
 
 app.post('/doRecovery', (req,res)=>{
@@ -404,6 +402,10 @@ app.post('/doRecovery', (req,res)=>{
         if (req.body.answer == ans) {
             console.log("updating password happens here")
             res.send("Password change successful")
+        }
+        else {
+            console.log("wrong answer sent")
+            res.send("Incorrect answer")
         }
 	});
 })

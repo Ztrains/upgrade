@@ -25,6 +25,11 @@ namespace UpgradeApp {
 		public string question;
 	}
 
+	public class RecoveryCheck {
+		public string email;
+		public string answer;
+	}
+
 	public class Account {
 		public string email;
 		public string password;
@@ -56,6 +61,11 @@ namespace UpgradeApp {
 	public class Student {
 		public string name;
 		public string type;
+	}
+
+	public class SendUpvote {
+		public string email;
+		public string vote; // has to be up or down
 	}
 
 	public class WhichProfile {

@@ -59,7 +59,7 @@ namespace UpgradeApp {
 					toast = Toast.MakeText(this, "Login successful", ToastLength.Short);
 					toast.Show();
 					var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
-					intent.PutExtra("email", email.Text);
+					//intent.PutExtra("email", email.Text); we should probably do this later
 					HTTPHandler.emailLoggedIn = email.Text;
 					StartActivity(intent);
 				}
