@@ -160,6 +160,18 @@ app.post('/basic/dms/start', basicAuth, function(req, res) {
 	chat.startDM(req, res);
 });
 
+//send a message in specified chat
+//JSON fields: "chatID", "message" (just payload, no timestamp or sender info)
+app.post('/chat/sendMessage', function(req, res) {
+	if(!req.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+	chat.sendMessage(req, res);
+});
+app.post('/basic/chat/sendMessage', basicAuth, function(req ,res) {
+	chat.sendMessage(req, res);	
+});
 
 app.get('/', (req, res) => {
     //res.send('Welcome to upgrade!');

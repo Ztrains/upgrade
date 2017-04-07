@@ -9,9 +9,30 @@ module.exports.getDms= function(req, res) {
 module.exports.sendMessage = function (req, res) {
 	if(!chats) {chats = require('./index.js').chats;}
 	if(!users) {users = require('./index.js').users;}
-//	chats.findOne({req
-		
+
+	if(!req.body.chatID) {
+		res.status(400).send("Bad Request: missing chatID key");
+		return;
+	}
+	if(!req.body.message) {
+		res.status(400).send("Bad Request: missing message key");
+		return;
+	}
 	
+	chats.findOne({_id: new objectID(req.body.chatID), "members.user": req.user._id}, function(err, chat) {
+		if(err) {
+			console.log("chat.sendMessage database err:");
+			console.log(err);
+			res.status(500).send("Database error occured!");
+		} else if(!chat) {
+			console.log("User: '" + req.user.email + "' attempted to access chat: '" + req.body.chatID + "':");
+			console.log(chat);
+			res.status(403).send("Chat not found or you are not a member of the chat");	
+		} else {
+			chats.updateOne({_id: chat._id}, {$push: {messages: {message: req.body.message, date: new Date(), sender: req.user._id}}});
+			res.send("Message sent");
+		}
+	});
 };
 
 module.exports.getMessageCount = function(req, res) {
@@ -36,6 +57,15 @@ module.exports.getMessageCount = function(req, res) {
 module.exports.getMessages = function (req, res) {
 	if(!chats) {chats = require('./index.js').chats;}
 	if(!users) {users = require('./index.js').users;}
+	if(!req.body.chatID) {
+		res.status(400).send("Bad Request: missing chatID key");
+		return;
+	}
+	if(!req.body.num) { 
+		res.status(400).send("Bad Request: missing num key");
+		return;
+
+	}
 	
 	chats.findOne({_id: req.body.chatID, "members.user": req.user._id}, function(err, result) {
 		if(err) {
@@ -43,8 +73,12 @@ module.exports.getMessages = function (req, res) {
 			console.log(err);
 			res.status(500).send("Database error occured!");
 		} else if(!result) {
-			console.log("chat.getMessages chat not found");
+			console.log("User: '" + req.user.email + "' attempted to access chat: '" + req.body.chatID + "':");
+			console.log(result);
+			console.log(chat);
 			res.status(403).send("Chat doesn't exist or you are not a member of the chat");
+		} else {
+			res.json({messages: result.messages.slice(Math.max(result.messages.length - req.body.num, 1))});
 		}
 	});
 
@@ -56,7 +90,7 @@ module.exports.startDM = function(req, res) {
 	console.log(req.body);
 	if(!req.body.dm_user) {
 		console.log("Missing dm_user in request");
-		res.status(400).send("Bad Request: no dm_user key");	
+		res.status(400).send("Bad Request: missing dm_user key");	
 		return;
 	}
 	users.findOne({_id: new objectID(req.body.dm_user)}, function(err, user) {
