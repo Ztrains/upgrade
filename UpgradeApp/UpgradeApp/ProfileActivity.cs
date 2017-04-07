@@ -62,6 +62,9 @@ namespace UpgradeApp {
             {
                 iNeedATutorTextView.Text = Intent.GetStringExtra("studentClasses");
             }
+            if(Intent.GetStringExtra("tutorClasses") != null) {
+                iTutorTextView.Text = Intent.GetStringExtra("tutorClasses");
+            }
 			/*if (Intent.GetStringExtra("email") != null) {
 				emailTextView.Text = Intent.GetStringExtra("email");
 			}
