@@ -232,7 +232,7 @@ app.get('/join/:class/:type/:name', (req, res) => {     //TODO: instead of :name
 })
 
 app.post('/retrieveProfile', (req, res)=>{
-    users.findOne({email: req.body.email}, function(err, profile) {     //make an $or with name
+    users.findOne({$or: [{email: req.body.email}, {name: req.body.name}]}, function(err, profile) {     //make an $or with name
 		if(err) {console.log("Retrieval error"); return res.send("retrieval error");}
 		else if(!profile) {console.log("email not found"); return res.send("User doesn't exist/Email not found");}
 		console.log("result of salt search: " + JSON.stringify(profile,null,2));  //should log everything in the profile in theory
