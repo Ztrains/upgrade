@@ -21,7 +21,7 @@ module.exports.getMessageCount = function(req, res) {
 		if(err) {
 			console.log("chat.getMessageCount database err:");
 			console.log(err);
-			res.send("Database error occured!");
+			res.status(500).send("Database error occured!");
 		} else if(!chat) {
 			console.log("User: '" + req.user.email + "' attempted to access chat: '" + req.body.chatID + "':");
 			console.log(chat);
@@ -36,6 +36,17 @@ module.exports.getMessageCount = function(req, res) {
 module.exports.getMessages = function (req, res) {
 	if(!chats) {chats = require('./index.js').chats;}
 	if(!users) {users = require('./index.js').users;}
+	
+	chats.findOne({_id: req.body.chatID, "members.user": req.user._id}, function(err, result) {
+		if(err) {
+			console.log("chat.getMessages database error");
+			console.log(err);
+			res.status(500).send("Database error occured!");
+		} else if(!result) {
+			console.log("chat.getMessages chat not found");
+			res.status(403).send("Chat doesn't exist or you are not a member of the chat");
+		}
+	});
 
 };
 
@@ -51,7 +62,7 @@ module.exports.startDM = function(req, res) {
 	users.findOne({_id: new objectID(req.body.dm_user)}, function(err, user) {
 		if(err) {
 			console.log("chat.startDM database error");
-			res.send("Database error occured!");
+			res.status(500).send("Database error occured!");
 			return;
 		}
 		if (!user) {
@@ -62,7 +73,7 @@ module.exports.startDM = function(req, res) {
 		chats.findOne({isDM: true, "members.user": user._id}, function(err, chat) {
 			if(err) {
 				console.log("chat.startDM database error");
-				res.send("Database error occured!");
+				res.status(500).send("Database error occured!");
 				return;
 			}
 			if(chat) {
@@ -73,18 +84,18 @@ module.exports.startDM = function(req, res) {
 			chats.insertOne({isDM: true, members: [{user: req.user._id, muted: false}, {user: user._id, muted: false}], messageCount: 0}, function(err, result) {
 				if(err) {
 					console.log("chat.startDM database error");
-					res.send("Database error occurred!");
+					res.status(500).send("Database error occurred!");
 					return;
 				} 
 				users.updateMany({$or: [{_id: req.user._id}, {_id: user._id}]}, {$push: {chats: result.insertedId}}, function(err, u_result) {
 					if(err) {
 						console.log("chat.startDM database error");
-						res.send("Database error occurred!");
+						res.status(500).send("Database error occurred!");
 						return;
 					}
 					if(u_result.modifiedCount != 2) {
 						console.log("chat.startDM did not insert two items");
-						res.send("Database error occurred!");
+						res.status(500).send("Database error occurred!");
 						return;
 					}
 					res.send("DM successfully created");
