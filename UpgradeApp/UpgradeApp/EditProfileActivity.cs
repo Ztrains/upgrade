@@ -55,26 +55,36 @@ namespace UpgradeApp {
 			if (Intent.GetStringExtra("prices") != null) {
 				pricesEditText.Text = Intent.GetStringExtra("prices");
 			}
+           
 
 
             studyButton.Click += (sender, e) =>
             {
-                SetContentView(Resource.Layout.classPickerScreen);
+                var intent = new Android.Content.Intent(this, typeof(classPickerActivity));
+                intent.PutExtra("study", true);
+                StartActivity(intent);
+            };
+
+            tutorButton.Click += (sender, e) =>
+            {
+                var intent = new Android.Content.Intent(this, typeof(classPickerActivity));
+                
+                StartActivity(intent);
             };
 
 
 
-			submitButton.Click += (sender, e) => {
+            submitButton.Click += (sender, e) => {
 				string newName = nameEditText.Text;
 				string newEmail = emailEditText.Text;
 				string newContact = otherContactMethodsEditText.Text;
 				string newAbout = aboutEditText.Text;
 				string freeTime = freeTimeTextView.Text;
 				string prices = pricesEditText.Text;
-				
-				// Send server the changes
-				// Needs to have other fields fixed
-				HTTPHandler.updateProfile(newName, newEmail, newContact, newAbout, null, null, freeTime, prices);
+                string studentClasses = Intent.GetStringExtra("classes");
+                // Send server the changes
+                // Needs to have other fields fixed
+                HTTPHandler.updateProfile(newName, newEmail, newContact, newAbout, null, null, freeTime, prices);
 				HTTPHandler.emailLoggedIn = newEmail;
 
                 var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
@@ -84,6 +94,7 @@ namespace UpgradeApp {
 				intent.PutExtra("about", newAbout);
                 intent.PutExtra("freeTime", freeTime);
                 intent.PutExtra("prices", prices);
+                intent.PutExtra("studentClasses", studentClasses);
                 StartActivity(intent);
             };
 
