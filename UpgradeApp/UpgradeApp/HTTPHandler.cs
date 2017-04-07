@@ -318,7 +318,6 @@ namespace UpgradeApp {
 		public static ChatID startAChat(string id) {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/dms/start");
 			var request = new RestRequest(Method.POST);
-
 			client.CookieContainer = cookieJar;
 
 			UserID uid = new UserID();
@@ -330,26 +329,28 @@ namespace UpgradeApp {
 			return cid;
 		}
 
-		public static void getMessages(string c) {
-			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/chat/dms/get");
+		public static void getMessages(string chatID) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/dms/get");
 			var request = new RestRequest(Method.POST);
-
 			client.CookieContainer = cookieJar;
 
 			ChatID cid = new ChatID();
-			cid.chatID = c;
+			cid.chatID = chatID;
 			request.AddJsonBody(cid);
 
 			IRestResponse response = client.Execute(request);
 
 		}
 
-		public static void sendMessage() {
+		public static void sendMessage(string id, string message) {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/chat/sendMessage");
 			var request = new RestRequest(Method.POST);
-
 			client.CookieContainer = cookieJar;
-			
+
+			MessageInfo mi = new MessageInfo();
+			mi.chatID = id;
+			mi.message = message;
+			request.AddJsonBody(mi);
 
 			IRestResponse response = client.Execute(request);
 		}

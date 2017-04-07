@@ -94,4 +94,13 @@ namespace UpgradeApp {
 		public string dm_user;
 	}
 
+	public class Messages {
+		public Message[] messages;
+	}
+
+	public class Message {
+		public string message;
+		public string date;
+		public string sender;
+	}
 }

@@ -57,8 +57,18 @@ namespace UpgradeApp {
 			availabilityTextView.Text = p.time;
 			pricesTextView.Text = p.price;
 
-			if (emailTextView.Text.Equals(HTTPHandler.emailLoggedIn))
+			if (emailTextView.Text.Equals(HTTPHandler.emailLoggedIn)) {
 				sendMessageButton.Enabled = false;
+				reportButton.Enabled = false;
+				blockButton.Enabled = false;
+				editButton.Enabled = true;
+			}
+			else {
+				sendMessageButton.Enabled = true;
+				reportButton.Enabled = true;
+				blockButton.Enabled = true;
+				editButton.Enabled = false;
+			}
 			
 
             if(Intent.GetStringExtra("studyClasses") != null)
