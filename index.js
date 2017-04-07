@@ -254,14 +254,16 @@ app.post('/joinClass', (req,res)=>{
             })
         }
     })
-    res.send("added " + req.user.name + " to class " + req.className)
+    res.send("added " + req.user.name + " as a " + req.body.type + " to class " + req.body.className)
 })
 
 app.post('/retrieveProfile', (req, res)=>{
-    users.findOne({$or: [{email: req.body.email}, {name: req.body.name}]}, function(err, profile) {
+    console.log('name trying to retrieve: ' + req.body.name)
+    console.log('email trying to retrieve: ' + req.body.email)
+    users.findOne({$or: [{name: req.body.name}, {email: req.body.email}]}, function(err, profile) {
 		if(err) {console.log("Retrieval error"); return res.send("retrieval error");}
 		else if(!profile) {console.log("email not found"); return res.send("User doesn't exist/Email not found");}
-		console.log("result of salt search: " + JSON.stringify(profile,null,2));  //should log everything in the profile in theory
+		console.log("Profile retrieved: " + JSON.stringify(profile,null,2));  //should log everything in the profile in theory
         res.type('json');
 		res.json(profile);    //up to client to parse i guess lol sorry
 	});
