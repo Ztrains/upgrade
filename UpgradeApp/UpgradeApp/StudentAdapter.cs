@@ -14,9 +14,9 @@ namespace UpgradeApp
 {
     public class StudentAdapter : BaseAdapter<string>
     {
-        string[] items;
+        Student[] items;
         Activity context;
-        public StudentAdapter(Activity context, string[] items) : base()
+        public StudentAdapter(Activity context, Student[] items) : base()
         {
             this.context = context;
             this.items = items;
@@ -27,7 +27,7 @@ namespace UpgradeApp
         }
         public override string this[int position]
         {
-            get { return items[position]; }
+            get { return items[position].name; } // this didn't have the .name but idk what it needs tbh
         }
         public override int Count
         {
@@ -38,11 +38,12 @@ namespace UpgradeApp
             View view = convertView;
             if (view == null)
             {
-                view = context.LayoutInflater.Inflate(Android.Resource.Layout.SimpleListItem1, null);
+                view = context.LayoutInflater.Inflate(Android.Resource.Layout.TwoLineListItem, null);
 
             }
-            view.FindViewById<TextView>(Android.Resource.Id.Text1).Text = items[position];
-            return view;
+            view.FindViewById<TextView>(Android.Resource.Id.Text1).Text = items[position].name;
+			view.FindViewById<TextView>(Android.Resource.Id.Text2).Text = items[position].type;
+			return view;
         }
     }
 }
