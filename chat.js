@@ -1,3 +1,4 @@
+const objectID = require('mongodb').ObjectID
 var users;
 var chats;
 
@@ -39,12 +40,15 @@ module.exports.getMessages = function (req, res) {
 };
 
 module.exports.startDM = function(req, res) {
+	if(!chats) {chats = require('./index.js').chats;}
+	if(!users) {users = require('./index.js').users;}
+	console.log(req.body);
 	if(!req.body.dm_user) {
 		console.log("Missing dm_user in request");
 		res.status(400).send("Bad Request: no dm_user key");	
 		return;
 	}
-	users.findOne({_id: req.body.dm_user}, function(err, user) {
+	users.findOne({_id: new objectID(req.body.dm_user)}, function(err, user) {
 		if(err) {
 			console.log("chat.startDM database error");
 			res.send("Database error occured!");

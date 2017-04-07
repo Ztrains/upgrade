@@ -30,6 +30,7 @@ app.use(favicon(__dirname + '/docs/favicon.ico'));
 const port = process.env.PORT || 3000;
 var db;
 var users; //users collection;
+var chats; //chats collection;
 var localTestUrl = 'mongodb://localhost:27017/test';
 
 
@@ -43,6 +44,8 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI || localTestUrl, function(er
     db = database;
 	users = database.collection("users");
 	module.exports.users = users; //export users collection from module for use in auth.js
+	chats = database.collection("chats");
+	module.exports.chats = chats;
     console.log("Database connection ready");
 });
 
@@ -144,9 +147,17 @@ app.post('/dms/get', function(req, res) {
 app.post('/basic/dms/get', basicAuth, function(req, res) {
 	chat.getDms(req, res);
 });
-//start a dm with the
+//start a dm with a new user
+//JSON fields: "dm_user" (user id of target user)
 app.post('/dms/start', function(req, res) {
-
+	if(!req.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+	chat.startDM(req, res);
+});
+app.post('/basic/dms/start', basicAuth, function(req, res) { 
+	chat.startDM(req, res);
 });
 
 
