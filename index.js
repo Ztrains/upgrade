@@ -156,7 +156,7 @@ app.post('/dms/start', function(req, res) {
 	}
 	chat.startDM(req, res);
 });
-app.post('/basic/dms/start', basicAuth, function(req, res) { 
+app.post('/basic/dms/start', basicAuth, function(req, res) {
 	chat.startDM(req, res);
 });
 
@@ -170,7 +170,7 @@ app.post('/chat/sendMessage', function(req, res) {
 	chat.sendMessage(req, res);
 });
 app.post('/basic/chat/sendMessage', basicAuth, function(req ,res) {
-	chat.sendMessage(req, res);	
+	chat.sendMessage(req, res);
 });
 
 app.get('/', (req, res) => {
@@ -232,7 +232,7 @@ app.get('/join/:class/:type/:name', (req, res) => {     //TODO: instead of :name
 })
 
 app.post('/retrieveProfile', (req, res)=>{
-    users.findOne({email: req.body.email}, function(err, profile) {
+    users.findOne({email: req.body.email}, function(err, profile) {     //make an $or with name
 		if(err) {console.log("Retrieval error"); return res.send("retrieval error");}
 		else if(!profile) {console.log("email not found"); return res.send("User doesn't exist/Email not found");}
 		console.log("result of salt search: " + JSON.stringify(profile,null,2));  //should log everything in the profile in theory
@@ -379,6 +379,34 @@ app.post('/setRecovery', (req,res)=>{
         //}
 	});
     res.send("recovery set")
+})
+
+app.post('/getQuestion', (req,res)=>{
+    users.find({email: req.body.email},{question:1, _id:0}, function(err, ret) {
+        if (err) {
+            res.send("Email does not exist")
+        }
+        ret = ret[0];
+        console.log('sending question: ' + ret )
+        res.json(ret)
+	});
+    //res.send("recovery set")
+})
+
+app.post('/doRecovery', (req,res)=>{
+    users.findOne({email: req.body.email}, function(err, profile) {
+        if (err) {
+            console.log("ERROR: " + err);
+            res.send(1);
+        }
+        var data = req.body
+        var ans = profile.answer
+
+        if (req.body.answer == ans) {
+            console.log("updating password happens here")
+            res.send("Password change successful")
+        }
+	});
 })
 
 http.listen(port, ()=>{
