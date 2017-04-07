@@ -133,7 +133,8 @@ module.exports.startDM = function(req, res) {
 						res.status(500).send("Database error occurred!");
 						return;
 					}
-					res.send("DM successfully created");
+					console.log("DM successfully created");
+					res.json({_id:chat._id})
 				});
 
 			});
