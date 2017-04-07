@@ -387,8 +387,9 @@ app.post('/getQuestion', (req,res)=>{
             res.send("Email does not exist")
         }
         console.log("found cursor")
-        console.log("sending question: " + cursor.answer)
-        res.json(cursor.answer)
+        console.log("name: " + cursor.name)
+        console.log("sending question: " + cursor.question)
+        res.json(cursor.question)
     //res.send("recovery set")
 })
 
