@@ -107,6 +107,16 @@ app.post('/reg', function(req, res) {
 	});
 
 });
+//changes the password
+//JSON fields: "email", "password", and "newpassword"
+app.post('/password/change', function(req, res) {
+	auth.changePassword(req, res);
+});
+//JSON fields: "email"
+app.post('/password/reset', function(req, res) {
+	auth.resetPassword(req, res);
+});
+
 //register Device in Database
 //JSON fields: "regKey"
 app.post('/regDevice', function(req, res) {
