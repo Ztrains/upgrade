@@ -162,17 +162,18 @@ namespace UpgradeApp {
 		}
 
 		public static void checkRecoveryAnswer(string email, string answer) {
-			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/setRecovery");
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/doRecovery");
 			var request = new RestRequest(Method.POST);
 
-			RecoveryInfo ri = new RecoveryInfo();
-			ri.email = emailLoggedIn;
-			ri.answer = answer;
-			request.AddJsonBody(ri);
+			RecoveryCheck rc = new RecoveryCheck();
+			rc.email = emailLoggedIn;
+			rc.answer = answer;
+			request.AddJsonBody(rc);
 
 			IRestResponse response = client.Execute(request);
 		}
 
+		/*
 		public static void updatePassword(string password) {
 			var client = new RestClient(); // needs url
 			var request = new RestRequest(Method.GET);
@@ -181,7 +182,7 @@ namespace UpgradeApp {
 			pass.pass = password;
 
 			IRestResponse response = client.Execute(request);
-		}
+		}*/
 
 		public static ClassList classListRequest() {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/classList");
@@ -202,8 +203,8 @@ namespace UpgradeApp {
 			request.AddJsonBody(wc);
 
 			IRestResponse response = client.Execute(request);
-			Debug.WriteLine("\n\n\n\n\n\n\n\n\n\n\n a a a a a a a a a a a a a a a a a a \n\n\n\n\n\n\n\n\n\n");
-			Debug.WriteLine(response.Content);
+			//Debug.WriteLine("\n\n\n\n\n\n\n\n\n\n\n a a a a a a a a a a a a a a a a a a \n\n\n\n\n\n\n\n\n\n");
+			//Debug.WriteLine(response.Content);
 
 			StudentList students = JsonConvert.DeserializeObject<StudentList>(response.Content);
 			return students;
@@ -252,8 +253,12 @@ namespace UpgradeApp {
 		}
 
 		public static void upvoteProfile() {
-			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/");
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/upvote");
 			var request = new RestRequest(Method.GET);
+			SendUpvote su = new SendUpvote();
+			su.email = emailLoggedIn;
+			su.vote = "up";
+			request.AddJsonBody(su);
 
 			IRestResponse response = client.Execute(request);
 		}

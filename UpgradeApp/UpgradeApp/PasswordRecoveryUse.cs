@@ -24,18 +24,21 @@ namespace UpgradeApp
             TextView recoveryQuestion = FindViewById<TextView>(Resource.Id.RecoveryQuestion);
             EditText recoveryAnswer = FindViewById<EditText>(Resource.Id.recoverAnswer);
             Button submitButton = FindViewById<Button>(Resource.Id.submitButton);
+            EditText email = FindViewById<EditText>(Resource.Id.email);
+            Button submitEmailButton = FindViewById<EditView>(Resource.Id.submitEmailButton);
 
             //Add some HTTP handler to get the question and set the TextView recvoeryQuestion 
-            //recoveryQuestion.SetText(some string)
+            
+			//recoveryQuestion.SetText(some string)
 
             SetContentView(Resource.Layout.PasswordRecoveryUseScreen);
 
 
             submitButton.Click += (object sender, EventArgs e) =>
             {
-                //Add some http stuff 
+                 
                 // Return to login page
-                var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
+                var intent = new Android.Content.Intent(this, typeof(MainActivity));
                 StartActivity(intent);
             };
         }

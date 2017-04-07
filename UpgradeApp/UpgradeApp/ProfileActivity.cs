@@ -99,7 +99,9 @@ namespace UpgradeApp {
             };
 
 			rateButton.Click += (Sender, e) => {
-				// Implement rate button clicking here
+				HTTPHandler.upvoteProfile();
+				Toast toast = Toast.MakeText(this, "Thanks for your input!", ToastLength.Short);
+				toast.Show();
 			};
 
 			
