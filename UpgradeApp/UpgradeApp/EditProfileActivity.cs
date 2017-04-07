@@ -34,6 +34,8 @@ namespace UpgradeApp {
 			TextView pricesLabelTextView = FindViewById<TextView>(Resource.Id.PricesLabelTextView);
 			EditText pricesEditText = FindViewById<EditText>(Resource.Id.PricesEditText);
 			Button submitButton = FindViewById<Button>(Resource.Id.SubmitButton);
+            Button studyButton = FindViewById<Button>(Resource.Id.studyButton);
+            Button tutorButton = FindViewById<Button>(Resource.Id.tutorButton);
 
 			if (Intent.GetStringExtra("name") != null) {
 				nameEditText.Text = Intent.GetStringExtra("name");
@@ -55,7 +57,10 @@ namespace UpgradeApp {
 			}
 
 
-
+            studyButton.Click += (sender, e) =>
+            {
+                SetContentView(Resource.Layout.classPickerScreen);
+            };
 
 
 
