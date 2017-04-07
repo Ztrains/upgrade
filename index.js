@@ -382,13 +382,12 @@ app.post('/setRecovery', (req,res)=>{
 })
 
 app.post('/getQuestion', (req,res)=>{
-    var cursor = users.findOne({"email": req.body.email}, {"question":1});
-        if (!cursor) {
-            res.send("Email does not exist")
-        }
-        console.log("found cursor")
-        res.json({"question":cursor.question})
-    //res.send("recovery set")
+    users.findOne({email: req.body.email}, function(err, r) {
+		if(err) {console.log("Could not find email"); res.send("Database error");}
+		else if(!r) {console.log("user not found"); res.send("User doesn't exist");}
+		console.log("result of salt search: " + r.question);
+		res.json({question: r.question});
+	});
 })
 
 app.post('/doRecovery', (req,res)=>{
