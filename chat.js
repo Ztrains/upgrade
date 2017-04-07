@@ -88,7 +88,8 @@ module.exports.getMessages = function (req, res) {
 module.exports.startDM = function(req, res) {
 	if(!chats) {chats = require('./index.js').chats;}
 	if(!users) {users = require('./index.js').users;}
-	console.log(req.body);
+	console.log('req.body: ' + req.body);
+	console.log('user id:' + req.user._id + ' is trying to message user id: ' + req.body.dm_user)
 	if(!req.body.dm_user) {
 		console.log("Missing dm_user in request");
 		res.status(400).send("Bad Request: missing dm_user key");
