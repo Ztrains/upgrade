@@ -13,11 +13,13 @@ using Stormpath.SDK.Serialization;
 using System;
 using System.Net.Http;
 using System.Diagnostics;
+using System.Net;
 
 namespace UpgradeApp {
 	public class HTTPHandler {
 
 		public static string emailLoggedIn;
+		public static CookieContainer cookieJar;
 
 		// TODO Profile Visibility 
 
@@ -116,8 +118,12 @@ namespace UpgradeApp {
 
 		// current login function
 		public static int loginRequest(string email, string password) {
+			cookieJar = new CookieContainer();
+
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/login");
 			var request = new RestRequest(Method.POST);
+			
+			client.CookieContainer = cookieJar;
 
 			Account acc = new Account();
 			acc.email = email;
@@ -312,6 +318,9 @@ namespace UpgradeApp {
 		public static ChatID startAChat(string id) {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/dms/start");
 			var request = new RestRequest(Method.POST);
+
+			client.CookieContainer = cookieJar;
+
 			UserID uid = new UserID();
 			uid.dm_user = id;
 			request.AddJsonBody(uid);	
@@ -324,16 +333,22 @@ namespace UpgradeApp {
 		public static void getMessages(string c) {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/chat/dms/get");
 			var request = new RestRequest(Method.POST);
+
+			client.CookieContainer = cookieJar;
+
 			ChatID cid = new ChatID();
 			cid.chatID = c;
 			request.AddJsonBody(cid);
 
 			IRestResponse response = client.Execute(request);
+
 		}
 
 		public static void sendMessage() {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/chat/sendMessage");
 			var request = new RestRequest(Method.POST);
+
+			client.CookieContainer = cookieJar;
 			
 
 			IRestResponse response = client.Execute(request);

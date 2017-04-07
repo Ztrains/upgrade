@@ -37,6 +37,9 @@ namespace UpgradeApp {
             Button studyButton = FindViewById<Button>(Resource.Id.studyButton);
             Button tutorButton = FindViewById<Button>(Resource.Id.tutorButton);
 
+			string studyClasses = "";
+			string tutorClasses = "";
+
 			if (Intent.GetStringExtra("name") != null) {
 				nameEditText.Text = Intent.GetStringExtra("name");
 			}
@@ -55,21 +58,70 @@ namespace UpgradeApp {
 			if (Intent.GetStringExtra("prices") != null) {
 				pricesEditText.Text = Intent.GetStringExtra("prices");
 			}
-           
+			if (Intent.GetStringExtra("studyClasses") != null) {
+				studyClasses = Intent.GetStringExtra("studyClasses");
+			}
+			if (Intent.GetStringExtra("tutorClasses") != null) {
+				tutorClasses = Intent.GetStringExtra("tutorClasses");
+			}
 
 
-            studyButton.Click += (sender, e) =>
+
+			studyButton.Click += (sender, e) =>
             {
-                var intent = new Android.Content.Intent(this, typeof(classPickerActivity));
+				string newName = nameEditText.Text;
+				string newEmail = emailEditText.Text;
+				string newContact = otherContactMethodsEditText.Text;
+				string newAbout = aboutEditText.Text;
+				string freeTime = freeTimeTextView.Text;
+				string prices = pricesEditText.Text;
+				//studyClasses = Intent.GetStringExtra("studyClasses");
+				//tutorClasses = Intent.GetStringExtra("tutorClasses");
+
+				var intent = new Android.Content.Intent(this, typeof(classPickerActivity));
                 intent.PutExtra("study", true);
-                StartActivity(intent);
+				intent.PutExtra("tutor", false);
+
+				intent.PutExtra("name", newName);
+				intent.PutExtra("studentName", newName);
+				intent.PutExtra("email", newEmail);
+				intent.PutExtra("contact", newContact);
+				intent.PutExtra("about", newAbout);
+				intent.PutExtra("freeTime", freeTime);
+				intent.PutExtra("prices", prices);
+				intent.PutExtra("studyClasses", studyClasses);
+				intent.PutExtra("tutorClasses", tutorClasses);
+
+
+				StartActivity(intent);
             };
 
             tutorButton.Click += (sender, e) =>
             {
-                var intent = new Android.Content.Intent(this, typeof(classPickerActivity));
+				string newName = nameEditText.Text;
+				string newEmail = emailEditText.Text;
+				string newContact = otherContactMethodsEditText.Text;
+				string newAbout = aboutEditText.Text;
+				string freeTime = freeTimeTextView.Text;
+				string prices = pricesEditText.Text;
+				//studyClasses = Intent.GetStringExtra("studyClasses");
+				//tutorClasses = Intent.GetStringExtra("tutorClasses");
+
+				var intent = new Android.Content.Intent(this, typeof(classPickerActivity));
                 intent.PutExtra("tutor", true);
-                StartActivity(intent);
+				intent.PutExtra("study", false);
+
+				intent.PutExtra("name", newName);
+				intent.PutExtra("studentName", newName);
+				intent.PutExtra("email", newEmail);
+				intent.PutExtra("contact", newContact);
+				intent.PutExtra("about", newAbout);
+				intent.PutExtra("freeTime", freeTime);
+				intent.PutExtra("prices", prices);
+				intent.PutExtra("studyClasses", studyClasses);
+				intent.PutExtra("tutorClasses", tutorClasses);
+
+				StartActivity(intent);
             };
 
 
@@ -81,8 +133,8 @@ namespace UpgradeApp {
 				string newAbout = aboutEditText.Text;
 				string freeTime = freeTimeTextView.Text;
 				string prices = pricesEditText.Text;
-                string studentClasses = Intent.GetStringExtra("studyClasses");
-                string tutorClasses = Intent.GetStringExtra("tutorClasses");
+                //studyClasses = Intent.GetStringExtra("studyClasses");
+                //tutorClasses = Intent.GetStringExtra("tutorClasses");
                 // Send server the changes
                 // Needs to have other fields fixed
                 HTTPHandler.updateProfile(newName, newEmail, newContact, newAbout, null, null, freeTime, prices);
@@ -96,7 +148,7 @@ namespace UpgradeApp {
 				intent.PutExtra("about", newAbout);
                 intent.PutExtra("freeTime", freeTime);
                 intent.PutExtra("prices", prices);
-                intent.PutExtra("studentClasses", studentClasses);
+                intent.PutExtra("studyClasses", studyClasses);
                 intent.PutExtra("tutorClasses", tutorClasses);
                 StartActivity(intent);
             };

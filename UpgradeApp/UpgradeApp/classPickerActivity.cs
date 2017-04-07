@@ -21,7 +21,15 @@ namespace UpgradeApp
         string[] items;
         string[] returner;
         int location = 0;
-        protected override void OnCreate(Bundle savedInstanceState)
+
+		void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e) {
+			if (location < returner.Length) {
+				returner[location] = items[e.Position];
+				location++;
+			}
+		}
+
+		protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             classes = HTTPHandler.classListRequest();
@@ -45,23 +53,28 @@ namespace UpgradeApp
                 if (Intent.GetBooleanExtra("study", true))
                 {
                     intent.PutExtra("studyClasses", returnString);
+					intent.PutExtra("tutorClasses", Intent.GetStringExtra("tutorClasses"));
                 }
                 else
                 {
                     intent.PutExtra("tutorClasses", returnString);
-                }
-                StartActivity(intent);
+					intent.PutExtra("studyClasses", Intent.GetStringExtra("studyClasses"));
+				}
+
+				//intent.PutExtra("name", Intent.GetStringExtra("name"));
+				intent.PutExtra("studentName", Intent.GetStringExtra("studentName"));
+				intent.PutExtra("name", Intent.GetStringExtra("studentName"));
+				intent.PutExtra("email", Intent.GetStringExtra("email"));
+				intent.PutExtra("contact", Intent.GetStringExtra("contact"));
+				intent.PutExtra("about", Intent.GetStringExtra("about"));
+				intent.PutExtra("freeTime", Intent.GetStringExtra("freeTime"));
+				intent.PutExtra("prices", Intent.GetStringExtra("prices"));
+
+				StartActivity(intent);
             };
 
-            void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
-            {
-                if (location < returner.Length)
-                {
-                    returner[location] = items[e.Position];
-                    location++;
-                }
-            }
+
         //list.ItemClick += List_ItemClick;
-    }
+		}
     }
 }

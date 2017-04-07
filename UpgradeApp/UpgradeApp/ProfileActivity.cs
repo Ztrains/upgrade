@@ -56,11 +56,14 @@ namespace UpgradeApp {
 			//iNeedATutorTextView.Text
 			availabilityTextView.Text = p.time;
 			pricesTextView.Text = p.price;
+
+			if (emailTextView.Text.Equals(HTTPHandler.emailLoggedIn))
+				sendMessageButton.Enabled = false;
 			
 
-            if(Intent.GetStringExtra("studentClasses") != null)
+            if(Intent.GetStringExtra("studyClasses") != null)
             {
-                iNeedATutorTextView.Text = Intent.GetStringExtra("studentClasses");
+                iNeedATutorTextView.Text = Intent.GetStringExtra("studyClasses");
             }
             if(Intent.GetStringExtra("tutorClasses") != null) {
                 iTutorTextView.Text = Intent.GetStringExtra("tutorClasses");
@@ -102,6 +105,8 @@ namespace UpgradeApp {
 				intent.PutExtra("about", aboutTextView.Text);
 				intent.PutExtra("freeTime", availabilityTextView.Text);
 				intent.PutExtra("prices", pricesTextView.Text);
+				intent.PutExtra("studyClasses", iTutorTextView.Text);
+				intent.PutExtra("tutorClasses", iNeedATutorTextView.Text);
 				StartActivity(intent);
 
             };
@@ -112,14 +117,12 @@ namespace UpgradeApp {
 				toast.Show();
 			};
 
-			rateButton.Click += (Sender, e) => {
+			sendMessageButton.Click += (Sender, e) => {
 				ChatID cid = HTTPHandler.startAChat(p._id);
 				var intent = new Android.Content.Intent(this, typeof(messagingActivity));
 				intent.PutExtra("cid", cid.chatID);
 				StartActivity(intent);
 			};
-
-
 
 
 		}
