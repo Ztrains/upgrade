@@ -58,11 +58,11 @@ namespace UpgradeApp {
 			pricesTextView.Text = p.price;
 			
 
-            /*if(Intent.GetStringExtra("name") != null)
+            if(Intent.GetStringExtra("studentClasses") != null)
             {
-                nameTextView.Text = Intent.GetStringExtra("name");
+                iNeedATutorTextView.Text = Intent.GetStringExtra("studentClasses");
             }
-			if (Intent.GetStringExtra("email") != null) {
+			/*if (Intent.GetStringExtra("email") != null) {
 				emailTextView.Text = Intent.GetStringExtra("email");
 			}
 				
