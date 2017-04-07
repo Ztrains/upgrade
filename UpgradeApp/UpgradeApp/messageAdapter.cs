@@ -5,15 +5,17 @@ using Android.Views;
 using Android.Widget;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace UpgradeApp
 {
-    public class messageAdapter : BaseAdapter<string>
+    public class messageAdapter : BaseAdapter<chatClass>
     {
         string[] items;
         Activity context;
-        ArrayList chatList;
-        public messageAdapter(Activity context, ArrayList chatList) : base()
+        List<chatClass> chatList;
+        LinearLayout layout;
+        public messageAdapter(Activity context, List<chatClass> chatList) : base()
         {
             this.context = context;
             this.chatList = chatList;
@@ -22,9 +24,9 @@ namespace UpgradeApp
         {
             return position;
         }
-        public override string this[int position]
+        public override chatClass this[int position]
         {
-            get { return items[position]; }
+            get { return chatList[position]; }
         }
         public override int Count
         {
@@ -32,7 +34,7 @@ namespace UpgradeApp
         }
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
-            chatClass chatObject = (chatClass)chatList[position];
+            chatClass chatObject = (chatClass)GetItem(position);
             View view = convertView;
             if (view == null)
             {
@@ -40,6 +42,10 @@ namespace UpgradeApp
 
             }
             TextView message = (TextView)view.FindViewById(Resource.Id.message_text);
+            layout = (LinearLayout)view.FindViewById(Resource.Id.bubble_layout);
+            message.Text = chatObject.message;
+            layout.SetGravity(chatObject.direction ? GravityFlags.Left : GravityFlags.Right);
+
             //message.SetText();
             
             return view;
