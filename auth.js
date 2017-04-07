@@ -20,7 +20,7 @@ function(email, password, done) {
     		console.log("User: " + user);
         	if(err) {
 				console.log("Error in Local Auth find function:");
-				conslle.log(err);
+				console.log(err);
          		return  done(err);
 			}
         	if(!user || !bcrypt.compareSync(password, user.hash))

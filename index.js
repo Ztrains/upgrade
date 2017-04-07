@@ -245,7 +245,32 @@ app.post('/joinClass', (req,res)=>{
             collection.update({
                 _id: req.body.className
             }, {
-                $push: {
+                $addToSet: {
+                    students: {
+                        name: req.user.name,
+                        type: req.body.type
+                    }
+                }
+            })
+        }
+    })
+    res.send("added " + req.user.name + " as a " + req.body.type + " to class " + req.body.className)
+})
+
+app.post('/leaveClass', (req,res)=>{
+    if(!req.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+    db.collection('classes', (err, collection) => {
+        if (err) {
+            console.log('ERROR:', err);
+            res.redirect('/')
+        } else {
+            collection.update({
+                _id: req.body.className
+            }, {
+                $pull: {
                     students: {
                         name: req.user.name,
                         type: req.body.type
@@ -272,8 +297,8 @@ app.post('/retrieveProfile', (req, res)=>{
 //call this one right after login
 app.get('/retrieveProfile', (req,res)=>{
     //console.log('login profile name: ' + req.body.name)
-    console.log('login profile email: ' + req.user.email)
-    users.findOne({email: req.user.email}, function(err, profile) {
+    console.log('login profile email: ' + req.body.email)
+    users.findOne({email: req.body.email}, function(err, profile) {
 		if(err) {console.log("Retrieval error"); return res.send("retrieval error");}
 		else if(!profile) {console.log("email not found"); return res.send("User doesn't exist/Email not found");}
 		console.log("Profile retrieved: " + JSON.stringify(profile,null,2));  //should log everything in the profile in theory
