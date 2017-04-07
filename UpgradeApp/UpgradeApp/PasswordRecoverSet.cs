@@ -13,7 +13,7 @@ using Android.Widget;
 namespace UpgradeApp
 {
     [Activity(Label = "Activity1")]
-    public class PasswordRecover : Activity
+    public class PasswordRecoverSet : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -29,7 +29,7 @@ namespace UpgradeApp
 				// Ask server to send recovery email
 				
 				// Return to login page
-				var intent = new Android.Content.Intent(this, typeof(MainActivity));
+				var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
                 StartActivity(intent);
             };
         }

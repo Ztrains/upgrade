@@ -92,7 +92,7 @@ namespace UpgradeApp {
 
             recoverAccountButton.Click += (sender, e) =>
             {
-                var intent = new Android.Content.Intent(this, typeof(PasswordRecover));
+                var intent = new Android.Content.Intent(this, typeof(PasswordRecoveryUse));
                 StartActivity(intent);
             };
 
