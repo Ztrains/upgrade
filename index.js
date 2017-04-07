@@ -387,6 +387,7 @@ app.post('/getQuestion', (req,res)=>{
             res.send("Email does not exist")
         }
         console.log('sending question: ' + ret )
+        ret = JSON.stringify(ret)
         res.json(ret)
 	});
     //res.send("recovery set")
