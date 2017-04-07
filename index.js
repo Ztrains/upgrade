@@ -107,16 +107,6 @@ app.post('/reg', function(req, res) {
 	});
 
 });
-//changes the password
-//JSON fields: "email", "password", and "newpassword"
-app.post('/password/change', function(req, res) {
-	auth.changePassword(req, res);
-});
-//JSON fields: "email"
-app.post('/password/reset', function(req, res) {
-	auth.resetPassword(req, res);
-});
-
 //register Device in Database
 //JSON fields: "regKey"
 app.post('/regDevice', function(req, res) {
@@ -215,7 +205,8 @@ app.get('/classList',  (req, res) => {
     //res.json(list);
 })
 
-app.get('/join/:class/:type/:name', (req, res) => {     //TODO: instead of :name use from database later
+//deprecated, use /joinClass instead
+app.get('/join/:class/:type/:name', (req, res) => {
     var list;
     db.collection('classes', (err, collection) => {
         if (err) {
@@ -241,8 +232,33 @@ app.get('/join/:class/:type/:name', (req, res) => {     //TODO: instead of :name
     res.redirect('/')
 })
 
+app.post('/joinClass', (req,res)=>{
+    if(!req.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+    db.collection('classes', (err, collection) => {
+        if (err) {
+            console.log('ERROR:', err);
+            res.redirect('/')
+        } else {
+            collection.update({
+                _id: req.className
+            }, {
+                $push: {
+                    students: {
+                        name: req.user.name,
+                        type: req.type
+                    }
+                }
+            })
+        }
+    })
+    res.send("added " + req.user.name + " to class " + req.className)
+})
+
 app.post('/retrieveProfile', (req, res)=>{
-    users.findOne({$or: [{email: req.body.email}, {name: req.body.name}]}, function(err, profile) {     //make an $or with name
+    users.findOne({$or: [{email: req.body.email}, {name: req.body.name}]}, function(err, profile) {
 		if(err) {console.log("Retrieval error"); return res.send("retrieval error");}
 		else if(!profile) {console.log("email not found"); return res.send("User doesn't exist/Email not found");}
 		console.log("result of salt search: " + JSON.stringify(profile,null,2));  //should log everything in the profile in theory
