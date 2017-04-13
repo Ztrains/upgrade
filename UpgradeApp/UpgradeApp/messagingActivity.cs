@@ -22,12 +22,29 @@ namespace UpgradeApp
         {
             base.OnCreate(savedInstanceState);
 
+			Button sendButton = FindViewById<Button>(Resource.Id.sendButton);
+			TextView msgTextView = FindViewById<TextView>(Resource.Id.msg);
+
             SetContentView(Resource.Layout.messaging);
+			string uid = Intent.GetStringExtra("uid");
 			string cid = Intent.GetStringExtra("cid");
-			HTTPHandler.getMessages(cid);
+
+			Messages ms = HTTPHandler.getMessages(cid);
+			for (int i = 0; i < ms.messages.Length; i++) {
+				bool direction = (ms.messages[i].sender.Equals(uid));
+				chatClass c = new chatClass(direction, ms.messages[i].message);
+				chats.Add(c);
+			}
+
             listView = FindViewById<ListView>(Resource.Layout.messaging);
-            listView.Adapter = new messageAdapter(this, chats);//Chats should be replaced by stuff from the server. 
-            // Create your application here
-        }
+            listView.Adapter = new messageAdapter(this, chats); //Chats should be replaced by stuff from the server. 
+
+			sendButton.Click += (Sender, e) => {
+				HTTPHandler.sendMessage(cid, msgTextView.Text);
+				msgTextView.Text = "";
+				// Need to refresh the messages here probably
+			};
+
+		}
     }
 }
