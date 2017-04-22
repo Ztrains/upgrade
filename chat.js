@@ -58,16 +58,8 @@ module.exports.getMessageCount = function(req, res) {
 module.exports.getMessages = function (req, res) {
 	if(!chats) {chats = require('./index.js').chats;}
 	if(!users) {users = require('./index.js').users;}
-	if(!req.body.chatID) {
-		res.status(400).send("Bad Request: missing chatID key");
 		return;
 	}
-	/*if(!req.body.num) {
-		res.status(400).send("Bad Request: missing num key");
-		return;
-
-	}*/
-
 	chats.findOne({_id: new objectID(req.body.chatID), "members.user": req.user._id}, function(err, result) {
 		if(err) {
 			console.log("chat.getMessages database error");
@@ -79,8 +71,12 @@ module.exports.getMessages = function (req, res) {
 			//console.log(chat);	chat never defined
 			res.status(403).send("Chat doesn't exist or you are not a member of the chat");
 		} else {
-			res.json({messages:result.messages})
-			//res.json({messages: result.messages.slice(Math.max(result.messages.length - req.body.num, 1))});
+			if(!req.body.start) {
+				res.json({messages:result.messages})
+			}else if(req.body.end) {
+				res.json({messages: result.messages.slice(Math.max(req.body.start, 0), Math.min(req.body.end, messages.length - 1))});
+			} else 
+				res.json({messages: result.messages.slice(Math.max(req.body.num, 0))});
 		}
 	});
 
