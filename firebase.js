@@ -1,4 +1,5 @@
 var users; //users collection
+var chats;
 
 const admin = require('firebase-admin');
 var serviceAccount = require('./upgradeKey.json');

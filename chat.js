@@ -76,12 +76,15 @@ module.exports.getMessages = function (req, res) {
 			//console.log(chat);	chat never defined
 			res.status(403).send("Chat doesn't exist or you are not a member of the chat");
 		} else {
+			console.log("Getting message. Request body:", req.body);
 			if(!req.body.start) {
 				res.json({messages:result.messages})
 			}else if(req.body.end) {
-				res.json({messages: result.messages.slice(Math.max(req.body.start, 0), Math.min(req.body.end, messages.length - 1))});
-			} else 
-				res.json({messages: result.messages.slice(Math.max(req.body.num, 0))});
+				res.json({messages: result.messages.slice(Math.max(req.body.start, 0), Math.min(req.body.end, result.messages.length))});
+			} else  {
+				console.log("Getting Message from", req.body.start);
+				res.json({messages: result.messages.slice(Math.max(req.body.start, 0))});
+			}
 		}
 	});
 };
@@ -124,7 +127,7 @@ module.exports.startDM = function(req, res) {
 					res.status(500).send("Database error occurred!");
 					return;
 				}
-				users.updateMany({$or: [{_id: req.user._id}, {_id: user._id}]}, {$push: {chats: result.insertedId}}, function(err, u_result) {
+				users.updateMany({$or: [{_id: req.user._id}, {_id: user._id}]}, {$push: {dms: result.insertedId}}, function(err, u_result) {
 					if(err) {
 						console.log("chat.startDM database error");
 						res.status(500).send("Database error occurred!");
