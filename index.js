@@ -173,6 +173,32 @@ app.post('/basic/chat/sendMessage', basicAuth, function(req ,res) {
 	chat.sendMessage(req, res);
 });
 
+//get messges in specified chat
+//JSON fields: "chatID", "start"(optional, start of message range), "end" (optional, end of message range)
+app.post('/chat/getMessages', function(req, res) {
+	if(!req.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+	chat.getMessages(req, res);
+});
+app.post('/basic/chat/getMessages', basicAuth, function(req, res) {
+	chat.getMessages(req, res);
+});
+
+//get message count in specified chat
+//JSON fields: "chatID"
+app.post('/chat/getMessageCount', function(req, res) {
+	if(!req.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+	chat.getMessageCount(req, res);
+}
+app.post('/basic/chat/getMessageCount', basicAuth, function(req, res) {
+	chat.getMessageCount(req, res);
+}
+
 app.get('/', (req, res) => {
     //res.send('Welcome to upgrade!');
     res.sendFile(__dirname + '/index.html');

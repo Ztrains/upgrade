@@ -49,7 +49,7 @@ module.exports.getMessageCount = function(req, res) {
 			console.log(chat);
 			res.status(403).send("Chat not found or you are not a member of the chat");
 		} else {
-			res.json({chatID: req.body.chatID, m_count: chat.m_count});
+			res.json({chatID: req.body.chatID, m_count: chat.messages.length});
 		}
 	});
 
@@ -156,7 +156,7 @@ function check_if_exists(id) {
 		if (name === id) {
 			return true;
 		}
-	}
+			}
 	return false;
 }
 
