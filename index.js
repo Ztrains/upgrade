@@ -107,16 +107,6 @@ app.post('/reg', function(req, res) {
 	});
 
 });
-//changes the password
-//JSON fields: "email", "password", and "newpassword"
-app.post('/password/change', function(req, res) {
-	auth.changePassword(req, res);
-});
-//JSON fields: "email"
-app.post('/password/reset', function(req, res) {
-	auth.resetPassword(req, res);
-});
-
 //register Device in Database
 //JSON fields: "regKey"
 app.post('/regDevice', function(req, res) {
@@ -183,6 +173,32 @@ app.post('/basic/chat/sendMessage', basicAuth, function(req ,res) {
 	chat.sendMessage(req, res);
 });
 
+//get messges in specified chat
+//JSON fields: "chatID", "start"(optional, start of message range), "end" (optional, end of message range)
+app.post('/chat/getMessages', function(req, res) {
+	if(!req.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+	chat.getMessages(req, res);
+});
+app.post('/basic/chat/getMessages', basicAuth, function(req, res) {
+	chat.getMessages(req, res);
+});
+
+//get message count in specified chat
+//JSON fields: "chatID"
+app.post('/chat/getMessageCount', function(req, res) {
+	if(!req.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+	chat.getMessageCount(req, res);
+}
+app.post('/basic/chat/getMessageCount', basicAuth, function(req, res) {
+	chat.getMessageCount(req, res);
+}
+
 app.get('/', (req, res) => {
     //res.send('Welcome to upgrade!');
     res.sendFile(__dirname + '/index.html');
@@ -215,7 +231,8 @@ app.get('/classList',  (req, res) => {
     //res.json(list);
 })
 
-app.get('/join/:class/:type/:name', (req, res) => {     //TODO: instead of :name use from database later
+//deprecated, use /joinClass instead
+app.get('/join/:class/:type/:name', (req, res) => {
     var list;
     db.collection('classes', (err, collection) => {
         if (err) {
@@ -241,11 +258,76 @@ app.get('/join/:class/:type/:name', (req, res) => {     //TODO: instead of :name
     res.redirect('/')
 })
 
+app.post('/joinClass', (req,res)=>{
+    if(!req.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+    db.collection('classes', (err, collection) => {
+        if (err) {
+            console.log('ERROR:', err);
+            res.redirect('/')
+        } else {
+            collection.update({
+                _id: req.body.className
+            }, {
+                $addToSet: {
+                    students: {
+                        name: req.user.name,
+                        type: req.body.type
+                    }
+                }
+            })
+        }
+    })
+    res.send("added " + req.user.name + " as a " + req.body.type + " to class " + req.body.className)
+})
+
+app.post('/leaveClass', (req,res)=>{
+    if(!req.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+    db.collection('classes', (err, collection) => {
+        if (err) {
+            console.log('ERROR:', err);
+            res.redirect('/')
+        } else {
+            collection.update({
+                _id: req.body.className
+            }, {
+                $pull: {
+                    students: {
+                        name: req.user.name,
+                        type: req.body.type
+                    }
+                }
+            })
+        }
+    })
+    res.send("removed " + req.user.name + " as a " + req.body.type + " from class " + req.body.className)
+})
+
 app.post('/retrieveProfile', (req, res)=>{
-    users.findOne({$or: [{email: req.body.email}, {name: req.body.name}]}, function(err, profile) {     //make an $or with name
+    console.log('name trying to retrieve: ' + req.body.name)
+    console.log('email trying to retrieve: ' + req.body.email)
+    users.findOne({$or: [{name: req.body.name}, {email: req.body.email}]}, function(err, profile) {
 		if(err) {console.log("Retrieval error"); return res.send("retrieval error");}
 		else if(!profile) {console.log("email not found"); return res.send("User doesn't exist/Email not found");}
-		console.log("result of salt search: " + JSON.stringify(profile,null,2));  //should log everything in the profile in theory
+		console.log("Profile retrieved: " + JSON.stringify(profile,null,2));  //should log everything in the profile in theory
+        res.type('json');
+		res.json(profile);    //up to client to parse i guess lol sorry
+	});
+})
+
+//call this one right after login
+app.post('/retrieveLogin', (req,res)=>{
+    //console.log('login profile name: ' + req.body.name)
+    console.log('login profile email: ' + req.body.email)
+    users.findOne({email: req.body.email}, function(err, profile) {
+		if(err) {console.log("Retrieval error"); return res.send("retrieval error");}
+		else if(!profile) {console.log("email not found"); return res.send("User doesn't exist/Email not found");}
+		console.log("Profile retrieved: " + JSON.stringify(profile,null,2));  //should log everything in the profile in theory
         res.type('json');
 		res.json(profile);    //up to client to parse i guess lol sorry
 	});
@@ -352,14 +434,14 @@ app.post('/upvote', (req,res)=>{
         }
         if (req.body.vote == 'up') {
             users.findOneAndUpdate(
-                {"email":req.body.email},
+                {"name":req.body.name},
                 { $inc: {"rating":1}}
             )
             console.log("rating raised by 1")
         }
         else if (req.body.vote == 'down') {
             users.findOneAndUpdate(
-                {"email":req.body.email},
+                {"name":req.body.name},
                 { $inc: {"rating":-1}}
             )
             console.log("rating lowered by 1")

@@ -13,11 +13,13 @@ using Stormpath.SDK.Serialization;
 using System;
 using System.Net.Http;
 using System.Diagnostics;
+using System.Net;
 
 namespace UpgradeApp {
 	public class HTTPHandler {
 
 		public static string emailLoggedIn;
+		public static CookieContainer cookieJar;
 
 		// TODO Profile Visibility 
 
@@ -108,10 +110,20 @@ namespace UpgradeApp {
 			else return -1;
 		}
 
+		public static void testLogin() {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/testlogin");
+			var request = new RestRequest(Method.POST);
+			IRestResponse r = client.Execute(request);
+		}
+
 		// current login function
 		public static int loginRequest(string email, string password) {
+			cookieJar = new CookieContainer();
+
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/login");
 			var request = new RestRequest(Method.POST);
+			
+			client.CookieContainer = cookieJar;
 
 			Account acc = new Account();
 			acc.email = email;
@@ -237,7 +249,7 @@ namespace UpgradeApp {
 		}
 
 		public static Profile getProfile(string email) {
-			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/retrieveProfile");
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/retrieveLogin");
 			var request = new RestRequest(Method.POST);
 
 			WhichProfile wp = new WhichProfile();
@@ -266,13 +278,17 @@ namespace UpgradeApp {
 			return profile;
 		}
 
-		public static void upvoteProfile() {
+		public static void upvoteProfile(string name) {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/upvote");
-			var request = new RestRequest(Method.GET);
+			var request = new RestRequest(Method.POST);
 			SendUpvote su = new SendUpvote();
+			su.name = name;
 			su.email = emailLoggedIn;
 			su.vote = "up";
 			request.AddJsonBody(su);
+			//WhichStudent ws = new WhichStudent();
+			//ws.name = name;
+			//request.AddJsonBody(ws);
 
 			IRestResponse response = client.Execute(request);
 		}
@@ -298,13 +314,63 @@ namespace UpgradeApp {
 			IRestResponse response = client.Execute(request);
 		}
 
+		// Messaging functions
+		public static ChatID startAChat(string id) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/dms/start");
+			var request = new RestRequest(Method.POST);
+			client.CookieContainer = cookieJar;
+
+			UserID uid = new UserID();
+			uid.dm_user = id;
+			request.AddJsonBody(uid);	
+
+			IRestResponse response = client.Execute(request);
+			ChatID cid = JsonConvert.DeserializeObject<ChatID>(response.Content);
+			return cid;
+		}
+
+		public static Messages getMessages(string chatID) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/dms/get");
+			var request = new RestRequest(Method.POST);
+			client.CookieContainer = cookieJar;
+
+			ChatID cid = new ChatID();
+			cid.chatID = chatID;
+			request.AddJsonBody(cid);
+
+			IRestResponse response = client.Execute(request);
+			Messages ms = null;
+			try {
+				ms = JsonConvert.DeserializeObject<Messages>(response.Content); // crashed here when navigating to message page
+			} catch (Exception e) {
+				// Ignore and return no messages
+			}
+			return ms;
+
+		}
+
+		public static void sendMessage(string id, string message) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/chat/sendMessage");
+			var request = new RestRequest(Method.POST);
+			client.CookieContainer = cookieJar;
+
+			MessageInfo mi = new MessageInfo();
+			mi.chatID = id;
+			mi.message = message;
+			request.AddJsonBody(mi);
+
+			IRestResponse response = client.Execute(request);
+		}
 
 
 
 
-		// Are we still going to use these?  I'm not sure
-		// I could make a bunch of individual calls to every field, but I'd like to avoid that if possible :S
 
+
+
+
+		// Deprecated
+		/*
 		public static void changeEmail(string email) {
 			string url = "https://calm-chamber-49049.herokuapp.com/email/";
 			url += email;
@@ -322,14 +388,15 @@ namespace UpgradeApp {
 			IRestResponse response = client.Execute(request);
 			//
 		}
+		*/
 
 
 
 
 
-		
-		
-		
+
+
+
 
 
 

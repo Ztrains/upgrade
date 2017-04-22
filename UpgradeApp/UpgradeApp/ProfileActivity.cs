@@ -56,13 +56,29 @@ namespace UpgradeApp {
 			//iNeedATutorTextView.Text
 			availabilityTextView.Text = p.time;
 			pricesTextView.Text = p.price;
+
+			if (emailTextView.Text.Equals(HTTPHandler.emailLoggedIn)) {
+				sendMessageButton.Enabled = false;
+				reportButton.Enabled = false;
+				blockButton.Enabled = false;
+				editButton.Enabled = true;
+			}
+			else {
+				sendMessageButton.Enabled = true;
+				reportButton.Enabled = true;
+				blockButton.Enabled = true;
+				editButton.Enabled = false;
+			}
 			
 
-            /*if(Intent.GetStringExtra("name") != null)
+            if(Intent.GetStringExtra("studyClasses") != null)
             {
-                nameTextView.Text = Intent.GetStringExtra("name");
+                iNeedATutorTextView.Text = Intent.GetStringExtra("studyClasses");
             }
-			if (Intent.GetStringExtra("email") != null) {
+            if(Intent.GetStringExtra("tutorClasses") != null) {
+                iTutorTextView.Text = Intent.GetStringExtra("tutorClasses");
+            }
+			/*if (Intent.GetStringExtra("email") != null) {
 				emailTextView.Text = Intent.GetStringExtra("email");
 			}
 				
@@ -99,17 +115,25 @@ namespace UpgradeApp {
 				intent.PutExtra("about", aboutTextView.Text);
 				intent.PutExtra("freeTime", availabilityTextView.Text);
 				intent.PutExtra("prices", pricesTextView.Text);
+				intent.PutExtra("studyClasses", iTutorTextView.Text);
+				intent.PutExtra("tutorClasses", iNeedATutorTextView.Text);
 				StartActivity(intent);
 
             };
 
 			rateButton.Click += (Sender, e) => {
-				HTTPHandler.upvoteProfile();
+				HTTPHandler.upvoteProfile(nameTextView.Text);
 				Toast toast = Toast.MakeText(this, "Thanks for your input!", ToastLength.Short);
 				toast.Show();
 			};
 
-			
+			sendMessageButton.Click += (Sender, e) => {
+				ChatID cid = HTTPHandler.startAChat(p._id);
+				var intent = new Android.Content.Intent(this, typeof(messagingActivity));
+				intent.PutExtra("cid", cid.chatID);
+				intent.PutExtra("uid", p._id);
+				StartActivity(intent);
+			};
 
 
 		}

@@ -136,7 +136,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountCreationActivity.cs" />
-    <Compile Include="pickAdapter.cs" />
+    <Compile Include="ClientHelper.cs" />
+    <Compile Include="messagingActivity.cs" />
     <Compile Include="PasswordRecoveryUse.cs" />
     <Compile Include="chatClass.cs" />
     <Compile Include="messageAdapter.cs" />

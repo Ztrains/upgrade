@@ -42,7 +42,7 @@ namespace UpgradeApp
                
             }
             view.FindViewById<TextView>(Android.Resource.Id.Text1).Text = items[position];
-            view.FindViewById<TextView>(Android.Resource.Id.Text2).Text = "3 Students";
+            view.FindViewById<TextView>(Android.Resource.Id.Text2).Text = "";
             return view;
         }
     }

@@ -1,13 +1,12 @@
 var users; //users collection
 
-/*
 const admin = require('firebase-admin');
 var serviceAccount = require('./upgradeKey.json');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://upgrade-fef84.firebaseio.com"
 });
-*/
+
 module.exports.addDevice = function(req, res) {
 	if(!users) {users = require('./index.js').users;}
 	if(!req.body.regKey) {
@@ -47,3 +46,17 @@ module.exports.checkDevice = function(req, res) {
 		});
 	}
 };
+
+module.exports.notifyDevices = function(user, chatID) {
+	var tokens = [];
+	for(var i = 0; i < user.devices.length; i++) {
+		tokens.push(devices[i].regKey);
+	}	
+	admin.messaging().sendToDevice(tokens, chatID).then(function(res) {
+		console.log("Success sending messages:", res);
+	}).catch(function(err) {
+		console.log("Error sending messages:", err);
+	});
+};
+	
+}
