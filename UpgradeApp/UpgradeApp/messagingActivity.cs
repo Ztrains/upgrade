@@ -28,14 +28,17 @@ namespace UpgradeApp
             SetContentView(Resource.Layout.messaging);
 			string uid = Intent.GetStringExtra("uid");
 			string cid = Intent.GetStringExtra("cid");
+			chats = null;
 
 			Messages ms = HTTPHandler.getMessages(cid);
-			for (int i = 0; i < ms.messages.Length; i++) {
-				bool direction = (ms.messages[i].sender.Equals(uid));
-				chatClass c = new chatClass(direction, ms.messages[i].message);
-				chats.Add(c);
+			if (ms != null) {
+				for (int i = 0; i < ms.messages.Length; i++) {
+					bool direction = (ms.messages[i].sender.Equals(uid));
+					chatClass c = new chatClass(direction, ms.messages[i].message);
+					chats.Add(c);
+				}
 			}
-
+			
             listView = FindViewById<ListView>(Resource.Layout.messaging);
             listView.Adapter = new messageAdapter(this, chats); //Chats should be replaced by stuff from the server. 
 
