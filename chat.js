@@ -1,4 +1,5 @@
 const objectID = require('mongodb').ObjectID
+const firebase = require('./firebase.js');
 var users;
 var chats;
 
@@ -29,9 +30,14 @@ module.exports.sendMessage = function (req, res) {
 			console.log(chat);
 			res.status(403).send("Chat not found or you are not a member of the chat");
 		} else {
-			//TODO increment message count
-			chats.updateOne({_id: chat._id}, {$push: {messages: {message: req.body.message, date: new Date().toString(), sender: req.user._id.toString()}}});
-			res.send("Message sent");
+			chats.updateOne({_id: chat._id}, {$push: {messages: {message: req.body.message, date: new Date().toString(), sender: req.user._id.toString()}}}, function(err, result) {
+				if(err) {
+					res.status(500).send("Database error occurred!");
+				} else {
+					firebase.notify(req.user, chat._id);	
+					res.send("Message sent");
+				}	
+			});
 		}
 	});
 };
