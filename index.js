@@ -194,10 +194,10 @@ app.post('/chat/getMessageCount', function(req, res) {
 		return;
 	}
 	chat.getMessageCount(req, res);
-}
+});
 app.post('/basic/chat/getMessageCount', basicAuth, function(req, res) {
 	chat.getMessageCount(req, res);
-}
+});
 
 app.get('/', (req, res) => {
     //res.send('Welcome to upgrade!');

@@ -58,5 +58,3 @@ module.exports.notifyDevices = function(user, chatID) {
 		console.log("Error sending messages:", err);
 	});
 };
-	
-}
