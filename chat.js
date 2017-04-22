@@ -34,7 +34,7 @@ module.exports.sendMessage = function (req, res) {
 				if(err) {
 					res.status(500).send("Database error occurred!");
 				} else {
-					firebase.notify(req.user, chat._id);	
+					firebase.notifyDevices(chat._id);	
 					res.send("Message sent");
 				}	
 			});
@@ -64,8 +64,7 @@ module.exports.getMessageCount = function(req, res) {
 module.exports.getMessages = function (req, res) {
 	if(!chats) {chats = require('./index.js').chats;}
 	if(!users) {users = require('./index.js').users;}
-		return;
-	}
+
 	chats.findOne({_id: new objectID(req.body.chatID), "members.user": req.user._id}, function(err, result) {
 		if(err) {
 			console.log("chat.getMessages database error");
@@ -85,7 +84,6 @@ module.exports.getMessages = function (req, res) {
 				res.json({messages: result.messages.slice(Math.max(req.body.num, 0))});
 		}
 	});
-
 };
 
 module.exports.startDM = function(req, res) {

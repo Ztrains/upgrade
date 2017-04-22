@@ -47,14 +47,36 @@ module.exports.checkDevice = function(req, res) {
 	}
 };
 
-module.exports.notifyDevices = function(user, chatID) {
-	var tokens = [];
-	for(var i = 0; i < user.devices.length; i++) {
-		tokens.push(devices[i].regKey);
-	}	
-	admin.messaging().sendToDevice(tokens, chatID).then(function(res) {
-		console.log("Success sending messages:", res);
-	}).catch(function(err) {
-		console.log("Error sending messages:", err);
+module.exports.notifyDevices = function(chatID) {
+	if(!users) {users = require('./index.js').users;}
+	if(!chats) {chats = require('./index.js').chats;}
+	chats.findOne({_id: chatID}, function(err, result) {
+		if(err) {
+			console.log("Database error in notifyDevices", err);
+			return;
+		}
+		var tUsers = [];
+		for(var i = 0; i < result.members.length; i++) {
+			if(result.members[i].muted != false) {
+				tUsers.push(result.members[i].user);	
+			}	
+		}
+		for(var i = 0; i < users.length; i++) {
+			if(err) {
+				console.log("Database error in notifyDevices", err);
+				return;
+			}
+			users.findOne({_id: tUsers[i]}, function(err, result) {
+				var tokens = [];
+				for(var n = 0; n < result.devices.length; n++) {
+					tokens.push(result.devices[i].regKey);
+				}
+				admin.messaging().sendToDevice(tokens, chatID).then(function(res) {
+					console.log("Success sending messages:", res);
+				}).catch(function(err) {
+					console.log("Error sending messages:", err);
+				});
+			});
+		}
 	});
 };
