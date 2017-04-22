@@ -27,7 +27,6 @@ module.exports.sendMessage = function (req, res) {
 			res.status(500).send("Database error occured!");
 		} else if(!chat) {
 			console.log("User: '" + req.user.email + "' attempted to access chat: '" + req.body.chatID + "':");
-			console.log(chat);
 			res.status(403).send("Chat not found or you are not a member of the chat");
 		} else {
 			chats.updateOne({_id: chat._id}, {$push: {messages: {message: req.body.message, date: new Date().toString(), sender: req.user._id}}}, function(err, result) {
@@ -45,7 +44,7 @@ module.exports.sendMessage = function (req, res) {
 module.exports.getMessageCount = function(req, res) {
 	if(!chats) {chats = require('./index.js').chats;}
 	if(!users) {users = require('./index.js').users;}
-	chats.findOne({_id: req.body.chatID, members: req.user._id}, function(err, chat) {
+	chats.findOne({_id: new objectID(req.body.chatID), "members.user": req.user._id}, function(err, chat) {
 		if(err) {
 			console.log("chat.getMessageCount database err:");
 			console.log(err);
