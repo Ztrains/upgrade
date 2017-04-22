@@ -30,7 +30,7 @@ module.exports.sendMessage = function (req, res) {
 			console.log(chat);
 			res.status(403).send("Chat not found or you are not a member of the chat");
 		} else {
-			chats.updateOne({_id: chat._id}, {$push: {messages: {message: req.body.message, date: new Date().toString(), sender: req.user._id.toString()}}}, function(err, result) {
+			chats.updateOne({_id: chat._id}, {$push: {messages: {message: req.body.message, date: new Date().toString(), sender: req.user._id}}}, function(err, result) {
 				if(err) {
 					res.status(500).send("Database error occurred!");
 				} else {
