@@ -559,13 +559,17 @@ app.post('/reportUser', (req,res)=>{
             }
         }}
     )
+    console.log("User with id " + req.body.repid + " has been reported.")
+    console.log("Reason given: " + req.body.reason)
+    res.send("User reported")
 })
 
 app.post('/getReports',(req,res)=>{
     db.collection('classes', (err, collection) => {
         if (err) {
             console.log('ERROR:', err);
-            res.redirect('/')
+            res.send("error")
+            return
         } else {
             collection.distinct('reportedUsers', {}, {}, (err, result)=>{
                 res.json({"reportedUsers": result})
