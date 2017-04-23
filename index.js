@@ -34,7 +34,8 @@ var chats; //chats collection;
 var classes;    //classes collection
 var localTestUrl = 'mongodb://localhost:27017/test';
 
-
+/*  This is the process to connect to our MongoDB database hosted on mLab.
+    we connect to the database and export the three documents into variables to use them later*/
 mongodb.MongoClient.connect(process.env.MONGODB_URI || localTestUrl, function(err, database) {
     if (err) {
         console.log('ERROR:', err);
@@ -55,13 +56,17 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI || localTestUrl, function(er
 var localAuth = passport.authenticate('local');
 var basicAuth = passport.authenticate('basic', {session: false});
 
-//function logs in
+/*  Route for logging in.  Code mostly in auth.js
+    Sends a cookie to the user to show they're logged in.   */
 app.post('/login', localAuth,
   function(req, res) {
 	console.log('login successful');
 	if(!res.headersSent) {res.send('you have authenticated properly')};
   });
 
+/*  Route for logging out.
+    Destroys the cookie the user has.
+    User must be logged in to work, obviously.  */
 app.post('/logout', function(req, res) {
 	if(req.user) {
 		req.logout()
@@ -71,13 +76,16 @@ app.post('/logout', function(req, res) {
 	//res.redirect('/login');
 });
 
+/*  Route to check if a user is logged in.
+    Just used for debugging purposes, really.   */
 app.post('/testlogin', function(req, res) {
 	console.log('testing login: ',  req.cookies, '\nreq: ', req.session);
 	if(req.user) { res.send('you are logged in as: ' + req.user.email);
 	} else {res.send('login test failed');}
 });
 
-//function gets salt for user for possible use with HTTP Basic authentication
+/*  Function gets salt for user for possible use with HTTP Basic authentication
+    Not really used, as we use local authentication with cookies instead.   */
 app.post('/basic/salt', function(req, res) {
 	//return salt for requested user;
 	users.findOne({email: req.body.email}, function(err, r) {
@@ -88,12 +96,15 @@ app.post('/basic/salt', function(req, res) {
 	});
 });
 
+/*  Same idea as /testLogin but for basic authentication.
+    Again, not really used since we use local auth with cookies.    */
 app.post('/basic/test', basicAuth, function(req, res) {
 	console.log("basic/test succeeded for " + req.body.email);
 	if(!res.headersSent) {res.send('Test auth succeeded');}
 });
 
-//registers a user in the user database
+/*  Registers a user in the users document.
+    Requires an email and password, which gets salted.  */
 app.post('/reg', function(req, res) {
 	users.findOne({email: req.body.email}, function(err, r) {
 		console.log(r);
@@ -110,8 +121,9 @@ app.post('/reg', function(req, res) {
 	});
 
 });
-//register Device in Database
-//JSON fields: "regKey"
+
+/*  Registers device in database for use with Firebase notifications.
+    JSON fields: "regKey"   */
 app.post('/regDevice', function(req, res) {
 	if(!req.user) {
 		res.status(401).send("Not logged in");
@@ -124,8 +136,8 @@ app.post('/basic/regDevice', basicAuth, function(req, res) {
 });
 
 
-//check device in database
-//JSON fields: "regKey"
+/*  Checks if device is in database for Firebase notifications.
+    JSON fields: "regKey"   */
 app.post('/checkDevice', function(req, res) {
 	if(!req.user) {
 		res.status(401).send("Not logged in");
@@ -137,9 +149,8 @@ app.post('/basic/checkDevice', basicAuth, function(req, res) {
 	firebase.checkDevice(req, res);
 });
 
-//possibly unneccessary
-//get direct messages;
-//JSON fields: N/A
+/*  Possibly unneccessary, gets direct messages.
+    JSON fields: N/A    */
 app.post('/dms/get', function(req, res) {
 	if(!req.user) {
 		res.status(401).send("Not logged in");
@@ -147,11 +158,15 @@ app.post('/dms/get', function(req, res) {
 	}
 	chat.getMessages(req, res);
 });
+
+/*  Basic authentication strategy to get messages.
+    Unused, using local authentication. */
 app.post('/basic/dms/get', basicAuth, function(req, res) {
 	chat.getDms(req, res);
 });
-//start a dm with a new user
-//JSON fields: "dm_user" (user id of target user)
+
+/*  Starts a new dm with a user
+    JSON fields: "dm_user" (user id of target user) */
 app.post('/dms/start', function(req, res) {
 	if(!req.user) {
 		res.status(401).send("Not logged in");
@@ -160,6 +175,8 @@ app.post('/dms/start', function(req, res) {
 	chat.startDM(req, res);
 });
 
+/*  Starts a new message board for a class.
+    JSON fields: "classID" (name of class)  */
 app.post('/dms/class/start', function(req, res) {
 	if(!req.user) {
 		res.status(401).send("Not logged in");
@@ -168,12 +185,14 @@ app.post('/dms/class/start', function(req, res) {
 	chat.startClassDM(req, res);
 });
 
+/*  Basic authentication to start new DM.
+    Unused, again.  */
 app.post('/basic/dms/start', basicAuth, function(req, res) {
 	chat.startDM(req, res);
 });
 
-//send a message in specified chat
-//JSON fields: "chatID", "message" (just payload, no timestamp or sender info)
+/*  Sends a message in specified chat
+    JSON fields: "chatID", "message" (just payload, no timestamp or sender info)    */
 app.post('/chat/message/send', function(req, res) {
 	if(!req.user) {
 		res.status(401).send("Not logged in");
@@ -182,6 +201,8 @@ app.post('/chat/message/send', function(req, res) {
 	chat.sendMessage(req, res);
 });
 
+/*  Sends a message in the specified class message board.
+    JSON fields: "chatID", "message" (just payload, no timestamp or sender info), "classID" (name of class to message)  */
 app.post('/chat/class/message/send', function(req, res) {
 	if(!req.user) {
 		res.status(401).send("Not logged in");
@@ -190,12 +211,14 @@ app.post('/chat/class/message/send', function(req, res) {
 	chat.sendClassMessage(req, res);
 });
 
+/*  Basic authentication to send message.
+    Unused.  */
 app.post('/basic/chat/message/send', basicAuth, function(req ,res) {
 	chat.sendMessage(req, res);
 });
 
-//get messges in specified chat
-//JSON fields: "chatID", "start"(optional, start of message range), "end" (optional, end of message range)
+/*  Get messages in specified chat
+    JSON fields: "chatID", "start"(optional, start of message range), "end" (optional, end of message range)    */
 app.post('/chat/messages/get', function(req, res) {
 	if(!req.user) {
 		res.status(401).send("Not logged in");
@@ -203,12 +226,15 @@ app.post('/chat/messages/get', function(req, res) {
 	}
 	chat.getMessages(req, res);
 });
+
+/*  Basic authentication to get messages.
+    Unused. */
 app.post('/basic/chat/message/get', basicAuth, function(req, res) {
 	chat.getMessages(req, res);
 });
 
-//get message count in specified chat
-//JSON fields: "chatID"
+/*  Get message count in specified chat
+    JSON fields: "chatID"   */
 app.post('/chat/message/count', function(req, res) {
 	if(!req.user) {
 		res.status(401).send("Not logged in");
@@ -216,68 +242,36 @@ app.post('/chat/message/count', function(req, res) {
 	}
 	chat.getMessageCount(req, res);
 });
+
+/*  Basic authentication strategy to get messages.
+    Unused. */
 app.post('/basic/chat/message/count', basicAuth, function(req, res) {
 	chat.getMessageCount(req, res);
 });
 
+/*  Home route when going to our URL in a browser.
+    Unused, was just for testing purposes.  */
 app.get('/', (req, res) => {
-    //res.send('Welcome to upgrade!');
     res.sendFile(__dirname + '/index.html');
 });
 
+/*  Route to retrieve list of classes stored in the classes document.
+    JSON fields: None, it's a GET.  */
 app.get('/classList',  (req, res) => {
-    res.type('json');
-    var list=[];
     db.collection('classes', (err, collection) => {
         if (err) {
             console.log('ERROR:', err);
             res.redirect('/')
         } else {
-            /*collection.find({}, {
-                _id: 1
-            }).forEach((err, doc) => {
-                if (err) {
-                    console.log('ERROR:', err)
-                    res.redirect('/')
-                } else {
-                    list.push(doc)
-                }
-            })*/
             collection.distinct('name', {}, {}, (err, result)=>{
-                //res.send(JSON.stringify({classes: result})
                 res.json({"classes": result})
             })
         }
     })
-    //res.json(list);
 })
 
-//          deprecated, use /joinClass instead
-/*app.get('/join/:class/:type/:name', (req, res) => {
-    var list;
-    db.collection('classes', (err, collection) => {
-        if (err) {
-            console.log('ERROR:', err);
-            res.redirect('/')
-        } else {
-            collection.update({
-                _id: req.params.class
-            }, {
-                $push: {
-                    students: {
-                        name: req.params.name,
-                        type: req.params.type
-                    }
-                }
-            })
-        }
-    })
-
-    //db.classes.update({_id: req.params.class}, {$pull: {students: req.user.userName}})
-
-    //res.send('Hello, ' + req.user.givenName + ', your username is ' + req.params.username)
-    res.redirect('/')
-})*/
+/*  Route to add a new class to the classes document.
+    JSON fields: "className" (name of class to add) */
 app.post('/newClass', (req,res)=>{
     if(!req.user) {
 		res.status(401).send("Not logged in");
@@ -290,6 +284,8 @@ app.post('/newClass', (req,res)=>{
     });
 })
 
+/*  Route to add a user to a class.  Adds them in both the classes document under the correct class, and adds to their profile.
+    JSON fields: "className" (name of class to add student to), "type" (type user will be for a class e.g. 'student' or 'tutor')    */
 app.post('/joinClass', (req,res)=>{
     if(!req.user) {
 		res.status(401).send("Not logged in");
@@ -321,9 +317,12 @@ app.post('/joinClass', (req,res)=>{
             }
         }
     })
-    res.send("added " + req.user.name + " as a " + req.body.type + " to class " + req.body.className)
+    console.log("added " + req.user.name + " as a " + req.body.type + " to class " + req.body.className)
+    res.send("user added")
 })
 
+/*  Route to remove a user from a class.  Removes them from the array of students under the document.
+    JSON fields: "className" (name of class to add student to), "type" (type user will be for a class e.g. 'student' or 'tutor')    */
 app.post('/leaveClass', (req,res)=>{
     if(!req.user) {
 		res.status(401).send("Not logged in");
@@ -346,34 +345,44 @@ app.post('/leaveClass', (req,res)=>{
             })
         }
     })
-    res.send("removed " + req.user.name + " as a " + req.body.type + " from class " + req.body.className)
+    console.log("removed " + req.user.name + " as a " + req.body.type + " from class " + req.body.className)
+    res.send('user removed')
 })
 
+/*  Retrieves everything in a user's profile and sends the entire profile in JSON.
+    JSON fields: "name" (name of user), "email" (email of user) */
 app.post('/retrieveProfile', (req, res)=>{
     console.log('name trying to retrieve: ' + req.body.name)
     console.log('email trying to retrieve: ' + req.body.email)
     users.findOne({$or: [{name: req.body.name}, {email: req.body.email}]}, function(err, profile) {
 		if(err) {console.log("Retrieval error"); return res.send("retrieval error");}
 		else if(!profile) {console.log("email not found"); return res.send("User doesn't exist/Email not found");}
-		console.log("Profile retrieved: " + JSON.stringify(profile,null,2));  //should log everything in the profile in theory
+		console.log("Profile retrieved: " + JSON.stringify(profile,null,2));  //Makes the JSON 'pretty'
         res.type('json');
-		res.json(profile);    //up to client to parse i guess lol sorry
+		res.json(profile);    //Client will parse it all
 	});
 })
 
-//call this one right after login
+/*  Route to retrieve a profile for looking at right after login.
+    Pretty sure it's not used anymore, basically just a clone of the above route.
+    JSON fields: "name" (name of user), "email" (email of user) */
 app.post('/retrieveLogin', (req,res)=>{
-    //console.log('login profile name: ' + req.body.name)
     console.log('login profile email: ' + req.body.email)
     users.findOne({email: req.body.email}, function(err, profile) {
 		if(err) {console.log("Retrieval error"); return res.send("retrieval error");}
 		else if(!profile) {console.log("email not found"); return res.send("User doesn't exist/Email not found");}
-		console.log("Profile retrieved: " + JSON.stringify(profile,null,2));  //should log everything in the profile in theory
+		console.log("Profile retrieved: " + JSON.stringify(profile,null,2));
         res.type('json');
-		res.json(profile);    //up to client to parse i guess lol sorry
+		res.json(profile);
 	});
 })
 
+/*  Route to update a user's profile.  Checks if certain fields exists and updates them if something was sent in req.
+    JSON fields required: "email" (email of user to update)
+    JSON fields possible:   "name" (name of user), "newemail" (new email to be stored), "contact" (contact info), "about" (about info),
+                            "tutor" (field to show if a tutor, possibly unused), "student" (field to show if a student, possibly unused),
+                            "time" (times available), "price" (pricing options), "avatar" (URL of avatar displayed),
+                            "visible" (field if profile is private or not), "admin" (field if user is admin, probably won't be used by client)  */
 app.post('/updateProfile', (req,res)=>{
     users.findOne({email: req.body.email}, function(err, profile) {
         if (err) {
@@ -465,6 +474,8 @@ app.post('/updateProfile', (req,res)=>{
     res.send("profile updated")
 })
 
+/*  Route to list all users in a specified class.
+    JSON fields: "className" (name of class)    */
 app.post('/studentsInClass', (req,res)=>{
     //res.type('json')
     db.collection('classes', (err, collection)=>{
@@ -488,6 +499,9 @@ app.post('/studentsInClass', (req,res)=>{
     })
 })
 
+/*  Route for upvoting or downvoting a user.
+    JSON fields:    "email" (email of user doing upvoting, probably unneeded), "vote" (should be 'up' or 'down', indicating upvote or downvote),
+                    "name" (name of user to upvote/downvote)    */
 app.post('/upvote', (req,res)=>{
     users.findOne({email: req.body.email}, function(err, profile) {
         if (err) {
