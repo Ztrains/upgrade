@@ -39,7 +39,7 @@ namespace UpgradeApp
 				}
 			}
 			
-            listView = FindViewById<ListView>(Resource.Layout.messaging);
+            listView = FindViewById<ListView>(Resource.Id.message);
             listView.Adapter = new messageAdapter(this, chats); //Chats should be replaced by stuff from the server. 
 
 			sendButton.Click += (Sender, e) => {
