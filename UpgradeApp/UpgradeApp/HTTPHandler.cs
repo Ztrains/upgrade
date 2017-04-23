@@ -222,8 +222,8 @@ namespace UpgradeApp {
 			return students;
 		}
 
-		public static void updateProfile(string name, string email, string contact, string about, 
-			string[] classesTutor, string[] classesStudent, string time, string prices) {
+		public static void updateProfile(string name, string email, string contact, string about,
+			string[] classesTutor, string[] classesStudent, string time, string prices, string visible, string avatar) {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/updateProfile"); 
 			var request = new RestRequest(Method.POST);
 
@@ -242,6 +242,8 @@ namespace UpgradeApp {
 			//profile.classesStudent = classesStudent;
 			profile.time = time;
 			profile.price = prices;
+			profile.visible = visible;
+			profile.avatar = avatar;
 
 			request.AddJsonBody(profile);
 
@@ -315,7 +317,7 @@ namespace UpgradeApp {
 		}
 
 		// Messaging functions
-		public static ChatID startAChat(string id) {
+		public static GetChatID startAChat(string id) {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/dms/start");
 			var request = new RestRequest(Method.POST);
 			client.CookieContainer = cookieJar;
@@ -325,16 +327,16 @@ namespace UpgradeApp {
 			request.AddJsonBody(uid);	
 
 			IRestResponse response = client.Execute(request);
-			ChatID cid = JsonConvert.DeserializeObject<ChatID>(response.Content);
+			GetChatID cid = JsonConvert.DeserializeObject<GetChatID>(response.Content);
 			return cid;
 		}
 
 		public static Messages getMessages(string chatID) {
-			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/dms/get");
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/chat/messages/get");
 			var request = new RestRequest(Method.POST);
 			client.CookieContainer = cookieJar;
 
-			ChatID cid = new ChatID();
+			SendChatID cid = new SendChatID();
 			cid.chatID = chatID;
 			request.AddJsonBody(cid);
 
