@@ -470,12 +470,7 @@ app.post('/upvote', (req,res)=>{
         if (req.body.vote == 'up') {
             users.findOneAndUpdate(
                 {"name":req.body.name},
-                { $inc: {"rating":1}},
-                {$addToSet: {
-                    usersUpvoted: {
-                        id: req.user._id
-                    }
-                }}
+                { $inc: {"rating":1}}
             )
 
             console.log("rating raised by 1")
@@ -484,12 +479,7 @@ app.post('/upvote', (req,res)=>{
         else if (req.body.vote == 'down') {
             users.findOneAndUpdate(
                 {"name":req.body.name},
-                { $inc: {"rating":-1}},
-                {$addToSet: {
-                    usersUpvoted: {
-                        id: req.user._id
-                    }
-                }}
+                { $inc: {"rating":-1}}
             )
             console.log("rating lowered by 1")
         }
@@ -498,7 +488,14 @@ app.post('/upvote', (req,res)=>{
             return res.send("invalid vote, must be up or down")
         }
 	});
-
+    users.findOneAndUpdate(
+        {"name":req.body.name},
+        {$addToSet: {
+            usersUpvoted: {
+                _id: req.user._id.toString()
+            }
+        }
+    })
     res.send("rating updated")
 })
 
