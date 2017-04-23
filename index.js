@@ -312,6 +312,15 @@ app.post('/joinClass', (req,res)=>{
             })
         }
     })
+    users.findOneAndUpdate(
+        {"name":req.user.name},
+        {$addToSet: {
+            classesIn: {
+                className: req.user.className,
+                type: req.body.type
+            }
+        }
+    })
     res.send("added " + req.user.name + " as a " + req.body.type + " to class " + req.body.className)
 })
 
