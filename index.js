@@ -225,7 +225,7 @@ app.get('/classList',  (req, res) => {
                     list.push(doc)
                 }
             })*/
-            collection.distinct('_id', {}, {}, (err, result)=>{
+            collection.distinct('name', {}, {}, (err, result)=>{
                 //res.send(JSON.stringify({classes: result})
                 res.json({"classes": result})
             })
@@ -413,6 +413,27 @@ app.post('/updateProfile', (req,res)=>{
             )
             console.log("price updated to: " + data.price)
         }
+        if (data.avatar) {
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"avatar":data.avatar}}
+            )
+            console.log("avatar updated to: " + data.avatar)
+        }
+        if (data.visible) {
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"visible":data.visible}}
+            )
+            console.log("visible updated to: " + data.visible)
+        }
+        if (data.admin) {
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"admin":data.admin}}
+            )
+            console.log("admin updated to: " + data.admin)
+        }
 	});
     res.send("profile updated")
 })
@@ -425,7 +446,7 @@ app.post('/studentsInClass', (req,res)=>{
             res.redirect('/')
         }
         else {
-            collection.find({_id: req.body.className},{students:1, _id:0}).toArray(function(err, listofstudents) {
+            collection.find({name: req.body.className},{students:1, _id:0}).toArray(function(err, listofstudents) {
                 if (err) {
                     console.log('ERROR:', err);
                     res.redirect('/')
@@ -449,14 +470,26 @@ app.post('/upvote', (req,res)=>{
         if (req.body.vote == 'up') {
             users.findOneAndUpdate(
                 {"name":req.body.name},
-                { $inc: {"rating":1}}
+                { $inc: {"rating":1}},
+                {$addToSet: {
+                    usersUpvoted: {
+                        id: user._id
+                    }
+                }}
             )
+
             console.log("rating raised by 1")
+
         }
         else if (req.body.vote == 'down') {
             users.findOneAndUpdate(
                 {"name":req.body.name},
                 { $inc: {"rating":-1}}
+                {$addToSet: {
+                    usersUpvoted: {
+                        id: user._id
+                    }
+                }}
             )
             console.log("rating lowered by 1")
         }
@@ -465,6 +498,7 @@ app.post('/upvote', (req,res)=>{
             return res.send("invalid vote, must be up or down")
         }
 	});
+
     res.send("rating updated")
 })
 
@@ -516,11 +550,16 @@ app.post('/doRecovery', (req,res)=>{
 	});
 })
 
-app.post('/avatar', (req,res)=>{
+/*app.post('/avatar', (req,res)=>{
     users.findOneAndUpdate(
         {"email":req.body.email},
         { $set: {"avatar":req.body.avatar}} //just stores the url sent in the database
     )
+})
+
+app.get('/avatar', (req,res)=>{
+    console.log("avatar link " + req.user.avatar + " sent")
+    res.json({avatar:req.user.avatar})
 })
 
 app.post('/makeAdmin', (req,res)=>{
@@ -533,8 +572,37 @@ app.post('/makeAdmin', (req,res)=>{
 app.post('/makePrivate', (req,res)=>{
     users.findOneAndUpdate(
         {"email":req.body.email},
-        { $set: {"private":"yes"}} //just stores the url sent in the database
+        { $set: {"visible":"yes"}} //just stores the url sent in the database
     )
+})*/
+
+app.post('/reportUser', (req,res)=>{
+    classes.findOneAndUpdate(
+        {"_id":"reports"},
+        {$addToSet: {
+            reportedUsers: {
+                id: req.body.repid,
+                reason: req.body.reason
+            }
+        }}
+    )
+    console.log("User with id " + req.body.repid + " has been reported.")
+    console.log("Reason given: " + req.body.reason)
+    res.send("User reported")
+})
+
+app.post('/getReports',(req,res)=>{
+    db.collection('classes', (err, collection) => {
+        if (err) {
+            console.log('ERROR:', err);
+            res.send("error")
+            return
+        } else {
+            collection.distinct('reportedUsers', {}, {}, (err, result)=>{
+                res.json({"reportedUsers": result})
+            })
+        }
+    })
 })
 
 http.listen(port, ()=>{
