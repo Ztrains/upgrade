@@ -98,7 +98,7 @@ app.post('/reg', function(req, res) {
 		else if(r) {res.send("User exists"); return;}
 		var salt = bcrypt.genSaltSync(10);
 		var hash = bcrypt.hashSync(req.body.password, salt);
-		users.insertOne({email: req.body.email, hash: hash, admin: "no"}, function(err, r) {
+		users.insertOne({email: req.body.email, hash: hash}, function(err, r) {
 			if(err) {res.send("Database error");}
 			else {res.send("Success adding user");}
 
@@ -231,8 +231,8 @@ app.get('/classList',  (req, res) => {
     //res.json(list);
 })
 
-//deprecated, use /joinClass instead
-app.get('/join/:class/:type/:name', (req, res) => {
+//          deprecated, use /joinClass instead
+/*app.get('/join/:class/:type/:name', (req, res) => {
     var list;
     db.collection('classes', (err, collection) => {
         if (err) {
@@ -256,7 +256,7 @@ app.get('/join/:class/:type/:name', (req, res) => {
 
     //res.send('Hello, ' + req.user.givenName + ', your username is ' + req.params.username)
     res.redirect('/')
-})
+})*/
 
 app.post('/joinClass', (req,res)=>{
     if(!req.user) {
@@ -269,7 +269,7 @@ app.post('/joinClass', (req,res)=>{
             res.redirect('/')
         } else {
             collection.update({
-                _id: req.body.className
+                $set: {_id: req.body.className}
             }, {
                 $addToSet: {
                     students: {
@@ -513,6 +513,13 @@ app.post('/makeAdmin', (req,res)=>{
     users.findOneAndUpdate(
         {"email":req.body.email},
         { $set: {"admin":"yes"}} //just stores the url sent in the database
+    )
+})
+
+app.post('/makePrivate', (req,res)=>{
+    users.findOneAndUpdate(
+        {"email":req.body.email},
+        { $set: {"private":"yes"}} //just stores the url sent in the database
     )
 })
 
