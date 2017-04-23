@@ -269,7 +269,7 @@ app.post('/joinClass', (req,res)=>{
             res.redirect('/')
         } else {
             collection.update({
-                $set: {_id: req.body.className}
+                $set: {name: req.body.className}
             }, {
                 $addToSet: {
                     students: {
