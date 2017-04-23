@@ -181,6 +181,15 @@ app.post('/chat/message/send', function(req, res) {
 	}
 	chat.sendMessage(req, res);
 });
+
+app.post('/chat/class/message/send', function(req, res) {
+	if(!req.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+	chat.sendClassMessage(req, res);
+});
+
 app.post('/basic/chat/message/send', basicAuth, function(req ,res) {
 	chat.sendMessage(req, res);
 });
