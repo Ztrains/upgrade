@@ -473,7 +473,7 @@ app.post('/upvote', (req,res)=>{
                 { $inc: {"rating":1}},
                 {$addToSet: {
                     usersUpvoted: {
-                        id: user._id
+                        id: req.user._id
                     }
                 }}
             )
@@ -484,10 +484,10 @@ app.post('/upvote', (req,res)=>{
         else if (req.body.vote == 'down') {
             users.findOneAndUpdate(
                 {"name":req.body.name},
-                { $inc: {"rating":-1}}
+                { $inc: {"rating":-1}},
                 {$addToSet: {
                     usersUpvoted: {
-                        id: user._id
+                        id: req.user._id
                     }
                 }}
             )
