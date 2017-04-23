@@ -328,13 +328,15 @@ app.post('/leaveClass', (req,res)=>{
 		res.status(401).send("Not logged in");
 		return;
 	}
+    console.log('req.body.className: ' + req.body.className)
+    console.log('req.body.type: ' + req.body.type)
     db.collection('classes', (err, collection) => {
         if (err) {
             console.log('ERROR:', err);
-            res.redirect('/')
+            res.send('Error removing from class')
         } else {
             collection.update({
-                _id: req.body.className
+                name: req.body.className
             }, {
                 $pull: {
                     students: {
@@ -343,6 +345,15 @@ app.post('/leaveClass', (req,res)=>{
                     }
                 }
             })
+        }
+    })
+    users.findOneAndUpdate(
+        {"name":req.user.name},
+        {$pull: {
+            classesIn: {
+                className: req.body.className,
+                type: req.body.type
+            }
         }
     })
     console.log("removed " + req.user.name + " as a " + req.body.type + " from class " + req.body.className)
@@ -540,6 +551,9 @@ app.post('/upvote', (req,res)=>{
     res.send("rating updated")
 })
 
+/*  Route for setting recovery question/answer for a user.
+    Unused now, new password updating method used.
+    JSON fields: "email" (email of user), "question" (recovery question), "answer" (recovery answer)    */
 app.post('/setRecovery', (req,res)=>{
     users.findOne({email: req.body.email}, function(err, profile) {
         if (err) {
@@ -547,27 +561,31 @@ app.post('/setRecovery', (req,res)=>{
             res.send(1);
         }
         var data = req.body
-        //if (req.body.vote == 'up') {
-            users.findOneAndUpdate(
-                {"email":req.body.email},
-                { $set: {"question":req.body.question, "answer":req.body.answer}}
-            )
-            console.log("Security question: " + req.body.question)
-            console.log("Question Answer: " + req.body.answer)
-        //}
+        users.findOneAndUpdate(
+            {"email":req.body.email},
+            { $set: {"question":req.body.question, "answer":req.body.answer}}
+        )
+        console.log("Security question: " + req.body.question)
+        console.log("Question Answer: " + req.body.answer)
 	});
     res.send("recovery set")
 })
 
+/*  Sends the recovery question to the user so they can change their password.
+    Unused, new strategy used instead.
+    JSON fields: "email" (email of user)    */
 app.post('/getQuestion', (req,res)=>{
     users.findOne({email: req.body.email}, function(err, r) {
 		if(err) {console.log("Could not find email"); res.send("Database error");}
 		else if(!r) {console.log("user not found"); res.send("User doesn't exist");}
-		console.log("result of salt search: " + r.question);
+		console.log("question returned: " + r.question);
 		res.json({question: r.question});
 	});
 })
 
+/*  Route to do the password resetting of the user.
+    Unused, new strategy used instead.
+    JSON fields: "email" (email of user), "answer" (answer sent by user)    */
 app.post('/doRecovery', (req,res)=>{
     users.findOne({email: req.body.email}, function(err, profile) {
         if (err) {
@@ -588,32 +606,8 @@ app.post('/doRecovery', (req,res)=>{
 	});
 })
 
-/*app.post('/avatar', (req,res)=>{
-    users.findOneAndUpdate(
-        {"email":req.body.email},
-        { $set: {"avatar":req.body.avatar}} //just stores the url sent in the database
-    )
-})
-
-app.get('/avatar', (req,res)=>{
-    console.log("avatar link " + req.user.avatar + " sent")
-    res.json({avatar:req.user.avatar})
-})
-
-app.post('/makeAdmin', (req,res)=>{
-    users.findOneAndUpdate(
-        {"email":req.body.email},
-        { $set: {"admin":"yes"}} //just stores the url sent in the database
-    )
-})
-
-app.post('/makePrivate', (req,res)=>{
-    users.findOneAndUpdate(
-        {"email":req.body.email},
-        { $set: {"visible":"yes"}} //just stores the url sent in the database
-    )
-})*/
-
+/*  Route to report a user.
+    JSON fields: "repid" (_id of user being reported), "reason" (reason given for why they are being reported)  */
 app.post('/reportUser', (req,res)=>{
     classes.findOneAndUpdate(
         {"_id":"reports"},
@@ -629,6 +623,8 @@ app.post('/reportUser', (req,res)=>{
     res.send("User reported")
 })
 
+/*  Route to get all of the reports made.
+    JSON fields: N/A    */
 app.post('/getReports',(req,res)=>{
     db.collection('classes', (err, collection) => {
         if (err) {
@@ -643,51 +639,7 @@ app.post('/getReports',(req,res)=>{
     })
 })
 
+/*  Starts the server with the port to listen on.   */
 http.listen(port, ()=>{
     console.log("listening on " + port)
 });
-
-
-/*****************************************************
-**************This is staying in for now**************
-*****************************************************/
-
-var usernames = {};
-
-function check_if_exists(id) {
-	for (var name in usernames) {
-		if (name === id) {
-			return true;
-		}
-	}
-	return false;
-}
-
-io.on("connection", (client)=>{
-	console.log('user connected')
-
-	client.on('adduser', (username)=>{
-		//store username in socket session for this client
-		client.username = username;
-		//add clients username to global list
-		if (check_if_exists(username) === false)
-			usernames[username] = client.id;
-        console.log("*** Usernames ***")
-        for (var name in usernames) {
-    		console.log('\t Name: ' + name)
-    	}
-	});
-
-	// when the user sends a private message to a user.. perform this
-	client.on('msg_user', function(user_to, user_from, msg) {
-		console.log("From user: "+user_from);
-		console.log("To user: "+user_to);
-		//console.log(usernames);
-		io.sockets.client(usernames[user_to]).emit('updatechat', msg);
-
-	});
-});
-
-/*****************************************************
-**********************End of chat*********************
-*****************************************************/
