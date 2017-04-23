@@ -225,7 +225,7 @@ app.get('/classList',  (req, res) => {
                     list.push(doc)
                 }
             })*/
-            collection.distinct('_id', {}, {}, (err, result)=>{
+            collection.distinct('name', {}, {}, (err, result)=>{
                 //res.send(JSON.stringify({classes: result})
                 res.json({"classes": result})
             })
