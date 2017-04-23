@@ -31,6 +31,7 @@ const port = process.env.PORT || 3000;
 var db;
 var users; //users collection;
 var chats; //chats collection;
+var classes;    //classes collection
 var localTestUrl = 'mongodb://localhost:27017/test';
 
 
@@ -46,6 +47,8 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI || localTestUrl, function(er
 	module.exports.users = users; //export users collection from module for use in auth.js
 	chats = database.collection("chats");
 	module.exports.chats = chats;
+    classes = database.collection("classes");
+    module.exports.classes = classes;
     console.log("Database connection ready");
 });
 
@@ -257,6 +260,17 @@ app.get('/classList',  (req, res) => {
     //res.send('Hello, ' + req.user.givenName + ', your username is ' + req.params.username)
     res.redirect('/')
 })*/
+app.post('/newClass', (req,res)=>{
+    if(!req.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+    classes.insertOne({name: req.body.className}, function(err, r) {
+        if(err) {res.send("Could not create new class")}
+        else {res.send("Success adding class")}
+
+    });
+})
 
 app.post('/joinClass', (req,res)=>{
     if(!req.user) {
@@ -269,7 +283,7 @@ app.post('/joinClass', (req,res)=>{
             res.redirect('/')
         } else {
             collection.update({
-                $set: {name: req.body.className}
+                name: req.body.className
             }, {
                 $addToSet: {
                     students: {
