@@ -316,7 +316,7 @@ app.post('/joinClass', (req,res)=>{
         {"name":req.user.name},
         {$addToSet: {
             classesIn: {
-                className: req.user.className,
+                className: req.body.className,
                 type: req.body.type
             }
         }
