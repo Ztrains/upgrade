@@ -162,15 +162,41 @@ app.post('/basic/dms/start', basicAuth, function(req, res) {
 
 //send a message in specified chat
 //JSON fields: "chatID", "message" (just payload, no timestamp or sender info)
-app.post('/chat/sendMessage', function(req, res) {
+app.post('/chat/message/send', function(req, res) {
 	if(!req.user) {
 		res.status(401).send("Not logged in");
 		return;
 	}
 	chat.sendMessage(req, res);
 });
-app.post('/basic/chat/sendMessage', basicAuth, function(req ,res) {
+app.post('/basic/chat/message/send', basicAuth, function(req ,res) {
 	chat.sendMessage(req, res);
+});
+
+//get messges in specified chat
+//JSON fields: "chatID", "start"(optional, start of message range), "end" (optional, end of message range)
+app.post('/chat/messages/get', function(req, res) {
+	if(!req.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+	chat.getMessages(req, res);
+});
+app.post('/basic/chat/message/get', basicAuth, function(req, res) {
+	chat.getMessages(req, res);
+});
+
+//get message count in specified chat
+//JSON fields: "chatID"
+app.post('/chat/message/count', function(req, res) {
+	if(!req.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+	chat.getMessageCount(req, res);
+});
+app.post('/basic/chat/message/count', basicAuth, function(req, res) {
+	chat.getMessageCount(req, res);
 });
 
 app.get('/', (req, res) => {
@@ -205,8 +231,8 @@ app.get('/classList',  (req, res) => {
     //res.json(list);
 })
 
-//deprecated, use /joinClass instead
-app.get('/join/:class/:type/:name', (req, res) => {
+//          deprecated, use /joinClass instead
+/*app.get('/join/:class/:type/:name', (req, res) => {
     var list;
     db.collection('classes', (err, collection) => {
         if (err) {
@@ -230,7 +256,7 @@ app.get('/join/:class/:type/:name', (req, res) => {
 
     //res.send('Hello, ' + req.user.givenName + ', your username is ' + req.params.username)
     res.redirect('/')
-})
+})*/
 
 app.post('/joinClass', (req,res)=>{
     if(!req.user) {
@@ -243,7 +269,7 @@ app.post('/joinClass', (req,res)=>{
             res.redirect('/')
         } else {
             collection.update({
-                _id: req.body.className
+                $set: {_id: req.body.className}
             }, {
                 $addToSet: {
                     students: {
@@ -474,6 +500,27 @@ app.post('/doRecovery', (req,res)=>{
             res.send("Incorrect answer")
         }
 	});
+})
+
+app.post('/avatar', (req,res)=>{
+    users.findOneAndUpdate(
+        {"email":req.body.email},
+        { $set: {"avatar":req.body.avatar}} //just stores the url sent in the database
+    )
+})
+
+app.post('/makeAdmin', (req,res)=>{
+    users.findOneAndUpdate(
+        {"email":req.body.email},
+        { $set: {"admin":"yes"}} //just stores the url sent in the database
+    )
+})
+
+app.post('/makePrivate', (req,res)=>{
+    users.findOneAndUpdate(
+        {"email":req.body.email},
+        { $set: {"private":"yes"}} //just stores the url sent in the database
+    )
 })
 
 http.listen(port, ()=>{

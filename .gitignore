@@ -66,3 +66,4 @@ UpgradeApp/UpgradeApp/keys.txt
 pathForDb
 #Procfile
 .gitattributes
+upgradeKey.json #pls no private keys on github

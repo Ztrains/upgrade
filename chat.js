@@ -1,4 +1,5 @@
 const objectID = require('mongodb').ObjectID
+const firebase = require('./firebase.js');
 var users;
 var chats;
 
@@ -26,12 +27,16 @@ module.exports.sendMessage = function (req, res) {
 			res.status(500).send("Database error occured!");
 		} else if(!chat) {
 			console.log("User: '" + req.user.email + "' attempted to access chat: '" + req.body.chatID + "':");
-			console.log(chat);
 			res.status(403).send("Chat not found or you are not a member of the chat");
 		} else {
-			//TODO increment message count
-			chats.updateOne({_id: chat._id}, {$push: {messages: {message: req.body.message, date: new Date().toString(), sender: req.user._id.toString()}}});
-			res.send("Message sent");
+			chats.updateOne({_id: chat._id}, {$push: {messages: {message: req.body.message, date: new Date().toString(), sender: req.user._id}}}, function(err, result) {
+				if(err) {
+					res.status(500).send("Database error occurred!");
+				} else {
+					firebase.notifyDevices(chat._id);	
+					res.send("Message sent");
+				}	
+			});
 		}
 	});
 };
@@ -39,7 +44,7 @@ module.exports.sendMessage = function (req, res) {
 module.exports.getMessageCount = function(req, res) {
 	if(!chats) {chats = require('./index.js').chats;}
 	if(!users) {users = require('./index.js').users;}
-	chats.findOne({_id: req.body.chatID, members: req.user._id}, function(err, chat) {
+	chats.findOne({_id: new objectID(req.body.chatID), "members.user": req.user._id}, function(err, chat) {
 		if(err) {
 			console.log("chat.getMessageCount database err:");
 			console.log(err);
@@ -49,7 +54,7 @@ module.exports.getMessageCount = function(req, res) {
 			console.log(chat);
 			res.status(403).send("Chat not found or you are not a member of the chat");
 		} else {
-			res.json({chatID: req.body.chatID, m_count: chat.m_count});
+			res.json({chatID: req.body.chatID, m_count: chat.messages.length});
 		}
 	});
 
@@ -58,15 +63,6 @@ module.exports.getMessageCount = function(req, res) {
 module.exports.getMessages = function (req, res) {
 	if(!chats) {chats = require('./index.js').chats;}
 	if(!users) {users = require('./index.js').users;}
-	if(!req.body.chatID) {
-		res.status(400).send("Bad Request: missing chatID key");
-		return;
-	}
-	/*if(!req.body.num) {
-		res.status(400).send("Bad Request: missing num key");
-		return;
-
-	}*/
 
 	chats.findOne({_id: new objectID(req.body.chatID), "members.user": req.user._id}, function(err, result) {
 		if(err) {
@@ -79,11 +75,17 @@ module.exports.getMessages = function (req, res) {
 			//console.log(chat);	chat never defined
 			res.status(403).send("Chat doesn't exist or you are not a member of the chat");
 		} else {
-			res.json({messages:result.messages})
-			//res.json({messages: result.messages.slice(Math.max(result.messages.length - req.body.num, 1))});
+			console.log("Getting message. Request body:", req.body);
+			if(!req.body.start) {
+				res.json({messages:result.messages})
+			}else if(req.body.end) {
+				res.json({messages: result.messages.slice(Math.max(req.body.start, 0), Math.min(req.body.end, result.messages.length))});
+			} else  {
+				console.log("Getting Message from", req.body.start);
+				res.json({messages: result.messages.slice(Math.max(req.body.start, 0))});
+			}
 		}
 	});
-
 };
 
 module.exports.startDM = function(req, res) {
@@ -115,16 +117,17 @@ module.exports.startDM = function(req, res) {
 			}
 			if(chat) {
 				console.log("Error: Tried to create exisiting dm");
-				res.send("Chat exists");
+				res.json({_id:chat._id}) //should just return the chat _id if chat already exists
+				//res.send("Chat exists");
 				return;
 			}
-			chats.insertOne({isDM: true, members: [{user: req.user._id, muted: false}, {user: user._id, muted: false}], messageCount: 0}, function(err, result) {
+			chats.insertOne({isDM: true, members: [{user: req.user._id, muted: false}, {user: user._id, muted: false}]}, function(err, result) {
 				if(err) {
 					console.log("chat.startDM database error");
 					res.status(500).send("Database error occurred!");
 					return;
 				}
-				users.updateMany({$or: [{_id: req.user._id}, {_id: user._id}]}, {$push: {chats: result.insertedId}}, function(err, u_result) {
+				users.updateMany({$or: [{_id: req.user._id}, {_id: user._id}]}, {$push: {dms: result.insertedId}}, function(err, u_result) {
 					if(err) {
 						console.log("chat.startDM database error");
 						res.status(500).send("Database error occurred!");
@@ -160,7 +163,7 @@ function check_if_exists(id) {
 		if (name === id) {
 			return true;
 		}
-	}
+			}
 	return false;
 }
 

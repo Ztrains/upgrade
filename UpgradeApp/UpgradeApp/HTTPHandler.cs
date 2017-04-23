@@ -339,7 +339,12 @@ namespace UpgradeApp {
 			request.AddJsonBody(cid);
 
 			IRestResponse response = client.Execute(request);
-			Messages ms = JsonConvert.DeserializeObject<Messages>(response.Content); // crashed here when navigating to message page
+			Messages ms = null;
+			try {
+				ms = JsonConvert.DeserializeObject<Messages>(response.Content); // crashed here when navigating to message page
+			} catch (Exception e) {
+				// Ignore and return no messages
+			}
 			return ms;
 
 		}
