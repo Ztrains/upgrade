@@ -98,7 +98,7 @@ app.post('/reg', function(req, res) {
 		else if(r) {res.send("User exists"); return;}
 		var salt = bcrypt.genSaltSync(10);
 		var hash = bcrypt.hashSync(req.body.password, salt);
-		users.insertOne({email: req.body.email, hash: hash, admin: no}, function(err, r) {
+		users.insertOne({email: req.body.email, hash: hash, admin: "no"}, function(err, r) {
 			if(err) {res.send("Database error");}
 			else {res.send("Success adding user");}
 
@@ -512,7 +512,7 @@ app.post('/avatar', (req,res)=>{
 app.post('/makeAdmin', (req,res)=>{
     users.findOneAndUpdate(
         {"email":req.body.email},
-        { $set: {"admin":yes}} //just stores the url sent in the database
+        { $set: {"admin":"yes"}} //just stores the url sent in the database
     )
 })
 
