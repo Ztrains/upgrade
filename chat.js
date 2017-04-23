@@ -33,9 +33,9 @@ module.exports.sendMessage = function (req, res) {
 				if(err) {
 					res.status(500).send("Database error occurred!");
 				} else {
-					firebase.notifyDevices(chat._id);	
+					firebase.notifyDevices(chat._id);
 					res.send("Message sent");
-				}	
+				}
 			});
 		}
 	});
@@ -148,6 +148,72 @@ module.exports.startDM = function(req, res) {
 				});
 
 			});
+		});
+	});
+};
+
+module.exports.startClassDM = function(req, res) {		//just copy-pasted above and changed it to class for message board
+	if(!chats) {chats = require('./index.js').chats;}
+	if(!users) {users = require('./index.js').users;}
+	if(!users) {classes = require('./index.js').classes;}
+	//console.log('req.body: ' + req.body);
+	console.log('user id:' + req.user._id + ' is trying to message class: ' + req.body.classID)
+	if(!req.body.classID) {
+		console.log("Missing classID in request");
+		res.status(400).send("Bad Request: missing classID key");
+		return;
+	}
+	classes.findOne({name: req.body.classID}, function(err, className) {
+		if(err) {
+			console.log("chat.startClassDM database error");
+			res.status(500).send("Database error occured!");
+			return;
+		}
+		if (!className) {
+			console.log("Err: could not find class");
+			res.send("Could not find class");
+			return;
+		}
+		chats.findOne({isDM: true, "className": req.body.classID}, function(err, chat) {
+			if(err) {
+				console.log("chat.startDM database error");
+				res.status(500).send("Database error occured!");
+				return;
+			}
+			if(chat) {
+				console.log("Error: Tried to create exisiting ClassDM, sending chatID as res");
+				res.json({_id:chat._id}) //should just return the chat _id if chat already exists
+				//res.send("Chat exists");
+				return;
+			}
+			chats.insertOne({isDM: true, "className": req.body.classID, function(err, result) {
+				if(err) {
+					console.log("chat.startDM database error");
+					res.status(500).send("Database error occurred!");
+					return;
+				}
+				/*users.updateMany({$or: [{_id: req.user._id}, {_id: user._id}]}, {$push: {dms: result.insertedId}}, function(err, u_result) {
+					if(err) {
+						console.log("chat.startDM database error");
+						res.status(500).send("Database error occurred!");
+						return;
+					}
+					if(u_result.modifiedCount != 2) {
+						console.log("chat.startDM did not insert two items");
+						res.status(500).send("Database error occurred!");
+						return;
+					}
+
+
+					//res.json({_id:result._id})
+				});*/
+
+				/*(chats.findOne({$and: [{isDM: true, "members.user": user._id}, {isDM: true, "members.user": req.user._id}]}, function(err, chat) {
+					res.json({_id:chat._id}) //maybe works
+				});*/
+			});
+			console.log("ClassDM successfully created, sending chatID as res");
+			res.json({_id:chat._id})	//hopefully works here
 		});
 	});
 };

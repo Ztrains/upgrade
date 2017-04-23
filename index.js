@@ -159,6 +159,15 @@ app.post('/dms/start', function(req, res) {
 	}
 	chat.startDM(req, res);
 });
+
+app.post('/dms/class/start', function(req, res) {
+	if(!req.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+	chat.startClassDM(req, res);
+});
+
 app.post('/basic/dms/start', basicAuth, function(req, res) {
 	chat.startDM(req, res);
 });
