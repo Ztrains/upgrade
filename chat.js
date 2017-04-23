@@ -155,7 +155,7 @@ module.exports.startDM = function(req, res) {
 module.exports.startClassDM = function(req, res) {		//just copy-pasted above and changed it to class for message board
 	if(!chats) {chats = require('./index.js').chats;}
 	if(!users) {users = require('./index.js').users;}
-	if(!users) {classes = require('./index.js').classes;}
+	if(!classes) {classes = require('./index.js').classes;}
 	//console.log('req.body: ' + req.body);
 	console.log('user id:' + req.user._id + ' is trying to message class: ' + req.body.classID)
 	if(!req.body.classID) {
