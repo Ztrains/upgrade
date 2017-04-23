@@ -9,21 +9,20 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:stackFromBottom="true" />
-    <LinearLayout
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="3">
+        android:layout_alignParentBottom="true">
         <EditText
             android:id="@+id/msg"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="2" />
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/sendButton" />
         <Button
             android:id="@+id/sendButton"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:text="Send" />
-    </LinearLayout>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
 </RelativeLayout>
