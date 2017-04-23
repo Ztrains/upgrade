@@ -209,12 +209,12 @@ module.exports.startClassDM = function(req, res) {		//just copy-pasted above and
 					//res.json({_id:result._id})
 				});*/
 
-				/*(chats.findOne({$and: [{isDM: true, "members.user": user._id}, {isDM: true, "members.user": req.user._id}]}, function(err, chat) {
+				/*chats.findOne({$and: [{isDM: true, "members.user": user._id}, {isDM: true, "members.user": req.user._id}]}, function(err, chat) {
 					res.json({_id:chat._id}) //maybe works
 				});*/
 			});
 			console.log("ClassDM successfully created, sending chatID as res");
-			(chats.findOne({"className": req.body.classID}, function(err, ret) {
+			chats.findOne({"className": req.body.classID}, function(err, ret) {
 				res.json({_id:ret._id}) //maybe works
 			});
 		});
