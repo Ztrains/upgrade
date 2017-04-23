@@ -34,7 +34,7 @@ namespace UpgradeApp
         }
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
-            chatClass chatObject = (chatClass)GetItem(position);
+            chatClass chatObject = chatList[position];
             View view = convertView;
             if (view == null)
             {
