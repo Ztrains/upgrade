@@ -186,7 +186,7 @@ module.exports.startClassDM = function(req, res) {		//just copy-pasted above and
 				//res.send("Chat exists");
 				return;
 			}
-			chats.insertOne({isDM: true, "className": req.body.classID, function(err, result) {
+			chats.insertOne({isDM: true, "className": req.body.classID}, function(err, result) {
 				if(err) {
 					console.log("chat.startDM database error");
 					res.status(500).send("Database error occurred!");
