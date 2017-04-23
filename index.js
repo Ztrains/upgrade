@@ -291,6 +291,11 @@ app.post('/joinClass', (req,res)=>{
 		res.status(401).send("Not logged in");
 		return;
 	}
+    if(!req.user.name) {
+        console.log("ERROR: User needs a name")
+        res.send('Did not add user to class.')
+        return;
+    }
     db.collection('classes', (err, collection) => {
         if (err) {
             console.log('ERROR:', err);
