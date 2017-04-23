@@ -25,10 +25,11 @@ namespace UpgradeApp
 			Button sendButton = FindViewById<Button>(Resource.Id.sendButton);
 			TextView msgTextView = FindViewById<TextView>(Resource.Id.msg);
 
+			chats = new List<chatClass>();
+
             SetContentView(Resource.Layout.messaging);
 			string uid = Intent.GetStringExtra("uid");
 			string cid = Intent.GetStringExtra("cid");
-			chats = null;
 
 			Messages ms = HTTPHandler.getMessages(cid);
 			if (ms != null) {
@@ -39,14 +40,16 @@ namespace UpgradeApp
 				}
 			}
 			
-            listView = FindViewById<ListView>(Resource.Layout.messaging);
+            listView = FindViewById<ListView>(Resource.Id.message);
             listView.Adapter = new messageAdapter(this, chats); //Chats should be replaced by stuff from the server. 
 
-			sendButton.Click += (Sender, e) => {
+			/*
+			sendButton.Click += (object Sender, EventArgs e) => {
 				HTTPHandler.sendMessage(cid, msgTextView.Text);
 				msgTextView.Text = "";
 				// Need to refresh the messages here probably
 			};
+			*/
 
 		}
     }

@@ -48,6 +48,10 @@ namespace UpgradeApp {
 		public string[] classesStudent;
 		public string time;
 		public string price;
+		public string visible;
+		public string avatar;
+		public string admin;
+		public string[] usersUpvoted;
 	};
 
 	public class ClassList {
@@ -81,7 +85,11 @@ namespace UpgradeApp {
 		public string className;
 	}
 
-	public class ChatID {
+	public class GetChatID {
+		public string _id;
+	}
+
+	public class SendChatID {
 		public string chatID;
 	}
 

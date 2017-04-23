@@ -11,7 +11,7 @@ namespace UpgradeApp
 {
     public class messageAdapter : BaseAdapter<chatClass>
     {
-        string[] items;
+        //string[] items;
         Activity context;
         List<chatClass> chatList;
         LinearLayout layout;
@@ -30,7 +30,7 @@ namespace UpgradeApp
         }
         public override int Count
         {
-            get { return items.Length; }
+            get { return chatList.Count; }
         }
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
