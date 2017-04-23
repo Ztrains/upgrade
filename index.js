@@ -420,6 +420,20 @@ app.post('/updateProfile', (req,res)=>{
             )
             console.log("avatar updated to: " + data.avatar)
         }
+        if (data.visible) {
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"visible":data.visible}}
+            )
+            console.log("visible updated to: " + data.visible)
+        }
+        if (data.admin) {
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"admin":data.admin}}
+            )
+            console.log("admin updated to: " + data.admin)
+        }
 	});
     res.send("profile updated")
 })
@@ -456,14 +470,26 @@ app.post('/upvote', (req,res)=>{
         if (req.body.vote == 'up') {
             users.findOneAndUpdate(
                 {"name":req.body.name},
-                { $inc: {"rating":1}}
+                { $inc: {"rating":1}},
+                {$addToSet: {
+                    usersUpvoted: {
+                        id: user._id
+                    }
+                }}
             )
+
             console.log("rating raised by 1")
+
         }
         else if (req.body.vote == 'down') {
             users.findOneAndUpdate(
                 {"name":req.body.name},
                 { $inc: {"rating":-1}}
+                {$addToSet: {
+                    usersUpvoted: {
+                        id: user._id
+                    }
+                }}
             )
             console.log("rating lowered by 1")
         }
@@ -472,6 +498,7 @@ app.post('/upvote', (req,res)=>{
             return res.send("invalid vote, must be up or down")
         }
 	});
+
     res.send("rating updated")
 })
 
@@ -533,7 +560,7 @@ app.post('/doRecovery', (req,res)=>{
 app.get('/avatar', (req,res)=>{
     console.log("avatar link " + req.user.avatar + " sent")
     res.json({avatar:req.user.avatar})
-})*/
+})
 
 app.post('/makeAdmin', (req,res)=>{
     users.findOneAndUpdate(
@@ -545,9 +572,9 @@ app.post('/makeAdmin', (req,res)=>{
 app.post('/makePrivate', (req,res)=>{
     users.findOneAndUpdate(
         {"email":req.body.email},
-        { $set: {"private":"yes"}} //just stores the url sent in the database
+        { $set: {"visible":"yes"}} //just stores the url sent in the database
     )
-})
+})*/
 
 app.post('/reportUser', (req,res)=>{
     classes.findOneAndUpdate(
