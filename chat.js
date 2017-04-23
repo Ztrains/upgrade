@@ -114,7 +114,8 @@ module.exports.startDM = function(req, res) {
 			}
 			if(chat) {
 				console.log("Error: Tried to create exisiting dm");
-				res.send("Chat exists");
+				res.json({_id:chat._id}) //should just return the chat _id if chat already exists
+				//res.send("Chat exists");
 				return;
 			}
 			chats.insertOne({isDM: true, members: [{user: req.user._id, muted: false}, {user: user._id, muted: false}], messageCount: 0}, function(err, result) {
