@@ -214,7 +214,9 @@ module.exports.startClassDM = function(req, res) {		//just copy-pasted above and
 				});*/
 			});
 			console.log("ClassDM successfully created, sending chatID as res");
-			res.json({_id:chat._id})	//hopefully works here
+			(chats.findOne({"className": req.body.classID}, function(err, ret) {
+				res.json({_id:ret._id}) //maybe works
+			});
 		});
 	});
 };
