@@ -19,12 +19,19 @@ namespace UpgradeApp
         ListView list;
         ClassList classes; 
         string[] items;
-        string[] returner;
+        classInfo[] newClasses;
         int location = 0;
+		bool isAStudent = false;
 
 		void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e) {
-			if (location < returner.Length) {
-				returner[location] = items[e.Position];
+			if (location < newClasses.Length) {
+				classInfo ci = new classInfo();
+				ci.className = items[e.Position];
+
+				if (isAStudent)
+					ci.type = "student";
+				else ci.type = "tutor";
+				newClasses[location] = ci;
 				location++;
 			}
 		}
@@ -32,25 +39,44 @@ namespace UpgradeApp
 		protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            classes = HTTPHandler.classListRequest();
+
+			if (Intent.GetStringExtra("study").Equals("true"))
+				isAStudent = true;
+			else isAStudent = false;
+
+			classes = HTTPHandler.classListRequest();
             items = classes.classes;
-            returner = new string[items.Length];
+            newClasses = new classInfo[items.Length];
+
             SetContentView(Resource.Layout.classPickerScreen);
             Button submit = FindViewById<Button>(Resource.Id.submitClassButton);
             list = FindViewById<ListView>(Resource.Id.classPicker);
-            ArrayAdapter lister = new ArrayAdapter<String>(this, Android.Resource.Layout.SimpleListItemChecked, items);
+            ArrayAdapter lister = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItemChecked, items);
             list.Adapter = lister;
             list.ItemClick += ListView_ItemClick;
             list.ChoiceMode = ChoiceMode.Multiple;
-            classes = HTTPHandler.classListRequest();
-            //Trying to fix errors
-            
 
             submit.Click += (object sender, EventArgs e) =>
             {
                 var intent = new Android.Content.Intent(this, typeof(EditProfileActivity));
-                string returnString = string.Join(" ", returner);
-                if (Intent.GetBooleanExtra("study", true))
+				//string returnString = string.Join(" ", returner);
+
+				// Update classes chosen by the user
+				Profile p = HTTPHandler.getProfile(HTTPHandler.emailLoggedIn);
+				if (p.classesIn != null) {
+					foreach (classInfo c in p.classesIn) {
+						if (isAStudent == true && c.type.Equals("student"))
+							HTTPHandler.leaveClass(c.className, c.type);
+						else if (isAStudent == false && c.type.Equals("tutor"))
+							HTTPHandler.leaveClass(c.className, c.type);
+					}
+				}
+				for (int i = 0; i < newClasses.Length; i++) {
+					if (newClasses[i] != null && newClasses[i].className != "")
+						HTTPHandler.joinClass(newClasses[i].className, newClasses[i].type);
+				}
+
+				/*if (Intent.GetBooleanExtra("study", true))
                 {
                     intent.PutExtra("studyClasses", returnString);
 					intent.PutExtra("tutorClasses", Intent.GetStringExtra("tutorClasses"));
@@ -59,7 +85,7 @@ namespace UpgradeApp
                 {
                     intent.PutExtra("tutorClasses", returnString);
 					intent.PutExtra("studyClasses", Intent.GetStringExtra("studyClasses"));
-				}
+				}*/
 
 				//intent.PutExtra("name", Intent.GetStringExtra("name"));
 				intent.PutExtra("studentName", Intent.GetStringExtra("studentName"));

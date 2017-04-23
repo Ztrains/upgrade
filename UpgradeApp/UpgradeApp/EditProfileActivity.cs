@@ -58,12 +58,12 @@ namespace UpgradeApp {
 			if (Intent.GetStringExtra("prices") != null) {
 				pricesEditText.Text = Intent.GetStringExtra("prices");
 			}
-			if (Intent.GetStringExtra("studyClasses") != null) {
+			/*if (Intent.GetStringExtra("studyClasses") != null) {
 				studyClasses = Intent.GetStringExtra("studyClasses");
 			}
 			if (Intent.GetStringExtra("tutorClasses") != null) {
 				tutorClasses = Intent.GetStringExtra("tutorClasses");
-			}
+			}*/
 
 
 
@@ -79,8 +79,8 @@ namespace UpgradeApp {
 				//tutorClasses = Intent.GetStringExtra("tutorClasses");
 
 				var intent = new Android.Content.Intent(this, typeof(classPickerActivity));
-                intent.PutExtra("study", true);
-				intent.PutExtra("tutor", false);
+                intent.PutExtra("study", "true");
+				intent.PutExtra("tutor", "false");
 
 				intent.PutExtra("name", newName);
 				intent.PutExtra("studentName", newName);
@@ -108,8 +108,8 @@ namespace UpgradeApp {
 				//tutorClasses = Intent.GetStringExtra("tutorClasses");
 
 				var intent = new Android.Content.Intent(this, typeof(classPickerActivity));
-                intent.PutExtra("tutor", true);
-				intent.PutExtra("study", false);
+                intent.PutExtra("tutor", "true");
+				intent.PutExtra("study", "false");
 
 				intent.PutExtra("name", newName);
 				intent.PutExtra("studentName", newName);
@@ -118,8 +118,8 @@ namespace UpgradeApp {
 				intent.PutExtra("about", newAbout);
 				intent.PutExtra("freeTime", freeTime);
 				intent.PutExtra("prices", prices);
-				intent.PutExtra("studyClasses", studyClasses);
-				intent.PutExtra("tutorClasses", tutorClasses);
+				//intent.PutExtra("studyClasses", studyClasses);
+				//intent.PutExtra("tutorClasses", tutorClasses);
 
 				StartActivity(intent);
             };
@@ -133,26 +133,38 @@ namespace UpgradeApp {
 				string newAbout = aboutEditText.Text;
 				string freeTime = freeTimeTextView.Text;
 				string prices = pricesEditText.Text;
-                //studyClasses = Intent.GetStringExtra("studyClasses");
-                //tutorClasses = Intent.GetStringExtra("tutorClasses");
-                // Send server the changes
-                // Needs to have other fields fixed
-                //HTTPHandler.updateProfile(newName, newEmail, newContact, newAbout, null, null, freeTime, prices);
+				string visible = ""; // TODO
+				string avatar = ""; // TODO
+				//studyClasses = Intent.GetStringExtra("studyClasses");
+				//tutorClasses = Intent.GetStringExtra("tutorClasses");
+				// Send server the changes
+				// Needs to have other fields fixed
+
+				HTTPHandler.updateProfile(newName, newEmail, newContact, newAbout, null, null, freeTime, prices, visible, avatar);
 				HTTPHandler.emailLoggedIn = newEmail;
 
+
+
+
                 var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
-                intent.PutExtra("name", newName);
+                //intent.PutExtra("name", newName);
 				intent.PutExtra("studentName", newName);
-                intent.PutExtra("email", newEmail);
-                intent.PutExtra("contact", newContact);
-				intent.PutExtra("about", newAbout);
-                intent.PutExtra("freeTime", freeTime);
-                intent.PutExtra("prices", prices);
-                intent.PutExtra("studyClasses", studyClasses);
-                intent.PutExtra("tutorClasses", tutorClasses);
+                //intent.PutExtra("email", newEmail);
+                //intent.PutExtra("contact", newContact);
+				//intent.PutExtra("about", newAbout);
+                //intent.PutExtra("freeTime", freeTime);
+                //intent.PutExtra("prices", prices);
+                //intent.PutExtra("studyClasses", studyClasses);
+                //intent.PutExtra("tutorClasses", tutorClasses);
                 StartActivity(intent);
             };
 
 		}
+
+		// Disables the back button on this page
+		public override void OnBackPressed() {
+			//base.OnBackPressed();
+		}
+
 	}
 }

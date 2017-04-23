@@ -52,8 +52,21 @@ namespace UpgradeApp {
 			emailTextView.Text = p.email;
 			ratingTextView.Text = p.rating.ToString();
 			aboutTextView.Text = p.about;
-			//iTutorTextView.Text
-			//iNeedATutorTextView.Text
+
+			iTutorTextView.Text = "";
+			iNeedATutorTextView.Text = "";
+
+			foreach (classInfo ci in p.classesIn) {
+				if (ci.type == "tutor") {
+					iTutorTextView.Text += ci.className;
+					iTutorTextView.Text += " ";
+				}
+				else if (ci.type == "student") {
+					iNeedATutorTextView.Text += ci.className;
+					iNeedATutorTextView.Text += " ";
+				}
+			}
+
 			availabilityTextView.Text = p.time;
 			pricesTextView.Text = p.price;
 
@@ -71,13 +84,14 @@ namespace UpgradeApp {
 			}
 			
 
-            if(Intent.GetStringExtra("studyClasses") != null)
+            /*if(Intent.GetStringExtra("studyClasses") != null)
             {
                 iNeedATutorTextView.Text = Intent.GetStringExtra("studyClasses");
             }
             if(Intent.GetStringExtra("tutorClasses") != null) {
                 iTutorTextView.Text = Intent.GetStringExtra("tutorClasses");
-            }
+            }*/
+
 			/*if (Intent.GetStringExtra("email") != null) {
 				emailTextView.Text = Intent.GetStringExtra("email");
 			}
@@ -115,8 +129,8 @@ namespace UpgradeApp {
 				intent.PutExtra("about", aboutTextView.Text);
 				intent.PutExtra("freeTime", availabilityTextView.Text);
 				intent.PutExtra("prices", pricesTextView.Text);
-				intent.PutExtra("studyClasses", iTutorTextView.Text);
-				intent.PutExtra("tutorClasses", iNeedATutorTextView.Text);
+				//intent.PutExtra("studyClasses", iTutorTextView.Text);
+				//intent.PutExtra("tutorClasses", iNeedATutorTextView.Text);
 				StartActivity(intent);
 
             };
