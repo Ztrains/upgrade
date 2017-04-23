@@ -4,10 +4,12 @@ var users;
 var chats;
 var classes;
 
+/*	Function for gettings DMs of a user.  Unused.	*/
 module.exports.getDms= function(req, res) {
 	res.json({dms: req.user.dms});
 }
 
+/*	Function for sending a message.	*/
 module.exports.sendMessage = function (req, res) {
 	if(!chats) {chats = require('./index.js').chats;}
 	if(!users) {users = require('./index.js').users;}
@@ -42,6 +44,7 @@ module.exports.sendMessage = function (req, res) {
 	});
 };
 
+/*	Function for getting the number of messages to a specific DM	*/
 module.exports.getMessageCount = function(req, res) {
 	if(!chats) {chats = require('./index.js').chats;}
 	if(!users) {users = require('./index.js').users;}
@@ -61,6 +64,7 @@ module.exports.getMessageCount = function(req, res) {
 
 };
 
+/*	Function to retrieve messages between two users	*/
 module.exports.getMessages = function (req, res) {
 	if(!chats) {chats = require('./index.js').chats;}
 	if(!users) {users = require('./index.js').users;}
@@ -89,6 +93,7 @@ module.exports.getMessages = function (req, res) {
 	});
 };
 
+/*	Function which starts a DM between two users	*/
 module.exports.startDM = function(req, res) {
 	if(!chats) {chats = require('./index.js').chats;}
 	if(!users) {users = require('./index.js').users;}
@@ -153,6 +158,7 @@ module.exports.startDM = function(req, res) {
 	});
 };
 
+/*	Function to start a class message board	*/
 module.exports.startClassDM = function(req, res) {		//just copy-pasted above and changed it to class for message board
 	if(!chats) {chats = require('./index.js').chats;}
 	if(!users) {users = require('./index.js').users;}
@@ -221,6 +227,7 @@ module.exports.startClassDM = function(req, res) {		//just copy-pasted above and
 	});
 };
 
+/*	Function to send a message to a class message board	*/
 module.exports.sendClassMessage = function (req, res) {
 	if(!chats) {chats = require('./index.js').chats;}
 	if(!users) {users = require('./index.js').users;}
@@ -255,40 +262,3 @@ module.exports.sendClassMessage = function (req, res) {
 		}
 	});
 };
-/******************************************
- * left over from previous file
- * ****************************************
-var io = require('socket.io')
-var socket = io()	//change to process.env.PORT when in prod
-var usernames = {};
-
-function check_if_exists(id) {
-	for (var name in usernames) {
-		if (name === id) {
-			return true;
-		}
-			}
-	return false;
-}
-
-socket.on("connection", (client)=>{
-	console.log('user connected')
-
-	client.on('adduser', (username)=>{
-		//store username in socket session for this client
-		client.username = username;
-		//add clients username to global list
-		if (check_if_exists(username) === false)
-			usernames[username] = client.id;
-	});
-
-	// when the user sends a private message to a user.. perform this
-	client.on('msg_user', (user_to, user_from, msg)=>{
-		console.log("From user: "+user_from);
-		console.log("To user: "+user_to);
-		//console.log(usernames);
-		io.sockets.client(usernames[user_to]).emit('updatechat', msg);
-
-	});
-});
-*/
