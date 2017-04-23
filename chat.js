@@ -2,6 +2,7 @@ const objectID = require('mongodb').ObjectID
 const firebase = require('./firebase.js');
 var users;
 var chats;
+var classes;
 
 module.exports.getDms= function(req, res) {
 	res.json({dms: req.user.dms});
