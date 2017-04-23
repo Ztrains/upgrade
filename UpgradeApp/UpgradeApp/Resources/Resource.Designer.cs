@@ -244,7 +244,7 @@ namespace UpgradeApp
 			public const int recoveryQuestion = 2131034151;
 			
 			// aapt resource value: 0x7f050025
-			public const int send = 2131034149;
+			public const int sendButton = 2131034149;
 			
 			// aapt resource value: 0x7f05001f
 			public const int students = 2131034143;

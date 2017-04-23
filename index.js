@@ -162,15 +162,41 @@ app.post('/basic/dms/start', basicAuth, function(req, res) {
 
 //send a message in specified chat
 //JSON fields: "chatID", "message" (just payload, no timestamp or sender info)
-app.post('/chat/sendMessage', function(req, res) {
+app.post('/chat/message/send', function(req, res) {
 	if(!req.user) {
 		res.status(401).send("Not logged in");
 		return;
 	}
 	chat.sendMessage(req, res);
 });
-app.post('/basic/chat/sendMessage', basicAuth, function(req ,res) {
+app.post('/basic/chat/message/send', basicAuth, function(req ,res) {
 	chat.sendMessage(req, res);
+});
+
+//get messges in specified chat
+//JSON fields: "chatID", "start"(optional, start of message range), "end" (optional, end of message range)
+app.post('/chat/messages/get', function(req, res) {
+	if(!req.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+	chat.getMessages(req, res);
+});
+app.post('/basic/chat/message/get', basicAuth, function(req, res) {
+	chat.getMessages(req, res);
+});
+
+//get message count in specified chat
+//JSON fields: "chatID"
+app.post('/chat/message/count', function(req, res) {
+	if(!req.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+	chat.getMessageCount(req, res);
+});
+app.post('/basic/chat/message/count', basicAuth, function(req, res) {
+	chat.getMessageCount(req, res);
 });
 
 app.get('/', (req, res) => {

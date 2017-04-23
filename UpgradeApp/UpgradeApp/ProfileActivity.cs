@@ -131,6 +131,7 @@ namespace UpgradeApp {
 				ChatID cid = HTTPHandler.startAChat(p._id);
 				var intent = new Android.Content.Intent(this, typeof(messagingActivity));
 				intent.PutExtra("cid", cid.chatID);
+				intent.PutExtra("uid", p._id);
 				StartActivity(intent);
 			};
 

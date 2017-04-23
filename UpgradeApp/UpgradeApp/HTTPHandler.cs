@@ -329,7 +329,7 @@ namespace UpgradeApp {
 			return cid;
 		}
 
-		public static void getMessages(string chatID) {
+		public static Messages getMessages(string chatID) {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/dms/get");
 			var request = new RestRequest(Method.POST);
 			client.CookieContainer = cookieJar;
@@ -339,6 +339,13 @@ namespace UpgradeApp {
 			request.AddJsonBody(cid);
 
 			IRestResponse response = client.Execute(request);
+			Messages ms = null;
+			try {
+				ms = JsonConvert.DeserializeObject<Messages>(response.Content); // crashed here when navigating to message page
+			} catch (Exception e) {
+				// Ignore and return no messages
+			}
+			return ms;
 
 		}
 
