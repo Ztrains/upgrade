@@ -17,7 +17,7 @@
             android:id="@+id/msg"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/sendButton" />
+            android:layout_toLeftOf="@+id/sendButton" />
         <Button
             android:id="@+id/sendButton"
             android:layout_width="wrap_content"

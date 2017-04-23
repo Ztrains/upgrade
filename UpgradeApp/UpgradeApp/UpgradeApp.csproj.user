@@ -2,8 +2,8 @@
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <AndroidDesignerPreferredDevice>Nexus 4</AndroidDesignerPreferredDevice>
-    <SelectedDevice>Huawei Nexus 6P</SelectedDevice>
-    <DefaultDevice>Nexus_6P_API_23</DefaultDevice>
+    <SelectedDevice>Samsung SM-G900V</SelectedDevice>
+    <DefaultDevice>Android_Accelerated_x86</DefaultDevice>
     <AndroidDesignerPreferredTheme>Theme.Holo.Light.NoActionBar</AndroidDesignerPreferredTheme>
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
