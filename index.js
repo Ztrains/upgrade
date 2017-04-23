@@ -490,12 +490,12 @@ app.post('/upvote', (req,res)=>{
 	});
     users.findOneAndUpdate(
         {"name":req.body.name},
-        $addToSet: {
+        {$addToSet: {
             usersUpvoted: {
                 _id: req.user._id
             }
         }
-    )
+    })
     res.send("rating updated")
 })
 
