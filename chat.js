@@ -220,6 +220,41 @@ module.exports.startClassDM = function(req, res) {		//just copy-pasted above and
 		});
 	});
 };
+
+module.exports.sendClassMessage = function (req, res) {
+	if(!chats) {chats = require('./index.js').chats;}
+	if(!users) {users = require('./index.js').users;}
+	if(!classes) {classes = require('./index.js').classes;}
+
+	if(!req.body.chatID) {
+		res.status(400).send("Bad Request: missing chatID key");
+		return;
+	}
+	if(!req.body.message) {
+		res.status(400).send("Bad Request: missing message key");
+		return;
+	}
+
+	chats.findOne({_id: new objectID(req.body.chatID), "className": req.body.classID}, function(err, chat) {
+		if(err) {
+			console.log("chat.sendMessage database err:");
+			console.log(err);
+			res.status(500).send("Database error occured!");
+		} else if(!chat) {
+			console.log("User: '" + req.user.email + "' attempted to message class chat: '" + req.body.chatID + "':");
+			res.status(403).send("Chat not found or you are not a member of the chat");
+		} else {
+			chats.updateOne({_id: chat._id}, {$push: {messages: {message: req.body.message, date: new Date().toString(), sender: req.user._id}}}, function(err, result) {
+				if(err) {
+					res.status(500).send("Database error occurred!");
+				} else {
+					firebase.notifyDevices(chat._id);
+					res.send("Message sent");
+				}
+			});
+		}
+	});
+};
 /******************************************
  * left over from previous file
  * ****************************************
