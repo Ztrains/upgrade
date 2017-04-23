@@ -413,6 +413,13 @@ app.post('/updateProfile', (req,res)=>{
             )
             console.log("price updated to: " + data.price)
         }
+        if (data.avatar) {
+            users.findOneAndUpdate(
+                {"email":data.email},
+                { $set: {"avatar":data.avatar}}
+            )
+            console.log("avatar updated to: " + data.avatar)
+        }
 	});
     res.send("profile updated")
 })
@@ -516,12 +523,17 @@ app.post('/doRecovery', (req,res)=>{
 	});
 })
 
-app.post('/avatar', (req,res)=>{
+/*app.post('/avatar', (req,res)=>{
     users.findOneAndUpdate(
         {"email":req.body.email},
         { $set: {"avatar":req.body.avatar}} //just stores the url sent in the database
     )
 })
+
+app.get('/avatar', (req,res)=>{
+    console.log("avatar link " + req.user.avatar + " sent")
+    res.json({avatar:req.user.avatar})
+})*/
 
 app.post('/makeAdmin', (req,res)=>{
     users.findOneAndUpdate(
@@ -535,6 +547,31 @@ app.post('/makePrivate', (req,res)=>{
         {"email":req.body.email},
         { $set: {"private":"yes"}} //just stores the url sent in the database
     )
+})
+
+app.post('/reportUser', (req,res)=>{
+    classes.findOneAndUpdate(
+        {"_id":"reports"},
+        {$addToSet: {
+            reportedUsers: {
+                id: req.body.repid,
+                reason: req.body.reason
+            }
+        }}
+    )
+})
+
+app.post('/getReports',(req,res)=>{
+    db.collection('classes', (err, collection) => {
+        if (err) {
+            console.log('ERROR:', err);
+            res.redirect('/')
+        } else {
+            collection.distinct('reportedUsers', {}, {}, (err, result)=>{
+                res.json({"reportedUsers": result})
+            })
+        }
+    })
 })
 
 http.listen(port, ()=>{
