@@ -492,7 +492,7 @@ app.post('/upvote', (req,res)=>{
         {"name":req.body.name},
         {$addToSet: {
             usersUpvoted: {
-                _id: req.user._id
+                _id: req.user._id.toString()
             }
         }
     })
