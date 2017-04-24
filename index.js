@@ -610,6 +610,18 @@ app.post('/doRecovery', (req,res)=>{
         }
 	});
 })
+/* Routhe to change the password of a user
+ * JSON fields: "password", "newpassword" */
+app.post('/changePassword', function(req, res) {
+	if(!req.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+	auth.changePassword(req, res);
+});
+app.post('/basic/changePassword', basicAuth, function(req, res) {
+	auth.changePassword(req, res);
+});
 
 /*  Route to block a user.
     JSON fields: "id" (_id of user being blocked)  */
