@@ -70,7 +70,7 @@ app.post('/login', localAuth,
 app.post('/logout', function(req, res) {
 	if(req.user) {
 		req.logout()
-		req.session.destory();
+		req.session.destroy();
 		res.send('logout successfully');
 	}
 	//res.redirect('/login');
