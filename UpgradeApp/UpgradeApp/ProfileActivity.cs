@@ -85,12 +85,21 @@ namespace UpgradeApp {
 				reportButton.Enabled = false;
 				blockButton.Enabled = false;
 				editButton.Enabled = true;
+				rateButton.Enabled = false;
 			}
 			else {
 				sendMessageButton.Enabled = true;
 				reportButton.Enabled = true;
 				blockButton.Enabled = true;
 				editButton.Enabled = false;
+			}
+
+			string uid = HTTPHandler.getProfile(HTTPHandler.emailLoggedIn)._id;
+			if (p.usersUpvoted != null) {
+				foreach (upvotedID u in p.usersUpvoted) {
+					if (u._id.Equals(uid))
+						rateButton.Enabled = false;
+				}
 			}
 
 			if (Intent.GetStringExtra("justLoggedIn") != null && Intent.GetStringExtra("justLoggedIn").Equals("true"))
@@ -152,6 +161,7 @@ namespace UpgradeApp {
 				HTTPHandler.upvoteProfile(nameTextView.Text);
 				Toast toast = Toast.MakeText(this, "Thanks for your input!", ToastLength.Short);
 				toast.Show();
+				rateButton.Enabled = false;
 			};
 
 			sendMessageButton.Click += (Sender, e) => {
