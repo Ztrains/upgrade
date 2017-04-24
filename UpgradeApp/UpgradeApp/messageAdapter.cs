@@ -43,10 +43,17 @@ namespace UpgradeApp
                  
             }
             TextView message = (TextView)view.FindViewById(Resource.Id.message_text);
-            message.Text = "memes";
-            //layout = (LinearLayout)view.FindViewById(Resource.Id.bubble_layout);
+            layout = (LinearLayout)view.FindViewById(Resource.Id.bubble_layout);
             //LinearLayout parent_layout = (LinearLayout)view.FindViewById(Resource.Id.bubble_layout_parent);
-            //message.Text = chatObject.message;
+            message.Text = chatObject.message;
+            if(chatObject.direction)
+            {
+                layout.SetGravity(GravityFlags.Left);
+            }
+            else
+            {
+                layout.SetGravity(GravityFlags.Right);
+            }
             //layout.SetGravity(chatObject.direction ? GravityFlags.Left : GravityFlags.Right);
 
             //message.SetText();

@@ -44,13 +44,19 @@ namespace UpgradeApp
             listView.Adapter = adapt;
             //Chats should be replaced by stuff from the server. 
 
-            /*
+            
 			sendButton.Click += (object Sender, EventArgs e) => {
 				HTTPHandler.sendMessage(cid, msgTextView.Text);
-				msgTextView.Text = "";
-				// Need to refresh the messages here probably
-			};
-			*/
+				//msgTextView.Text = "";
+                chatClass chatter = new chatClass(false, msgTextView.Text);
+                chats.Add(chatter);
+                msgTextView.Text = "";
+                adapt = new messageAdapter(this, chats);
+                listView.Adapter = null;
+                listView.Adapter = adapt;
+                // Need to refresh the messages here probably
+            };
+			
 
         }
     }

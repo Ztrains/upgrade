@@ -313,7 +313,7 @@ namespace UpgradeApp {
 		}
 
 		public static void sendMessage(string id, string message) {
-			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/chat/sendMessage");
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/chat/message/send");
 			var request = new RestRequest(Method.POST);
 			client.CookieContainer = cookieJar;
 

@@ -63,17 +63,22 @@ namespace UpgradeApp {
 
 			iTutorTextView.Text = "";
 			iNeedATutorTextView.Text = "";
-
-			foreach (classInfo ci in p.classesIn) {
-				if (ci.type == "tutor") {
-					iTutorTextView.Text += ci.className;
-					iTutorTextView.Text += " ";
-				}
-				else if (ci.type == "student") {
-					iNeedATutorTextView.Text += ci.className;
-					iNeedATutorTextView.Text += " ";
-				}
-			}
+            if (p.classesIn != null)
+            {
+                foreach (classInfo ci in p.classesIn)
+                {
+                    if (ci.type == "tutor")
+                    {
+                        iTutorTextView.Text += ci.className;
+                        iTutorTextView.Text += " ";
+                    }
+                    else if (ci.type == "student")
+                    {
+                        iNeedATutorTextView.Text += ci.className;
+                        iNeedATutorTextView.Text += " ";
+                    }
+                }
+            }
 
 			Picasso.With(this).Load(p.avatar).Into(avatarImageView);
 
