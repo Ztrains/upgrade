@@ -112,7 +112,7 @@ module.exports.resetPassword = function(req, res) {
 		}
 		if(!user) {
 			console.log("auth.resetPassword: user not found");
-			res.status(401).send("User not found");
+			res.send("If user exists, a new password will be sent by email.");
 			return;
 		}
 		require('crypto').randomBytes(12, function(err, buffer) {
@@ -129,7 +129,7 @@ module.exports.resetPassword = function(req, res) {
 					res.status(500).send("Database error occurred");
 				} else {
 					mail.sendReset(user, token);
-					res.send("Password changed. Email sent");
+					res.send("If user exists, a new password will be sent by email.");
 				}
 			});
 

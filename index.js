@@ -623,6 +623,12 @@ app.post('/basic/changePassword', basicAuth, function(req, res) {
 	auth.changePassword(req, res);
 });
 
+/* Route to generate a new password
+ * JSON fields: "email" */
+app.post('/resetPassword', function(req, res) {
+	auth.resetPassword(req, res);	
+});
+
 /*  Route to block a user.
     JSON fields: "id" (_id of user being blocked)  */
 app.post('/blockUser', (req,res)=>{
