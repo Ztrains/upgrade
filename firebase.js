@@ -75,7 +75,8 @@ module.exports.notifyDevices = function(chatID) {
 				for(var n = 0; n < result.devices.length; n++) {
 					tokens.push(result.devices[i].regKey);
 				}
-				admin.messaging().sendToDevice(tokens, chatID).then(function(res) {
+				var payload = {collapse-key: chatID};
+				admin.messaging().sendToDevice(tokens, payload).then(function(res) {
 					console.log("Success sending messages:", res);
 				}).catch(function(err) {
 					console.log("Error sending messages:", err);
