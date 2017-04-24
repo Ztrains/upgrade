@@ -95,6 +95,7 @@ namespace UpgradeApp
 				intent.PutExtra("about", Intent.GetStringExtra("about"));
 				intent.PutExtra("freeTime", Intent.GetStringExtra("freeTime"));
 				intent.PutExtra("prices", Intent.GetStringExtra("prices"));
+				intent.PutExtra("avatar", Intent.GetStringExtra("avatar"));
 
 				StartActivity(intent);
             };

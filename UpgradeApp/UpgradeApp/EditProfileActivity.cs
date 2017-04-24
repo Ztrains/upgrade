@@ -14,6 +14,8 @@ namespace UpgradeApp {
 	[Activity(Label = "EditProfileActivity")]
 	public class EditProfileActivity : Activity {
 
+		bool justLoggedIn;
+
 		protected override void OnCreate(Bundle savedInstanceState) {
 			base.OnCreate(savedInstanceState);
            // SetTheme(Android.Resource.Style.ThemeHoloLightNoActionBar);
@@ -36,9 +38,15 @@ namespace UpgradeApp {
 			Button submitButton = FindViewById<Button>(Resource.Id.SubmitButton);
             Button studyButton = FindViewById<Button>(Resource.Id.studyButton);
             Button tutorButton = FindViewById<Button>(Resource.Id.tutorButton);
+			TextView avatarTextView = FindViewById<TextView>(Resource.Id.avatarTextView);
+			EditText avatarEditText = FindViewById<EditText>(Resource.Id.avatarEditText);
 
 			string studyClasses = "";
 			string tutorClasses = "";
+
+			if (Intent.GetStringExtra("justLoggedIn") != null)
+				justLoggedIn = true;
+			else justLoggedIn = false;
 
 			if (Intent.GetStringExtra("name") != null) {
 				nameEditText.Text = Intent.GetStringExtra("name");
@@ -58,6 +66,9 @@ namespace UpgradeApp {
 			if (Intent.GetStringExtra("prices") != null) {
 				pricesEditText.Text = Intent.GetStringExtra("prices");
 			}
+			if (Intent.GetStringExtra("avatar") != null) {
+				avatarEditText.Text = Intent.GetStringExtra("avatar");
+			}
 			/*if (Intent.GetStringExtra("studyClasses") != null) {
 				studyClasses = Intent.GetStringExtra("studyClasses");
 			}
@@ -75,6 +86,7 @@ namespace UpgradeApp {
 				string newAbout = aboutEditText.Text;
 				string freeTime = freeTimeTextView.Text;
 				string prices = pricesEditText.Text;
+				string avatar = avatarEditText.Text;
 				//studyClasses = Intent.GetStringExtra("studyClasses");
 				//tutorClasses = Intent.GetStringExtra("tutorClasses");
 
@@ -89,8 +101,9 @@ namespace UpgradeApp {
 				intent.PutExtra("about", newAbout);
 				intent.PutExtra("freeTime", freeTime);
 				intent.PutExtra("prices", prices);
-				intent.PutExtra("studyClasses", studyClasses);
-				intent.PutExtra("tutorClasses", tutorClasses);
+				intent.PutExtra("avatar", avatar);
+				//intent.PutExtra("studyClasses", studyClasses);
+				//intent.PutExtra("tutorClasses", tutorClasses);
 
 
 				StartActivity(intent);
@@ -104,6 +117,7 @@ namespace UpgradeApp {
 				string newAbout = aboutEditText.Text;
 				string freeTime = freeTimeTextView.Text;
 				string prices = pricesEditText.Text;
+				string avatar = avatarEditText.Text;
 				//studyClasses = Intent.GetStringExtra("studyClasses");
 				//tutorClasses = Intent.GetStringExtra("tutorClasses");
 
@@ -118,6 +132,7 @@ namespace UpgradeApp {
 				intent.PutExtra("about", newAbout);
 				intent.PutExtra("freeTime", freeTime);
 				intent.PutExtra("prices", prices);
+				intent.PutExtra("avatar", avatar);
 				//intent.PutExtra("studyClasses", studyClasses);
 				//intent.PutExtra("tutorClasses", tutorClasses);
 
@@ -134,7 +149,7 @@ namespace UpgradeApp {
 				string freeTime = freeTimeTextView.Text;
 				string prices = pricesEditText.Text;
 				string visible = ""; // TODO
-				string avatar = ""; // TODO
+				string avatar = avatarEditText.Text; 
 				//studyClasses = Intent.GetStringExtra("studyClasses");
 				//tutorClasses = Intent.GetStringExtra("tutorClasses");
 				// Send server the changes
@@ -163,7 +178,8 @@ namespace UpgradeApp {
 
 		// Disables the back button on this page
 		public override void OnBackPressed() {
-			//base.OnBackPressed();
+			if (!justLoggedIn)
+				base.OnBackPressed();
 		}
 
 	}

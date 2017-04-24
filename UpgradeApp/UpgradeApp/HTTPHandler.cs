@@ -242,6 +242,7 @@ namespace UpgradeApp {
 
 		public static void upvoteProfile(string name) {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/upvote");
+			client.CookieContainer = cookieJar;
 			var request = new RestRequest(Method.POST);
 			SendUpvote su = new SendUpvote();
 			su.name = name;
