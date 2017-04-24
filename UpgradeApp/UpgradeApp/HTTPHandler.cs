@@ -256,13 +256,6 @@ namespace UpgradeApp {
 			IRestResponse response = client.Execute(request);
 		}
 
-		public static void reportProfile() {
-			var client = new RestClient(); // Needs url
-			var request = new RestRequest(Method.GET);
-
-			IRestResponse response = client.Execute(request);
-		}
-
 		public static void blockProfile() {
 			var client = new RestClient(); // Needs url
 			var request = new RestRequest(Method.GET);
@@ -276,6 +269,29 @@ namespace UpgradeApp {
 
 			IRestResponse response = client.Execute(request);
 		}
+
+		public static void reportProfile(string id, string reason) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/reportUser");
+			var request = new RestRequest(Method.POST);
+
+			Report r = new Report();
+			r.id = id;
+			r.reason = reason;
+			request.AddJsonBody(r);
+
+			IRestResponse response = client.Execute(request);
+		}
+
+		public static Reports getReports() {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/getReports");
+			var request = new RestRequest(Method.POST);
+
+			IRestResponse response = client.Execute(request);
+			Reports reports = JsonConvert.DeserializeObject<Reports>(response.Content);
+			return reports;
+		}
+
+
 
 		// Messaging functions
 		public static GetChatID startAChat(string id) {

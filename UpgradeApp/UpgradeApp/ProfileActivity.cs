@@ -164,6 +164,13 @@ namespace UpgradeApp {
 				rateButton.Enabled = false;
 			};
 
+			reportButton.Click += (Sender, e) => {
+				HTTPHandler.reportProfile(p._id, "Reported.");
+				Toast toast = Toast.MakeText(this, "User has been reported.", ToastLength.Short);
+				toast.Show();
+
+			};
+
 			sendMessageButton.Click += (Sender, e) => {
 				GetChatID cid = HTTPHandler.startAChat(p._id);
 				var intent = new Android.Content.Intent(this, typeof(messagingActivity));
