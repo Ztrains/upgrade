@@ -28,6 +28,7 @@ namespace UpgradeApp
 			string c = Intent.GetStringExtra("className");
 			// Get information from server
 			students = HTTPHandler.studentListRequest(c);
+			Array.Sort(students.students, (x, y) => (string.Compare(x.name, y.name)));
 
 			SetContentView(Resource.Layout.listOfStudents);
 

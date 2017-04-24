@@ -22,8 +22,8 @@ namespace UpgradeApp {
 		}*/
 
 		protected override void OnCreate(Bundle bundle) {
-            //SetTheme(Android.Resource.Style.ThemeHoloLightNoActionBar);
-            base.OnCreate(bundle);
+			//SetTheme(Android.Resource.Style.ThemeHoloLightNoActionBar);
+			base.OnCreate(bundle);
 
 			//stormPathMain();
 

@@ -111,6 +111,16 @@ namespace UpgradeApp {
 				justLoggedIn = true;
 			else justLoggedIn = false;
 
+			bool isBlocked = false;
+			blockedID[] bids = HTTPHandler.getProfile(HTTPHandler.emailLoggedIn).blockedUsers;
+			if (bids != null) {
+				foreach (blockedID bid in bids) {
+					if (p._id == bid.id)
+						isBlocked = true;
+				}
+			}
+			if (isBlocked) blockButton.Text = "Unblock";
+
 
 			/*if(Intent.GetStringExtra("studyClasses") != null)
             {
@@ -167,6 +177,29 @@ namespace UpgradeApp {
 				Toast toast = Toast.MakeText(this, "Thanks for your input!", ToastLength.Short);
 				toast.Show();
 				rateButton.Enabled = false;
+			};
+
+			reportButton.Click += (Sender, e) => {
+				HTTPHandler.reportProfile(p._id, "Reported.");
+				Toast toast = Toast.MakeText(this, "User has been reported.", ToastLength.Short);
+				toast.Show();
+
+			};
+
+			blockButton.Click += (Sender, e) => {
+				if (isBlocked) {
+					HTTPHandler.unblockProfile(p._id);
+					Toast toast = Toast.MakeText(this, "User has been unblocked.", ToastLength.Short);
+					toast.Show();
+					blockButton.Text = "Block";
+					isBlocked = false;
+				} else {
+					HTTPHandler.blockProfile(p._id);
+					Toast toast = Toast.MakeText(this, "User has been blocked.", ToastLength.Short);
+					toast.Show();
+					blockButton.Text = "Unblock";
+					isBlocked = true;
+				}
 			};
 
 			sendMessageButton.Click += (Sender, e) => {

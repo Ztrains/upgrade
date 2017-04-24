@@ -53,10 +53,28 @@ namespace UpgradeApp {
 		public string avatar;
 		public string admin;
 		public upvotedID[] usersUpvoted;
+		public blockedID[] blockedUsers;
 	};
 
 	public class upvotedID {
 		public string _id;
+	}
+
+	public class blockedID {
+		public string id;
+	}
+
+	public class Reports {
+		public Report[] reportedUsers;
+	}
+
+	public class Report {
+		public string id;
+		public string reason;
+	}
+
+	public class Block {
+		public string id;
 	}
 
 	public class classInfo {

@@ -130,7 +130,7 @@ module.exports.resetPassword = function(req, res) {
 			res.status(401).send("User not found");
 			return;
 		}
-		require('crypto').randomBytes(5, function(err, buffer) {
+		require('crypto').randomBytes(12, function(err, buffer) {
   			var token = buffer.toString('base64');
 			var salt = bcrypt.genSaltSync(10);
 			var hash = bcrypt.hashSync(token, salt);

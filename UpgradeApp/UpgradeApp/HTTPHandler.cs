@@ -219,9 +219,6 @@ namespace UpgradeApp {
 			request.AddJsonBody(wp);
 
 			IRestResponse response = client.Execute(request);
-			
-			//Debug.WriteLine("THIS IS WHERE THE ERROR ERRORS\n\n\n");
-			//Debug.WriteLine(response.Content);
 			Profile profile = JsonConvert.DeserializeObject<Profile>(response.Content);
 			return profile;
 		}
@@ -256,16 +253,24 @@ namespace UpgradeApp {
 			IRestResponse response = client.Execute(request);
 		}
 
-		public static void reportProfile() {
-			var client = new RestClient(); // Needs url
-			var request = new RestRequest(Method.GET);
+		public static void unblockProfile(string id) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/unblockUser");
+			var request = new RestRequest(Method.POST);
+			client.CookieContainer = cookieJar;
+			Block b = new Block();
+			b.id = id;
+			request.AddJsonBody(b);
 
 			IRestResponse response = client.Execute(request);
 		}
 
-		public static void blockProfile() {
-			var client = new RestClient(); // Needs url
-			var request = new RestRequest(Method.GET);
+		public static void blockProfile(string id) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/blockUser");
+			var request = new RestRequest(Method.POST);
+			client.CookieContainer = cookieJar;
+			Block b = new Block();
+			b.id = id;
+			request.AddJsonBody(b);
 
 			IRestResponse response = client.Execute(request);
 		}
@@ -276,6 +281,29 @@ namespace UpgradeApp {
 
 			IRestResponse response = client.Execute(request);
 		}
+
+		public static void reportProfile(string id, string reason) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/reportUser");
+			var request = new RestRequest(Method.POST);
+
+			Report r = new Report();
+			r.id = id;
+			r.reason = reason;
+			request.AddJsonBody(r);
+
+			IRestResponse response = client.Execute(request);
+		}
+
+		public static Reports getReports() {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/getReports");
+			var request = new RestRequest(Method.POST);
+
+			IRestResponse response = client.Execute(request);
+			Reports reports = JsonConvert.DeserializeObject<Reports>(response.Content);
+			return reports;
+		}
+
+
 
 		// Messaging functions
 		public static GetChatID startAChat(string id) {
