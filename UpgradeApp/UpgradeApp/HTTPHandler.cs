@@ -219,9 +219,6 @@ namespace UpgradeApp {
 			request.AddJsonBody(wp);
 
 			IRestResponse response = client.Execute(request);
-			
-			//Debug.WriteLine("THIS IS WHERE THE ERROR ERRORS\n\n\n");
-			//Debug.WriteLine(response.Content);
 			Profile profile = JsonConvert.DeserializeObject<Profile>(response.Content);
 			return profile;
 		}
@@ -256,9 +253,24 @@ namespace UpgradeApp {
 			IRestResponse response = client.Execute(request);
 		}
 
-		public static void blockProfile() {
-			var client = new RestClient(); // Needs url
-			var request = new RestRequest(Method.GET);
+		public static void unblockProfile(string id) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/unblockUser");
+			var request = new RestRequest(Method.POST);
+			client.CookieContainer = cookieJar;
+			Block b = new Block();
+			b.id = id;
+			request.AddJsonBody(b);
+
+			IRestResponse response = client.Execute(request);
+		}
+
+		public static void blockProfile(string id) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/blockUser");
+			var request = new RestRequest(Method.POST);
+			client.CookieContainer = cookieJar;
+			Block b = new Block();
+			b.id = id;
+			request.AddJsonBody(b);
 
 			IRestResponse response = client.Execute(request);
 		}

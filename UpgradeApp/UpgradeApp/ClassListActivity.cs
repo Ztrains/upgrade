@@ -31,6 +31,7 @@ namespace UpgradeApp
 
 			// Get information from server
 			classes = HTTPHandler.classListRequest();
+			Array.Sort(classes.classes, (x, y) => (string.Compare(x, y)));
 
 			// Populate listView from server received information
 			listView = FindViewById<ListView>(Resource.Id.classList);
