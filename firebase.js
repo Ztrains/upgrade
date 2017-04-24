@@ -57,29 +57,43 @@ module.exports.notifyDevices = function(chatID) {
 		}
 		var tUsers = [];
 		for(var i = 0; i < result.members.length; i++) {
-			if(result.members[i].muted != false) {
+			if(result.members[i].muted == false) {
 				tUsers.push(result.members[i].user);
 			}
 		}
 		var six = new Date();
 		six.setMonth(six.getMonth() - 6);
+		console.log("chat:", result);
+		console.log("updating users:", tUsers);
 		users.updateMany({_id: {$in: tUsers}}, {$pull: {devices: {date: {$lt: six}}}}, function(err) {
 			if(err) {
 				console.log("Database error removing old devices");
 			}
-			for(var i = 0; i < tUsers.length; i++) {
-				findOne({_id: tUsers[i]._id}, function(err, result) {
-					for(var n = 0; n < result.devices.length; n++) {
-						tokens.push(result.devices[n].regKey);
+			users.find({_id: {$in: tUsers}}, function(err, result) {
+				result.forEach(function(user) {
+					if(!user.devices) {return;}
+					console.log("Sending notification for user:,", user);
+					var tokens = [];
+					for(var i = 0; i < user.devices.length; i++) {
+						tokens.push(user.devices[i].regKey);
 					}
-					var payload = {collapse_key: chatID};
-					admin.messaging().sendToDevice(tokens, payload).then(function(res) {
+					console.log("Sending notifcation to the following devices:", tokens);
+					var chatIDstr = chatID.toHexString();
+					var payload = {data: {chatID: chatIDstr}};
+					var options = {collapse_key: chatIDstr};
+					admin.messaging().sendToDevice(tokens, payload, options).then(function(res) {
 						console.log("Success sending messages:", res);
 					}).catch(function(err) {
 						console.log("Error sending messages:", err);
 					});
+
+				}, function(err) {
+					if(err){
+						console.log("Error in iterator");
+						return;
+					}
 				});
-			}
+			});
 		});
 	});
 };
