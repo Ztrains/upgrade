@@ -10,6 +10,7 @@ const objectID = require('mongodb').ObjectID
 const mail = require('./mail.js');
 var users; //users collection
 
+/*	Local authentication for users.	*/
 passport.use(new LocalStrategy({usernameField: "email"},
 function(email, password, done) {
 	console.log("Local Strategy called");
@@ -30,10 +31,12 @@ function(email, password, done) {
 	});
 }));
 
+/*	Function which serializes user profiles	*/
 passport.serializeUser(function(user, cb) {
     	cb(null, user._id);
 });
 
+/*	Function which deserializes users	*/
 passport.deserializeUser(function(id, cb) {
 		console.log("deserialize function");
 		console.log("user: " + id);
@@ -44,6 +47,7 @@ passport.deserializeUser(function(id, cb) {
     	});
 });
 
+/*	Basic authentication strategy.  Unused.	*/
 passport.use(new BasicStrategy({usernameField: "email"}, function(email, hash, done) {
     	if(!users) {users = require('./index.js').users;}
     	users.findOne( {email: email}, function(err, user) {
@@ -57,7 +61,7 @@ passport.use(new BasicStrategy({usernameField: "email"}, function(email, hash, d
   	});
 }));
 
-
+/*	Function for password changing	*/
 module.exports = passport;
 module.exports.changePassword = function(req, res) {
     if(!users) {users = require('./index.js').users;}
@@ -106,6 +110,7 @@ module.exports.changePassword = function(req, res) {
 	});
 };
 
+/*	Additional function for password resetting	*/
 module.exports.resetPassword = function(req, res) {
     if(!users) {users = require('./index.js').users;}
 	if(!req.body.email) {

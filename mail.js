@@ -1,10 +1,11 @@
 const mailer = require('nodemailer');
 
-var resetTransport = mailer.createTransport({ 
+var resetTransport = mailer.createTransport({
 	service: 'gmail',
 	auth: {user: 'upgradereset@gmail.com', pass: 'iamtootiredforthisshit'}
 });
 
+/*	Function to email users a new password.  Unsure if used.	*/
 module.exports.sendReset = function(user, password) {
 	var mailOptions = {
 		from: 'upgradereset@gmail.com',

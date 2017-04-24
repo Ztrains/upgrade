@@ -21,70 +21,6 @@ namespace UpgradeApp {
 		public static string emailLoggedIn;
 		public static CookieContainer cookieJar;
 
-		// TODO Profile Visibility 
-
-
-		/*static void Main(string[] args) {
-			MainAsync().GetAwaiter().GetResult();
-		}
-
-		public static async Task MainAsync() {
-			var client = Clients.Builder()
-				.SetApiKeyFilePath(".\\apiKey.properties")
-				.Build();
-			var myApp = await client.GetApplications()
-				.Where(x => x.Name == "calm-chamber-49049")
-				.SingleAsync();
-		}
-		*/
-		/*
-		// Initialize Stormpath so the other functions work
-		public static async void launchStormPath() {
-			string path = "C:\\Users\\Jonathan\\.stormpath\\apiKey.properties";
-			var client = Clients.Builder().SetApiKeyFilePath("apiKey.properties")
-				.Build();
-
-			//.SetApiKeyId("5ID2J1CY76G8FYBWIS45HAZ1B").SetApiKeySecret("1JzbsC7Eck/28VDdmmWYSLKIlDv3lY/NFMrLHdDSVGQ")
-			//	.SetHttpClient(Stormpath.SDK.Http.HttpClients.Create().RestSharpClient())
-			//	.SetSerializer(Stormpath.SDK.Serialization.Serializers.Create().JsonNetSerializer())
-
-
-			myApp = await client.GetApplications()
-				.Where(x => x.Name == "calm-chamber-49049")
-				.SingleAsync();
-			// myApp is an IApplication obj
-		}
-
-		// Register account function
-		public static async void registerRequest(string first, string last, string email, string password) {
-			var user = await myApp.CreateAccountAsync(first, last, email, password);
-			// Returns an IAccount obj
-
-
-			Console.WriteLine("User " + user.FullName + " created");
-		}
-
-		// Login function
-		public static async void loginRequest(string email, string password) {
-			try {
-				var loginResult = await myApp.AuthenticateAccountAsync(email, password);
-				// Returns an IAuthenticationResult obj
-				var loggedInAccount = await loginResult.GetAccountAsync();
-				//
-
-				Console.WriteLine("User {0} logged in.", loggedInAccount.FullName);
-			}
-			catch (ResourceException rex) {
-				// rex has Message and DeveloperMessage fields
-				Console.WriteLine("Could not log in. Error: " + rex.Message);
-			}
-		}
-		*/
-
-
-
-
-
 
 		// current register function
 		public static int registerRequest(string email, string password) {
@@ -222,6 +158,30 @@ namespace UpgradeApp {
 			return students;
 		}
 
+		public static void joinClass(string className, string type) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/joinClass");
+			var request = new RestRequest(Method.POST);
+			client.CookieContainer = cookieJar;
+			joinClass jc = new joinClass();
+			jc.className = className;
+			jc.type = type;
+			request.AddJsonBody(jc);
+
+			IRestResponse response = client.Execute(request);
+		}
+
+		public static void leaveClass(string className, string type) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/leaveClass");
+			var request = new RestRequest(Method.POST);
+			client.CookieContainer = cookieJar;
+			joinClass jc = new joinClass();
+			jc.className = className;
+			jc.type = type;
+			request.AddJsonBody(jc);
+
+			IRestResponse response = client.Execute(request);
+		}
+
 		public static void updateProfile(string name, string email, string contact, string about,
 			string[] classesTutor, string[] classesStudent, string time, string prices, string visible, string avatar) {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/updateProfile"); 
@@ -282,6 +242,7 @@ namespace UpgradeApp {
 
 		public static void upvoteProfile(string name) {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/upvote");
+			client.CookieContainer = cookieJar;
 			var request = new RestRequest(Method.POST);
 			SendUpvote su = new SendUpvote();
 			su.name = name;

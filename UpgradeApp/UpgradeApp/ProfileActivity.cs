@@ -9,14 +9,22 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Android.Graphics;
+using System.Threading.Tasks;
+using System.Net.Http;
+using FFImageLoading;
+using Square.Picasso;
 
 namespace UpgradeApp {
 	[Activity(Label = "ProfileActivity")]
 	public class ProfileActivity : Activity {
+
+		bool justLoggedIn;
+
 		protected override void OnCreate(Bundle savedInstanceState) {
 			base.OnCreate(savedInstanceState);
-            //SetTheme(Android.Resource.Style.ThemeHoloLightNoActionBar);
-            SetContentView(Resource.Layout.ProfileScreen);
+			//SetTheme(Android.Resource.Style.ThemeHoloLightNoActionBar);
+			SetContentView(Resource.Layout.ProfileScreen);
 
 			TextView nameTextView = FindViewById<TextView>(Resource.Id.NameTextView);
 			ImageView avatarImageView = FindViewById<ImageView>(Resource.Id.AvatarImageView);
@@ -39,7 +47,7 @@ namespace UpgradeApp {
 			TextView availabilityTextView = FindViewById<TextView>(Resource.Id.AvailabilityTextView);
 			TextView pricesLabelTextView = FindViewById<TextView>(Resource.Id.PricesLabelTextView);
 			TextView pricesTextView = FindViewById<TextView>(Resource.Id.PricesTextView);
-            Button classListView = FindViewById<Button>(Resource.Id.classButton);
+			Button classListView = FindViewById<Button>(Resource.Id.classButton);
 
 			// Get profile information from the server
 			Profile p;
@@ -52,8 +60,23 @@ namespace UpgradeApp {
 			emailTextView.Text = p.email;
 			ratingTextView.Text = p.rating.ToString();
 			aboutTextView.Text = p.about;
-			//iTutorTextView.Text
-			//iNeedATutorTextView.Text
+
+			iTutorTextView.Text = "";
+			iNeedATutorTextView.Text = "";
+
+			foreach (classInfo ci in p.classesIn) {
+				if (ci.type == "tutor") {
+					iTutorTextView.Text += ci.className;
+					iTutorTextView.Text += " ";
+				}
+				else if (ci.type == "student") {
+					iNeedATutorTextView.Text += ci.className;
+					iNeedATutorTextView.Text += " ";
+				}
+			}
+
+			Picasso.With(this).Load(p.avatar).Into(avatarImageView);
+
 			availabilityTextView.Text = p.time;
 			pricesTextView.Text = p.price;
 
@@ -62,6 +85,7 @@ namespace UpgradeApp {
 				reportButton.Enabled = false;
 				blockButton.Enabled = false;
 				editButton.Enabled = true;
+				rateButton.Enabled = false;
 			}
 			else {
 				sendMessageButton.Enabled = true;
@@ -69,15 +93,28 @@ namespace UpgradeApp {
 				blockButton.Enabled = true;
 				editButton.Enabled = false;
 			}
-			
 
-            if(Intent.GetStringExtra("studyClasses") != null)
+			string uid = HTTPHandler.getProfile(HTTPHandler.emailLoggedIn)._id;
+			if (p.usersUpvoted != null) {
+				foreach (upvotedID u in p.usersUpvoted) {
+					if (u._id.Equals(uid))
+						rateButton.Enabled = false;
+				}
+			}
+
+			if (Intent.GetStringExtra("justLoggedIn") != null && Intent.GetStringExtra("justLoggedIn").Equals("true"))
+				justLoggedIn = true;
+			else justLoggedIn = false;
+
+
+			/*if(Intent.GetStringExtra("studyClasses") != null)
             {
                 iNeedATutorTextView.Text = Intent.GetStringExtra("studyClasses");
             }
             if(Intent.GetStringExtra("tutorClasses") != null) {
                 iTutorTextView.Text = Intent.GetStringExtra("tutorClasses");
-            }
+            }*/
+
 			/*if (Intent.GetStringExtra("email") != null) {
 				emailTextView.Text = Intent.GetStringExtra("email");
 			}
@@ -99,15 +136,13 @@ namespace UpgradeApp {
             }*/
 
 
-            classListView.Click += (object Sender, EventArgs e) =>
-            {
-                var intent = new Android.Content.Intent(this, typeof(ClassListActivity));
-                StartActivity(intent);
-            };
+			classListView.Click += (object Sender, EventArgs e) => {
+				var intent = new Android.Content.Intent(this, typeof(ClassListActivity));
+				StartActivity(intent);
+			};
 
-            editButton.Click += (Sender, e) =>
-            {
-                var intent = new Android.Content.Intent(this, typeof(EditProfileActivity));
+			editButton.Click += (Sender, e) => {
+				var intent = new Android.Content.Intent(this, typeof(EditProfileActivity));
 
 				intent.PutExtra("name", nameTextView.Text);
 				intent.PutExtra("email", emailTextView.Text);
@@ -115,16 +150,18 @@ namespace UpgradeApp {
 				intent.PutExtra("about", aboutTextView.Text);
 				intent.PutExtra("freeTime", availabilityTextView.Text);
 				intent.PutExtra("prices", pricesTextView.Text);
-				intent.PutExtra("studyClasses", iTutorTextView.Text);
-				intent.PutExtra("tutorClasses", iNeedATutorTextView.Text);
+				intent.PutExtra("avatar", p.avatar);
+				//intent.PutExtra("studyClasses", iTutorTextView.Text);
+				//intent.PutExtra("tutorClasses", iNeedATutorTextView.Text);
 				StartActivity(intent);
 
-            };
+			};
 
 			rateButton.Click += (Sender, e) => {
 				HTTPHandler.upvoteProfile(nameTextView.Text);
 				Toast toast = Toast.MakeText(this, "Thanks for your input!", ToastLength.Short);
 				toast.Show();
+				rateButton.Enabled = false;
 			};
 
 			sendMessageButton.Click += (Sender, e) => {
@@ -134,8 +171,12 @@ namespace UpgradeApp {
 				intent.PutExtra("uid", p._id);
 				StartActivity(intent);
 			};
-
-
 		}
+		// Disables the back button on this page
+		public override void OnBackPressed() {
+			if (justLoggedIn == false)
+				base.OnBackPressed();
+		}
+
 	}
 }

@@ -62,6 +62,7 @@ UpgradeApp/UpgradeApp/obj/*
 UpgradeApp/UpgradeApp/bin/*
 UpgradeApp/.vs/*
 UpgradeApp/UpgradeApp/keys.txt
+UpgradeApp/UpgradeApp/UpgradeApp.csproj
 
 pathForDb
 #Procfile

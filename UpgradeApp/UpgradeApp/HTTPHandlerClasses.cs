@@ -44,15 +44,30 @@ namespace UpgradeApp {
 		public string contact;
 		public int rating;
 		public string about;
-		public string[] classesTutor;
-		public string[] classesStudent;
+		//public string[] classesTutor;
+		//public string[] classesStudent;
+		public classInfo[] classesIn;
 		public string time;
 		public string price;
 		public string visible;
 		public string avatar;
 		public string admin;
-		public string[] usersUpvoted;
+		public upvotedID[] usersUpvoted;
 	};
+
+	public class upvotedID {
+		public string _id;
+	}
+
+	public class classInfo {
+		public string className;
+		public string type;
+	}
+
+	public class joinClass {
+		public string className;
+		public string type; // tutor or student
+	}
 
 	public class ClassList {
 		public string[] classes;

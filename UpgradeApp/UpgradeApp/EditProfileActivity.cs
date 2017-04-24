@@ -14,6 +14,8 @@ namespace UpgradeApp {
 	[Activity(Label = "EditProfileActivity")]
 	public class EditProfileActivity : Activity {
 
+		bool justLoggedIn;
+
 		protected override void OnCreate(Bundle savedInstanceState) {
 			base.OnCreate(savedInstanceState);
            // SetTheme(Android.Resource.Style.ThemeHoloLightNoActionBar);
@@ -36,9 +38,15 @@ namespace UpgradeApp {
 			Button submitButton = FindViewById<Button>(Resource.Id.SubmitButton);
             Button studyButton = FindViewById<Button>(Resource.Id.studyButton);
             Button tutorButton = FindViewById<Button>(Resource.Id.tutorButton);
+			TextView avatarTextView = FindViewById<TextView>(Resource.Id.avatarTextView);
+			EditText avatarEditText = FindViewById<EditText>(Resource.Id.avatarEditText);
 
 			string studyClasses = "";
 			string tutorClasses = "";
+
+			if (Intent.GetStringExtra("justLoggedIn") != null)
+				justLoggedIn = true;
+			else justLoggedIn = false;
 
 			if (Intent.GetStringExtra("name") != null) {
 				nameEditText.Text = Intent.GetStringExtra("name");
@@ -58,12 +66,15 @@ namespace UpgradeApp {
 			if (Intent.GetStringExtra("prices") != null) {
 				pricesEditText.Text = Intent.GetStringExtra("prices");
 			}
-			if (Intent.GetStringExtra("studyClasses") != null) {
+			if (Intent.GetStringExtra("avatar") != null) {
+				avatarEditText.Text = Intent.GetStringExtra("avatar");
+			}
+			/*if (Intent.GetStringExtra("studyClasses") != null) {
 				studyClasses = Intent.GetStringExtra("studyClasses");
 			}
 			if (Intent.GetStringExtra("tutorClasses") != null) {
 				tutorClasses = Intent.GetStringExtra("tutorClasses");
-			}
+			}*/
 
 
 
@@ -75,12 +86,13 @@ namespace UpgradeApp {
 				string newAbout = aboutEditText.Text;
 				string freeTime = freeTimeTextView.Text;
 				string prices = pricesEditText.Text;
+				string avatar = avatarEditText.Text;
 				//studyClasses = Intent.GetStringExtra("studyClasses");
 				//tutorClasses = Intent.GetStringExtra("tutorClasses");
 
 				var intent = new Android.Content.Intent(this, typeof(classPickerActivity));
-                intent.PutExtra("study", true);
-				intent.PutExtra("tutor", false);
+                intent.PutExtra("study", "true");
+				intent.PutExtra("tutor", "false");
 
 				intent.PutExtra("name", newName);
 				intent.PutExtra("studentName", newName);
@@ -89,8 +101,9 @@ namespace UpgradeApp {
 				intent.PutExtra("about", newAbout);
 				intent.PutExtra("freeTime", freeTime);
 				intent.PutExtra("prices", prices);
-				intent.PutExtra("studyClasses", studyClasses);
-				intent.PutExtra("tutorClasses", tutorClasses);
+				intent.PutExtra("avatar", avatar);
+				//intent.PutExtra("studyClasses", studyClasses);
+				//intent.PutExtra("tutorClasses", tutorClasses);
 
 
 				StartActivity(intent);
@@ -104,12 +117,13 @@ namespace UpgradeApp {
 				string newAbout = aboutEditText.Text;
 				string freeTime = freeTimeTextView.Text;
 				string prices = pricesEditText.Text;
+				string avatar = avatarEditText.Text;
 				//studyClasses = Intent.GetStringExtra("studyClasses");
 				//tutorClasses = Intent.GetStringExtra("tutorClasses");
 
 				var intent = new Android.Content.Intent(this, typeof(classPickerActivity));
-                intent.PutExtra("tutor", true);
-				intent.PutExtra("study", false);
+                intent.PutExtra("tutor", "true");
+				intent.PutExtra("study", "false");
 
 				intent.PutExtra("name", newName);
 				intent.PutExtra("studentName", newName);
@@ -118,8 +132,9 @@ namespace UpgradeApp {
 				intent.PutExtra("about", newAbout);
 				intent.PutExtra("freeTime", freeTime);
 				intent.PutExtra("prices", prices);
-				intent.PutExtra("studyClasses", studyClasses);
-				intent.PutExtra("tutorClasses", tutorClasses);
+				intent.PutExtra("avatar", avatar);
+				//intent.PutExtra("studyClasses", studyClasses);
+				//intent.PutExtra("tutorClasses", tutorClasses);
 
 				StartActivity(intent);
             };
@@ -133,26 +148,39 @@ namespace UpgradeApp {
 				string newAbout = aboutEditText.Text;
 				string freeTime = freeTimeTextView.Text;
 				string prices = pricesEditText.Text;
-                //studyClasses = Intent.GetStringExtra("studyClasses");
-                //tutorClasses = Intent.GetStringExtra("tutorClasses");
-                // Send server the changes
-                // Needs to have other fields fixed
-                //HTTPHandler.updateProfile(newName, newEmail, newContact, newAbout, null, null, freeTime, prices);
+				string visible = ""; // TODO
+				string avatar = avatarEditText.Text; 
+				//studyClasses = Intent.GetStringExtra("studyClasses");
+				//tutorClasses = Intent.GetStringExtra("tutorClasses");
+				// Send server the changes
+				// Needs to have other fields fixed
+
+				HTTPHandler.updateProfile(newName, newEmail, newContact, newAbout, null, null, freeTime, prices, visible, avatar);
 				HTTPHandler.emailLoggedIn = newEmail;
 
+
+
+
                 var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
-                intent.PutExtra("name", newName);
+                //intent.PutExtra("name", newName);
 				intent.PutExtra("studentName", newName);
-                intent.PutExtra("email", newEmail);
-                intent.PutExtra("contact", newContact);
-				intent.PutExtra("about", newAbout);
-                intent.PutExtra("freeTime", freeTime);
-                intent.PutExtra("prices", prices);
-                intent.PutExtra("studyClasses", studyClasses);
-                intent.PutExtra("tutorClasses", tutorClasses);
+                //intent.PutExtra("email", newEmail);
+                //intent.PutExtra("contact", newContact);
+				//intent.PutExtra("about", newAbout);
+                //intent.PutExtra("freeTime", freeTime);
+                //intent.PutExtra("prices", prices);
+                //intent.PutExtra("studyClasses", studyClasses);
+                //intent.PutExtra("tutorClasses", tutorClasses);
                 StartActivity(intent);
             };
 
 		}
+
+		// Disables the back button on this page
+		public override void OnBackPressed() {
+			if (!justLoggedIn)
+				base.OnBackPressed();
+		}
+
 	}
 }
