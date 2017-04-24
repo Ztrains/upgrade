@@ -618,12 +618,12 @@ app.post('/reportUser', (req,res)=>{
         {"_id":"reports"},
         {$addToSet: {
             reportedUsers: {
-                id: req.body.repid,
+                id: req.body.id,
                 reason: req.body.reason
             }
         }}
     )
-    console.log("User with id " + req.body.repid + " has been reported.")
+    console.log("User with id " + req.body.id + " has been reported.")
     console.log("Reason given: " + req.body.reason)
     res.send("User reported")
 })
