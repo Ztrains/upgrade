@@ -8,6 +8,7 @@ admin.initializeApp({
   databaseURL: "https://upgrade-fef84.firebaseio.com"
 });
 
+/*  Function to add a device to Firebase for notifications  */
 module.exports.addDevice = function(req, res) {
 	if(!users) {users = require('./index.js').users;}
 	if(!req.body.regKey) {
@@ -24,6 +25,7 @@ module.exports.addDevice = function(req, res) {
 	});
 };
 
+/*  Function to check if a device is already registered */
 module.exports.checkDevice = function(req, res) {
 	if(!users) {users = require('./index.js').users;}
 	if(!req.body.regKey) {
@@ -48,6 +50,7 @@ module.exports.checkDevice = function(req, res) {
 	}
 };
 
+/*  Function to send the notification to a device   */
 module.exports.notifyDevices = function(chatID) {
 	if(!users) {users = require('./index.js').users;}
 	if(!chats) {chats = require('./index.js').chats;}
@@ -59,8 +62,8 @@ module.exports.notifyDevices = function(chatID) {
 		var tUsers = [];
 		for(var i = 0; i < result.members.length; i++) {
 			if(result.members[i].muted != false) {
-				tUsers.push(result.members[i].user);	
-			}	
+				tUsers.push(result.members[i].user);
+			}
 		}
 		for(var i = 0; i < users.length; i++) {
 			if(err) {
