@@ -622,7 +622,7 @@ app.post('/blockUser', (req,res)=>{
             }
         }}
     )
-    console.log("User with id " + req.body.id + " has been blocked by user with id " + req.user.id.toString())
+    console.log("User with id " + req.body.id + " has been blocked by user with id " + req.user._id.toString())
     res.send("User blocked")
 })
 
