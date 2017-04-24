@@ -59,6 +59,15 @@ namespace UpgradeApp {
 		public string _id;
 	}
 
+	public class Reports {
+		public Report[] reportedUsers;
+	}
+
+	public class Report {
+		public string id;
+		public string reason;
+	}
+
 	public class classInfo {
 		public string className;
 		public string type;
