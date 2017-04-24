@@ -611,19 +611,49 @@ app.post('/doRecovery', (req,res)=>{
 	});
 })
 
+/*  Route to block a user.
+    JSON fields: "id" (_id of user being blocked)  */
+app.post('/blockUser', (req,res)=>{
+    users.findOneAndUpdate(
+        {"email":req.user.email},
+        {$addToSet: {
+            blockedUsers: {
+                id: req.body.id,
+            }
+        }}
+    )
+    console.log("User with id " + req.body.id + " has been blocked by user with id " + req.user.id.toString())
+    res.send("User blocked")
+})
+
+/*  Route to unblock a user.
+    JSON fields: "id" (_id of user being unblocked)  */
+app.post('/unblockUser', (req,res)=>{
+    users.findOneAndUpdate(
+        {"email":req.user.email},
+        {$pull: {
+            blockedUsers: {
+                id: req.body.id,
+            }
+        }}
+    )
+    console.log("User with id " + req.body.id + " has been unblocked by user with id " + req.user._id.toString())
+    res.send("User unblocked")
+})
+
 /*  Route to report a user.
-    JSON fields: "repid" (_id of user being reported), "reason" (reason given for why they are being reported)  */
+    JSON fields: "id" (_id of user being reported), "reason" (reason given for why they are being reported)  */
 app.post('/reportUser', (req,res)=>{
     classes.findOneAndUpdate(
         {"_id":"reports"},
         {$addToSet: {
             reportedUsers: {
-                id: req.body.repid,
+                id: req.body.id,
                 reason: req.body.reason
             }
         }}
     )
-    console.log("User with id " + req.body.repid + " has been reported.")
+    console.log("User with id " + req.body.id + " has been reported.")
     console.log("Reason given: " + req.body.reason)
     res.send("User reported")
 })
