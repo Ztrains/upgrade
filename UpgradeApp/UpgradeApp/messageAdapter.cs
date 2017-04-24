@@ -34,17 +34,20 @@ namespace UpgradeApp
         }
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
+      
             chatClass chatObject = chatList[position];
             View view = convertView;
             if (view == null)
             {
-                view = context.LayoutInflater.Inflate(Resource.Layout.bubbler, null);
-
+                view = context.LayoutInflater.Inflate(Resource.Layout.bubbler, parent, false);
+                 
             }
             TextView message = (TextView)view.FindViewById(Resource.Id.message_text);
-            layout = (LinearLayout)view.FindViewById(Resource.Id.bubble_layout);
-            message.Text = chatObject.message;
-            layout.SetGravity(chatObject.direction ? GravityFlags.Left : GravityFlags.Right);
+            message.Text = "memes";
+            //layout = (LinearLayout)view.FindViewById(Resource.Id.bubble_layout);
+            //LinearLayout parent_layout = (LinearLayout)view.FindViewById(Resource.Id.bubble_layout_parent);
+            //message.Text = chatObject.message;
+            //layout.SetGravity(chatObject.direction ? GravityFlags.Left : GravityFlags.Right);
 
             //message.SetText();
             

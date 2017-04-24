@@ -21,14 +21,15 @@ namespace UpgradeApp
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
+            SetContentView(Resource.Layout.messaging);
+            //View view = LayoutInflater.Inflate(Resource.Layout.messaging, null);
 			Button sendButton = FindViewById<Button>(Resource.Id.sendButton);
 			TextView msgTextView = FindViewById<TextView>(Resource.Id.msg);
+            listView = FindViewById<ListView>(Resource.Id.message);
+            chats = new List<chatClass>();
+            
 
-			chats = new List<chatClass>();
-
-            SetContentView(Resource.Layout.messaging);
-			string uid = Intent.GetStringExtra("uid");
+            string uid = Intent.GetStringExtra("uid");
 			string cid = Intent.GetStringExtra("cid");
 
 			Messages ms = HTTPHandler.getMessages(cid);
@@ -39,11 +40,11 @@ namespace UpgradeApp
 					chats.Add(c);
 				}
 			}
-			
-            listView = FindViewById<ListView>(Resource.Id.message);
-            listView.Adapter = new messageAdapter(this, chats); //Chats should be replaced by stuff from the server. 
+            messageAdapter adapt = new messageAdapter(this, chats);
+            listView.Adapter = adapt;
+            //Chats should be replaced by stuff from the server. 
 
-			/*
+            /*
 			sendButton.Click += (object Sender, EventArgs e) => {
 				HTTPHandler.sendMessage(cid, msgTextView.Text);
 				msgTextView.Text = "";
@@ -51,6 +52,6 @@ namespace UpgradeApp
 			};
 			*/
 
-		}
+        }
     }
 }
