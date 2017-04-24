@@ -31,12 +31,8 @@ module.exports.checkDevice = function(req, res) {
 	if(!req.body.regKey) {
 		console.log("Error no device regKey");
 		res.status(400).send("Bad Request: no regKey");
-	} else if(!req.body.regKey) {
-		console.log("Error no device regKey");
-		res.status(400).send("Bad Request: no regKey");
 	} else {
 		users.findOneAndUpdate({_id: req.user._id, "devices.regKey": req.body.regKey}, {$set: {"devices.$.date": new Date()}}, function(err, reg) {
-			console.log(reg);
 			if(err) {
 				console.log("firebase.checkDevice find error:");
 				console.log(err);
@@ -65,23 +61,25 @@ module.exports.notifyDevices = function(chatID) {
 				tUsers.push(result.members[i].user);
 			}
 		}
-		for(var i = 0; i < users.length; i++) {
+		var six = new Date();
+		six.setMonth(six.getMonth() - 6);
+		users.updateMany({_id: {$in: tUsers}}, {$pull: {devices: {date: {$lt: six}}}}, function(err) {
 			if(err) {
-				console.log("Database error in notifyDevices", err);
-				return;
+				console.log("Database error removing old devices");
 			}
-			users.findOne({_id: tUsers[i]}, function(err, result) {
-				var tokens = [];
-				for(var n = 0; n < result.devices.length; n++) {
-					tokens.push(result.devices[i].regKey);
-				}
-				var payload = {collapse-key: chatID};
-				admin.messaging().sendToDevice(tokens, payload).then(function(res) {
-					console.log("Success sending messages:", res);
-				}).catch(function(err) {
-					console.log("Error sending messages:", err);
+			for(var i = 0; i < tUsers.length; i++) {
+				findOne({_id: tUsers[i]._id}, function(err, result) {
+					for(var n = 0; n < result.devices.length; n++) {
+						tokens.push(result.devices[n].regKey);
+					}
+					var payload = {collapse_key: chatID};
+					admin.messaging().sendToDevice(tokens, payload).then(function(res) {
+						console.log("Success sending messages:", res);
+					}).catch(function(err) {
+						console.log("Error sending messages:", err);
+					});
 				});
-			});
-		}
+			}
+		});
 	});
 };
