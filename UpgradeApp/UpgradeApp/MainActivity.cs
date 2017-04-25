@@ -37,6 +37,7 @@ namespace UpgradeApp {
 				//msgText.Text = "Google Play Services is available.";
 				Toast toast = Toast.MakeText(this, "Google Play Services available", ToastLength.Short);
 				toast.Show();
+				
 				return true;
 			}
 		}
@@ -59,6 +60,7 @@ namespace UpgradeApp {
 
 			// Check if play services is working
 			IsPlayServicesAvailable();
+			//Log.Debug(TAG, "google app id: " + Resource.String.google_app_id);
 
 			if (Intent.Extras != null) {
 				foreach (var key in Intent.Extras.KeySet()) {

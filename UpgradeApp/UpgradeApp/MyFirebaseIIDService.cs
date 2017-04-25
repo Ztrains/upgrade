@@ -15,6 +15,7 @@ namespace UpgradeApp {
 		}
 		void SendRegistrationToServer(string token) {
 			// Add custom implementation, as needed.
+			HTTPHandler.registerDevice(token);
 		}
 	}
 }

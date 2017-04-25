@@ -11,6 +11,11 @@ using Android.Views;
 using Android.Widget;
 
 namespace UpgradeApp {
+
+	public class RegKey {
+		public string regKey;
+	}
+
 	public class Password {
 		public string pass;
 	}
@@ -19,6 +24,7 @@ namespace UpgradeApp {
 		public string password;
 		public string newpassword;
 		public string recovered;
+		public string email;
 	}
 
 	public class RecoveryInfo {

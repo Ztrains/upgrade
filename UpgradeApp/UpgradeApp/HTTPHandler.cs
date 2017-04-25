@@ -21,6 +21,15 @@ namespace UpgradeApp {
 		public static string emailLoggedIn;
 		public static CookieContainer cookieJar;
 
+		public static void registerDevice(string key) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/regDevice");
+			var request = new RestRequest(Method.POST);
+			client.CookieContainer = cookieJar;
+			RegKey rk = new RegKey();
+			rk.regKey = key;
+			request.AddJsonBody(rk);
+			IRestResponse response = client.Execute(request);
+		}
 
 		// current register function
 		public static int registerRequest(string email, string password) {
@@ -87,7 +96,7 @@ namespace UpgradeApp {
 		public static void setRecovery(string question, string answer) {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/setRecovery"); 
 			var request = new RestRequest(Method.POST);
-
+			client.CookieContainer = cookieJar;
 			RecoveryInfo ri = new RecoveryInfo();
 			ri.email = emailLoggedIn;
 			ri.question = question;
@@ -100,7 +109,7 @@ namespace UpgradeApp {
 		public static Question getRecoveryQuestion(string email) {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/getQuestion");
 			var request = new RestRequest(Method.POST);
-
+			client.CookieContainer = cookieJar;
 			WhichProfile wp = new WhichProfile();
 			wp.email = email;
 			request.AddJsonBody(wp);
@@ -112,9 +121,9 @@ namespace UpgradeApp {
 		public static string checkRecoveryAnswer(string email, string answer) {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/doRecovery");
 			var request = new RestRequest(Method.POST);
-
+			client.CookieContainer = cookieJar;
 			RecoveryCheck rc = new RecoveryCheck();
-			rc.email = emailLoggedIn;
+			rc.email = email;
 			rc.answer = answer;
 			request.AddJsonBody(rc);
 
@@ -123,14 +132,15 @@ namespace UpgradeApp {
 		}
 
 		
-		public static string updatePassword(string password, string newPassword, string recovered) {
+		public static string updatePassword(string password, string newPassword, string recovered, string email) {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/changePassword");
 			var request = new RestRequest(Method.POST);
-			client.CookieContainer = cookieJar;
+			
 			PasswordReset pr = new PasswordReset();
 			pr.password = password;
 			pr.newpassword = newPassword;
 			pr.recovered = recovered;
+			pr.email = email;
 			request.AddJsonBody(pr);
 			IRestResponse response = client.Execute(request);
 			return response.Content;

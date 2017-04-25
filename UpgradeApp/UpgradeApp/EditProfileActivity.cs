@@ -143,7 +143,7 @@ namespace UpgradeApp {
             };
 
 			changePasswordButton.Click += (sender, e) => {
-				string status = HTTPHandler.updatePassword(passEditText.Text, newPassEditText.Text, null);
+				string status = HTTPHandler.updatePassword(passEditText.Text, newPassEditText.Text, null, HTTPHandler.emailLoggedIn);
 				passEditText.Text = "";
 				newPassEditText.Text = "";
 				if (status.Equals("Password changed")) {
