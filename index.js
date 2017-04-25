@@ -689,6 +689,17 @@ app.post('/reportUser', (req,res)=>{
     res.send("User reported")
 })
 
+/*  Route to ban a user.
+    JSON fields: "banEmail" (email of user you want banned) */
+app.post('/banUser', (req,res)=>{
+    users.findOneAndUpdate(
+        {"email":req.body.banEmail},
+        { $set: {"banned":"yep"}}
+    )
+    console.log("User with email " + req.body.banEmail + " has been banned by user with email " + req.user.email)
+    res.send("User banned")
+})
+
 /*  Route to get all of the reports made.
     JSON fields: N/A    */
 app.post('/getReports',(req,res)=>{
