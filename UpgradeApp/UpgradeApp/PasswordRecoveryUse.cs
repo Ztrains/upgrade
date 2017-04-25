@@ -64,6 +64,8 @@ namespace UpgradeApp
 					toast.Show();
 					recoveryPassEditText.Enabled = true;
 					recoveryPassButton.Enabled = true;
+					recoveryAnswer.Enabled = false;
+					submitButton.Enabled = false;
 				}
 				else {
 					Toast toast = Toast.MakeText(this, "Incorrect.", ToastLength.Short);
@@ -74,7 +76,7 @@ namespace UpgradeApp
 			recoveryPassButton.Click += (object sender, EventArgs e) => {
 				Toast toast = Toast.MakeText(this, "Password has been reset.", ToastLength.Short);
 				toast.Show();
-				HTTPHandler.updatePassword(null, recoveryPassEditText.Text, "true");
+				HTTPHandler.updatePassword(null, recoveryPassEditText.Text, "true", email.Text);
 
 				var intent = new Android.Content.Intent(this, typeof(MainActivity));
 				StartActivity(intent);
