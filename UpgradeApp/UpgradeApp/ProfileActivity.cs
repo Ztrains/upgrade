@@ -92,6 +92,12 @@ namespace UpgradeApp {
 				editButton.Enabled = true;
 				rateButton.Enabled = false;
 			}
+			else if (p.admin.Equals("true")) {
+				sendMessageButton.Enabled = true;
+				reportButton.Enabled = true;
+				blockButton.Enabled = true;
+				editButton.Enabled = true;
+			}
 			else {
 				sendMessageButton.Enabled = true;
 				reportButton.Enabled = true;
@@ -180,7 +186,7 @@ namespace UpgradeApp {
 			};
 
 			reportButton.Click += (Sender, e) => {
-				HTTPHandler.reportProfile(p._id, "Reported.");
+				HTTPHandler.reportProfile(p._id, p.name, "Reported.");
 				Toast toast = Toast.MakeText(this, "User has been reported.", ToastLength.Short);
 				toast.Show();
 

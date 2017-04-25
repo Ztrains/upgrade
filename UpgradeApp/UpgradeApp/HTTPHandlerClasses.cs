@@ -15,6 +15,12 @@ namespace UpgradeApp {
 		public string pass;
 	}
 
+	public class PasswordReset {
+		public string password;
+		public string newpassword;
+		public string recovered;
+	}
+
 	public class RecoveryInfo {
 		public string email;
 		public string question;
@@ -70,6 +76,7 @@ namespace UpgradeApp {
 
 	public class Report {
 		public string id;
+		public string name;
 		public string reason;
 	}
 

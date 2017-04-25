@@ -47,7 +47,7 @@ module.exports.checkDevice = function(req, res) {
 };
 
 /*  Function to send the notification to a device   */
-module.exports.notifyDevices = function(chatID) {
+module.exports.notifyDevices = function(chatID, sender) {
 	if(!users) {users = require('./index.js').users;}
 	if(!chats) {chats = require('./index.js').chats;}
 	chats.findOne({_id: chatID}, function(err, result) {
@@ -71,7 +71,7 @@ module.exports.notifyDevices = function(chatID) {
 			}
 			users.find({_id: {$in: tUsers}}, function(err, result) {
 				result.forEach(function(user) {
-					if(!user.devices) {return;}
+					if(!user.devices || user == sender) {return;}
 					console.log("Sending notification for user:,", user);
 					var tokens = [];
 					for(var i = 0; i < user.devices.length; i++) {
