@@ -80,9 +80,12 @@ module.exports.changePassword = function(req, res) {
 		res.status(400).send("Bad Request: missing newpassword key");
 		return;
 	}
-	else if(!bcrypt.compareSync(req.body.password, req.user.hash)) {
-		res.status(401).send("Wrong original password");
-		return;
+	if(req.body.password) {
+		else if(!bcrypt.compareSync(req.body.password, req.user.hash)) {
+			console.log('wrong original password')
+			res.status(401).send("Wrong original password");
+			return;
+		}
 	}
 	var salt = bcrypt.genSaltSync(10);
 	var hash = bcrypt.hashSync(req.body.newpassword, salt);
