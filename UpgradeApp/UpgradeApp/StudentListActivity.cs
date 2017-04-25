@@ -19,22 +19,35 @@ namespace UpgradeApp
 
 		StudentList students;
 		ListView listView;
-		//string[] items = { "Bob Ross", "Curtis Maves", "Mitch Daniels" };
+        //string[] items = { "Bob Ross", "Curtis Maves", "Mitch Daniels" };
 
-		protected override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
-			string c = Intent.GetStringExtra("className");
-			// Get information from server
-			students = HTTPHandler.studentListRequest(c);
-			Array.Sort(students.students, (x, y) => (string.Compare(x.name, y.name)));
-
-			SetContentView(Resource.Layout.listOfStudents);
+            string c = Intent.GetStringExtra("className");
+            // Get information from server
+            students = HTTPHandler.studentListRequest(c);
+            Array.Sort(students.students, (x, y) => (string.Compare(x.name, y.name)));
+           
+            SetContentView(Resource.Layout.listOfStudents);
+            EditText searchBox = FindViewById<EditText>(Resource.Id.searchBox);
+            Button searchButton = FindViewById<Button>(Resource.Id.searchButton);
 
             listView = FindViewById<ListView>(Resource.Id.students);
-            listView.Adapter = new StudentAdapter(this, students.students);
-			listView.ItemClick += ListView_ItemClick;
+            StudentAdapter adapt = new StudentAdapter(this, students.students);
+            listView.Adapter = adapt;
+            listView.ItemClick += ListView_ItemClick;
+            searchButton.Click += (Sender, e) =>
+            {
+                
+                StudentList filtered = ClientHelper.filterStudents(ref students, searchBox.Text);
+                listView.Adapter = null;
+                if (filtered.students.Length != 0)
+                {
+                    listView.Adapter = new StudentAdapter(this, filtered.students);
+                }
+            };
         }
 
 		public void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e) {

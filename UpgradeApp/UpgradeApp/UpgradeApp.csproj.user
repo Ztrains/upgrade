@@ -4,7 +4,7 @@
     <AndroidDesignerPreferredDevice>Nexus 4</AndroidDesignerPreferredDevice>
     <SelectedDevice>Nexus_6P_API_23</SelectedDevice>
     <DefaultDevice>Nexus_6P_API_23</DefaultDevice>
-    <AndroidDesignerPreferredTheme>Theme.Holo.Light.NoActionBar</AndroidDesignerPreferredTheme>
+    <AndroidDesignerPreferredTheme>Theme.Material.Light.NoActionBar</AndroidDesignerPreferredTheme>
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
 </Project>
