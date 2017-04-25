@@ -66,23 +66,29 @@ module.exports = passport;
 module.exports.changePassword = function(req, res) {
     if(!users) {users = require('./index.js').users;}
 
-	if(!req.body.password) {
+	console.log('req.body.recovered: ' + req.body.recovered)
+	if(req.body.recovered) {
+		console.log('Resetting password via recovery questions')
+		//Should skip the checks maybe, should be changed
+	}
+	else if(!req.body.password) {
 		console.log("Bad Request: missing password key");
 		res.status(400).send("Bad Request: missing password key");
 		return;
 	}
-	if(!req.body.newpassword) {
+	else if(!req.body.newpassword) {
 		console.log("Bad Request: missing newpassword key");
 		res.status(400).send("Bad Request: missing newpassword key");
 		return;
 	}
-	if(!bcrypt.compareSync(req.body.password, req.user.hash)) {
+	else if(!bcrypt.compareSync(req.body.password, req.user.hash)) {
+		console.log('wrong original password')
 		res.status(401).send("Wrong original password");
 		return;
 	}
 	var salt = bcrypt.genSaltSync(10);
 	var hash = bcrypt.hashSync(req.body.newpassword, salt);
-	users.findOneAndUpdate({_id: req.user._id}, {$set: {hash: hash}}, function(err, result) {
+	users.findOneAndUpdate({email: req.body.email}, {$set: {hash: hash}}, function(err, result) {
 		if(err) {
 			console.log(err);
 			res.status(500).send("Database error occurred");

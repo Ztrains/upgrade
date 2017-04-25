@@ -213,6 +213,7 @@ namespace UpgradeApp {
 				var intent = new Android.Content.Intent(this, typeof(messagingActivity));
 				intent.PutExtra("cid", cid._id);
 				intent.PutExtra("uid", p._id);
+                intent.PutExtra("name", nameTextView.Text);
 				StartActivity(intent);
 			};
 		}

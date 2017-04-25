@@ -596,24 +596,36 @@ app.post('/doRecovery', (req,res)=>{
         if (err) {
             console.log("ERROR: " + err);
             res.send(1);
+            return;
         }
         var data = req.body
         var ans = profile.answer
 
+        console.log("user's saved answer is: " + profile.answer)
+        console.log("user submitted answer: " + req.body.answer)
+
         if (req.body.answer == ans) {
             console.log("updating password happens here")
             res.send("Password change successful")
+            return;
         }
         else {
             console.log("wrong answer sent")
             res.send("Incorrect answer")
+            return;
         }
 	});
+    console.log("didn't find user")
+    //res.send('should not send this')
 })
 /* Routhe to change the password of a user
  * JSON fields: "password", "newpassword" */
 app.post('/changePassword', function(req, res) {
-	if(!req.user) {
+    if(req.body.recovered) {
+		console.log('Resetting password via recovery questions')
+		//Should skip the checks maybe, should be changed
+	}
+    else if(!req.user) {
 		res.status(401).send("Not logged in");
 		return;
 	}
@@ -626,7 +638,7 @@ app.post('/basic/changePassword', basicAuth, function(req, res) {
 /* Route to generate a new password
  * JSON fields: "email" */
 app.post('/resetPassword', function(req, res) {
-	auth.resetPassword(req, res);	
+	auth.resetPassword(req, res);
 });
 
 /*  Route to block a user.

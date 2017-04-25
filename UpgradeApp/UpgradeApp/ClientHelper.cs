@@ -27,17 +27,31 @@ namespace UpgradeApp {
 			return filteredClasses;
 		}
 
-		public static StudentList filterStudents(StudentList studentList, string filter) {
+		public static StudentList filterStudents(ref StudentList studentList, string filter) {
 
 			StudentList filteredStudentList = new StudentList();
+            //filteredStudentList.students = new Student[studentList.students.Length];
+            int location = 0;
 			foreach (Student s in studentList.students) {
-				if (s.name.Contains(filter))
-					filteredStudentList.students.Append(s);
-				else if ((filter.Equals("students") || filter.Equals("student") || filter.Equals("stud")) && (s.type.Equals("student")))
-					filteredStudentList.students.Append(s);
-				else if ((filter.Equals("tutors") || filter.Equals("tutor") || filter.Equals("tut")) && (s.type.Equals("tutor")))
-					filteredStudentList.students.Append(s);
-			}
+                if (s.name.Contains(filter))
+                {
+                    filteredStudentList.students = new Student[location+1];
+                    filteredStudentList.students[location] = s;
+                    location++;
+                }
+                else if ((filter.Equals("students") || filter.Equals("student") || filter.Equals("stud")) && (s.type.Equals("student")))
+                {
+                    filteredStudentList.students = new Student[location + 1];
+                    filteredStudentList.students[location] = s;
+                    location++;
+                }
+                else if ((filter.Equals("tutors") || filter.Equals("tutor") || filter.Equals("tut")) && (s.type.Equals("tutor")))
+                {
+                    filteredStudentList.students = new Student[location + 1];
+                    filteredStudentList.students[location] = s;
+                    location++;
+                }
+            }
 
 			return filteredStudentList;
 		}
