@@ -72,6 +72,7 @@ namespace UpgradeApp
 			// Send the class name to the new screen
 			var intent = new Android.Content.Intent(this, typeof(StudentListActivity));
 			intent.PutExtra("className", classes.classes[e.Position]);
+            intent.PutExtra("theClassName", classes.classes[e.Position]);
 			StartActivity(intent);
 
 
