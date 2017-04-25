@@ -157,4 +157,14 @@ namespace UpgradeApp {
 		public string date;
 		public string sender;
 	}
+
+	public class MessageBoard {
+		public string classID;
+	}
+
+	public class MessageBoardInfo {
+		public string message;
+		public string chatID;
+		public string classID;
+	}
 }

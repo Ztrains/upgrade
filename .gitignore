@@ -63,6 +63,7 @@ UpgradeApp/UpgradeApp/bin/*
 UpgradeApp/.vs/*
 UpgradeApp/UpgradeApp/keys.txt
 UpgradeApp/UpgradeApp/UpgradeApp.csproj
+UpgradeApp/UpgradeApp/Resources/Resource.Designer.cs
 
 pathForDb
 #Procfile
