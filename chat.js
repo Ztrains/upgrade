@@ -157,6 +157,29 @@ module.exports.startDM = function(req, res) {
 		});
 	});
 };
+/*Function to delete message */
+module.exports.deleteMessage = function(req, res) {
+	if(!chats) {chats = require('./index.js').chats;}	
+	if(!req.body.date) {
+		res.status(400).send("Bad Request. Missing date key");
+		return; 
+	}
+	if(!req.body.chatID) {
+		res.status(400).send("Bad Request. Missing chatID key");
+		return;
+	}
+	console.log("Deleting message at date:", new Date(req.body.date));
+	chats.updateOne({_id: new objectID(req.body.chatID)}, {$pull: {messages: {date: new Date(req.body.date).toString(), sender: req.user._id}}}, function(err, result) {
+		if(err) {
+			console.log(err);
+			res.status(500).send("Database error deleting message");
+		} else if(result.modifiedCount > 0) {
+			res.send("Message deleted");
+		} else {
+			res.send("Message was not found");
+		}
+	});
+};
 
 /*	Function to start a class message board	*/
 module.exports.startClassDM = function(req, res) {		//just copy-pasted above and changed it to class for message board
