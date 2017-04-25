@@ -25,8 +25,6 @@ namespace UpgradeApp {
 			base.OnCreate(savedInstanceState);
 			//SetTheme(Android.Resource.Style.ThemeHoloLightNoActionBar);
 			SetContentView(Resource.Layout.ProfileScreen);
-
-			TextView nameTextView = FindViewById<TextView>(Resource.Id.NameTextView);
 			ImageView avatarImageView = FindViewById<ImageView>(Resource.Id.AvatarImageView);
 			Button sendMessageButton = FindViewById<Button>(Resource.Id.SendMessageButton);
 			TextView contactMethodsLabelTextView = FindViewById<TextView>(Resource.Id.ContactMethodsLabelTextView);
@@ -48,6 +46,9 @@ namespace UpgradeApp {
 			TextView pricesLabelTextView = FindViewById<TextView>(Resource.Id.PricesLabelTextView);
 			TextView pricesTextView = FindViewById<TextView>(Resource.Id.PricesTextView);
 			Button classListView = FindViewById<Button>(Resource.Id.classButton);
+            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+            SetActionBar(toolbar);
+            
 
 			// Get profile information from the server
 			Profile p;
@@ -56,12 +57,13 @@ namespace UpgradeApp {
 			else {
 				p = HTTPHandler.getProfile(Intent.GetStringExtra("email"));
 			}
-			nameTextView.Text = p.name;
+			//nameTextView.Text = p.name;
 			emailTextView.Text = p.email;
 			ratingTextView.Text = p.rating.ToString();
 			aboutTextView.Text = p.about;
+            ActionBar.Title = p.name;
 
-			iTutorTextView.Text = "";
+            iTutorTextView.Text = "";
 			iNeedATutorTextView.Text = "";
             if (p.classesIn != null)
             {
@@ -128,35 +130,6 @@ namespace UpgradeApp {
 			if (isBlocked) blockButton.Text = "Unblock";
 
 
-			/*if(Intent.GetStringExtra("studyClasses") != null)
-            {
-                iNeedATutorTextView.Text = Intent.GetStringExtra("studyClasses");
-            }
-            if(Intent.GetStringExtra("tutorClasses") != null) {
-                iTutorTextView.Text = Intent.GetStringExtra("tutorClasses");
-            }*/
-
-			/*if (Intent.GetStringExtra("email") != null) {
-				emailTextView.Text = Intent.GetStringExtra("email");
-			}
-				
-			if (Intent.GetStringExtra("contact") != null)
-            {
-                contactMethodsTextView.Text = Intent.GetStringExtra("contact");
-            }
-			if (Intent.GetStringExtra("about") != null) {
-				aboutTextView.Text = Intent.GetStringExtra("about");
-			}
-			if (Intent.GetStringExtra("freeTime") != null)
-            {
-                availabilityTextView.Text = Intent.GetStringExtra("freeTime");
-            }
-            if (Intent.GetStringExtra("prices") != null)
-            {
-                pricesTextView.Text = Intent.GetStringExtra("prices");
-            }*/
-
-
 			classListView.Click += (object Sender, EventArgs e) => {
 				var intent = new Android.Content.Intent(this, typeof(ClassListActivity));
 				StartActivity(intent);
@@ -165,7 +138,7 @@ namespace UpgradeApp {
 			editButton.Click += (Sender, e) => {
 				var intent = new Android.Content.Intent(this, typeof(EditProfileActivity));
 
-				intent.PutExtra("name", nameTextView.Text);
+				intent.PutExtra("name", ActionBar.Title);
 				intent.PutExtra("email", emailTextView.Text);
 				intent.PutExtra("contact", contactMethodsTextView.Text);
 				intent.PutExtra("about", aboutTextView.Text);
@@ -179,7 +152,7 @@ namespace UpgradeApp {
 			};
 
 			rateButton.Click += (Sender, e) => {
-				HTTPHandler.upvoteProfile(nameTextView.Text);
+				HTTPHandler.upvoteProfile(ActionBar.Title);
 				Toast toast = Toast.MakeText(this, "Thanks for your input!", ToastLength.Short);
 				toast.Show();
 				rateButton.Enabled = false;
@@ -213,12 +186,25 @@ namespace UpgradeApp {
 				var intent = new Android.Content.Intent(this, typeof(messagingActivity));
 				intent.PutExtra("cid", cid._id);
 				intent.PutExtra("uid", p._id);
-                intent.PutExtra("name", nameTextView.Text);
+                intent.PutExtra("name", ActionBar.Title);
 				StartActivity(intent);
 			};
 		}
-		// Disables the back button on this page
-		public override void OnBackPressed() {
+
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            MenuInflater.Inflate(Resource.Menu.topmenus, menu);
+            return base.OnCreateOptionsMenu(menu);
+        }
+        public override bool OnOptionsItemSelected(IMenuItem item) //Passed in the menu item that was selected
+        {
+
+            Toast.MakeText(this, "Action selected: " + item.TitleFormatted,
+                ToastLength.Short).Show();
+            return base.OnOptionsItemSelected(item);
+        }
+        // Disables the back button on this page
+        public override void OnBackPressed() {
 			if (justLoggedIn == false)
 				base.OnBackPressed();
 		}
