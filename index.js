@@ -256,7 +256,7 @@ app.get('/', (req, res) => {
 });
 
 /*Delete message from specified chat;
- * Unused. 
+ * Unused.
  * JSON fields: date (Java Date.toString() will work), chatID*/
 app.post('/chat/message/delete', function(req, res) {
 	if(!req.user) {
@@ -264,7 +264,7 @@ app.post('/chat/message/delete', function(req, res) {
 		return;
 	}
 	chat.deleteMessage(req, res);
-	
+
 });
 app.post('/basic/chat/message/delete', basicAuth, function(req, res) {
 	chat.deleteMessage(req, res);
@@ -415,7 +415,7 @@ app.post('/retrieveName', (req,res)=>{
 		else if(!profile) {console.log("id not found"); return res.send("User doesn't exist/id not found");}
 		//console.log("Profile retrieved: " + JSON.stringify(profile,null,2));
         //res.type('json');
-		res.json(name:profile.name);
+		res.json({name:profile.name});
 	});
 })
 
