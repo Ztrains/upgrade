@@ -2395,13 +2395,13 @@ namespace UpgradeApp
 			
 			// aapt resource value: 0x7f0b006c
 			public const int action_context_bar = 2131427436;
-			
+
 			// aapt resource value: 0x7f0b00bb
 			public const int action_divider = 2131427515;
 			
 			// aapt resource value: 0x7f0b00b5
 			public const int action_image = 2131427509;
-			
+
 			// aapt resource value: 0x7f0b0005
 			public const int action_menu_divider = 2131427333;
 			
@@ -2416,7 +2416,7 @@ namespace UpgradeApp
 			
 			// aapt resource value: 0x7f0b004a
 			public const int action_mode_close_button = 2131427402;
-			
+
 			// aapt resource value: 0x7f0b00b6
 			public const int action_text = 2131427510;
 			
@@ -2467,10 +2467,10 @@ namespace UpgradeApp
 			
 			// aapt resource value: 0x7f0b0052
 			public const int buttonPanel = 2131427410;
-			
+
 			// aapt resource value: 0x7f0b00b8
 			public const int cancel_action = 2131427512;
-			
+	
 			// aapt resource value: 0x7f0b001e
 			public const int center = 2131427358;
 			
@@ -2482,7 +2482,7 @@ namespace UpgradeApp
 			
 			// aapt resource value: 0x7f0b0062
 			public const int checkbox = 2131427426;
-			
+
 			// aapt resource value: 0x7f0b00c0
 			public const int chronometer = 2131427520;
 			
@@ -2506,10 +2506,10 @@ namespace UpgradeApp
 			
 			// aapt resource value: 0x7f0b0055
 			public const int contentPanel = 2131427413;
-			
+
 			// aapt resource value: 0x7f0b00af
 			public const int createAccountButton = 2131427503;
-			
+
 			// aapt resource value: 0x7f0b005c
 			public const int custom = 2131427420;
 			
@@ -2554,10 +2554,10 @@ namespace UpgradeApp
 			
 			// aapt resource value: 0x7f0b0021
 			public const int end = 2131427361;
-			
+
 			// aapt resource value: 0x7f0b00ca
 			public const int end_padder = 2131427530;
-			
+
 			// aapt resource value: 0x7f0b0018
 			public const int enterAlways = 2131427352;
 			
@@ -2602,7 +2602,7 @@ namespace UpgradeApp
 			
 			// aapt resource value: 0x7f0b00c5
 			public const int icon_group = 2131427525;
-			
+
 			// aapt resource value: 0x7f0b0012
 			public const int icon_only = 2131427346;
 			
@@ -2614,7 +2614,7 @@ namespace UpgradeApp
 			
 			// aapt resource value: 0x7f0b00c1
 			public const int info = 2131427521;
-			
+
 			// aapt resource value: 0x7f0b000c
 			public const int item_touch_helper_previous_elevation = 2131427340;
 			
@@ -2662,7 +2662,7 @@ namespace UpgradeApp
 			
 			// aapt resource value: 0x7f0b004f
 			public const int list_item = 2131427407;
-			
+
 			// aapt resource value: 0x7f0b00ae
 			public const int loginButton = 2131427502;
 			
@@ -2674,7 +2674,7 @@ namespace UpgradeApp
 			
 			// aapt resource value: 0x7f0b00b1
 			public const int message = 2131427505;
-			
+
 			// aapt resource value: 0x7f0b0084
 			public const int message_text = 2131427460;
 			
@@ -2704,7 +2704,7 @@ namespace UpgradeApp
 			
 			// aapt resource value: 0x7f0b002f
 			public const int normal = 2131427375;
-			
+	
 			// aapt resource value: 0x7f0b00c3
 			public const int notification_background = 2131427523;
 			
@@ -2737,7 +2737,7 @@ namespace UpgradeApp
 			
 			// aapt resource value: 0x7f0b0064
 			public const int radio = 2131427428;
-			
+
 			// aapt resource value: 0x7f0b00d0
 			public const int recoverAnswer = 2131427536;
 			
@@ -2758,7 +2758,7 @@ namespace UpgradeApp
 			
 			// aapt resource value: 0x7f0b0024
 			public const int right = 2131427364;
-			
+
 			// aapt resource value: 0x7f0b00c2
 			public const int right_icon = 2131427522;
 			
@@ -2785,6 +2785,12 @@ namespace UpgradeApp
 			
 			// aapt resource value: 0x7f0b0031
 			public const int scrollable = 2131427377;
+			
+			// aapt resource value: 0x7f0b00a9
+			public const int searchBox = 2131427497;
+			
+			// aapt resource value: 0x7f0b00aa
+			public const int searchButton = 2131427498;
 			
 			// aapt resource value: 0x7f0b006f
 			public const int search_badge = 2131427439;
@@ -2818,10 +2824,10 @@ namespace UpgradeApp
 			
 			// aapt resource value: 0x7f0b0079
 			public const int select_dialog_listview = 2131427449;
-			
+
 			// aapt resource value: 0x7f0b00b3
 			public const int sendButton = 2131427507;
-			
+		
 			// aapt resource value: 0x7f0b0063
 			public const int shortcut = 2131427427;
 			
@@ -2866,7 +2872,7 @@ namespace UpgradeApp
 			
 			// aapt resource value: 0x7f0b0025
 			public const int start = 2131427365;
-			
+
 			// aapt resource value: 0x7f0b00b9
 			public const int status_bar_latest_event_content = 2131427513;
 			
@@ -2884,10 +2890,10 @@ namespace UpgradeApp
 			
 			// aapt resource value: 0x7f0b0088
 			public const int submitClassButton = 2131427464;
-			
+
 			// aapt resource value: 0x7f0b00cf
 			public const int submitEmailButton = 2131427535;
-			
+
 			// aapt resource value: 0x7f0b0076
 			public const int submit_area = 2131427446;
 			
@@ -2902,7 +2908,7 @@ namespace UpgradeApp
 			
 			// aapt resource value: 0x7f0b00c7
 			public const int text2 = 2131427527;
-			
+
 			// aapt resource value: 0x7f0b0059
 			public const int textSpacerNoButtons = 2131427417;
 			
@@ -2923,7 +2929,7 @@ namespace UpgradeApp
 			
 			// aapt resource value: 0x7f0b00bf
 			public const int time = 2131427519;
-			
+		
 			// aapt resource value: 0x7f0b0051
 			public const int title = 2131427409;
 			
@@ -2965,7 +2971,7 @@ namespace UpgradeApp
 			
 			// aapt resource value: 0x7f0b0002
 			public const int view_offset_helper = 2131427330;
-			
+
 			// aapt resource value: 0x7f0b00eb
 			public const int visible = 2131427563;
 			

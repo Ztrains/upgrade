@@ -36,7 +36,7 @@ module.exports.sendMessage = function (req, res) {
 				if(err) {
 					res.status(500).send("Database error occurred!");
 				} else {
-					firebase.notifyDevices(chat._id);
+					firebase.notifyDevices(chat._id, req.user);
 					res.send("Message sent");
 				}
 			});

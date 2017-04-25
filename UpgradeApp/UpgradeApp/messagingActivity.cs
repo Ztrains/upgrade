@@ -21,7 +21,10 @@ namespace UpgradeApp
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            SetTheme(Android.Resource.Style.ThemeMaterialLight);
+            
             SetContentView(Resource.Layout.messaging);
+            ActionBar.Title = Intent.GetStringExtra("name");
             //View view = LayoutInflater.Inflate(Resource.Layout.messaging, null);
 			Button sendButton = FindViewById<Button>(Resource.Id.sendButton);
 			TextView msgTextView = FindViewById<TextView>(Resource.Id.msg);

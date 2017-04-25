@@ -5,6 +5,23 @@
     android:layout_height="match_parent"
     android:minWidth="25px"
     android:minHeight="25px">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+        <EditText
+            android:id="@+id/searchBox"
+            android:layout_width="326.5dp"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/searchButton"
+            android:hint="Search" />
+        <Button
+            android:id="@+id/searchButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
     <ListView
         android:minWidth="25px"
         android:minHeight="25px"
