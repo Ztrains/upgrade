@@ -2453,9 +2453,6 @@ namespace UpgradeApp
 			// aapt resource value: 0x7f0b00a5
 			public const int avatarTextView = 2131427493;
 			
-			// aapt resource value: 0x7f0b0084
-			public const int bannedUsers = 2131427460;
-			
 			// aapt resource value: 0x7f0b0041
 			public const int beginning = 2131427393;
 			
@@ -2761,6 +2758,9 @@ namespace UpgradeApp
 			
 			// aapt resource value: 0x7f0b00d2
 			public const int recoveryQuestion = 2131427538;
+			
+			// aapt resource value: 0x7f0b0084
+			public const int reportedUsers = 2131427460;
 			
 			// aapt resource value: 0x7f0b0024
 			public const int right = 2131427364;

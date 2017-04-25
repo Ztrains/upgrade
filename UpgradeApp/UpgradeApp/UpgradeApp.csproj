@@ -225,7 +225,7 @@
     <Compile Include="messageAdapter.cs" />
     <Compile Include="HTTPHandlerClasses.cs" />
     <Compile Include="classPickerActivity.cs" />
-    <Compile Include="BannedAdapter.cs" />
+    <Compile Include="ReportedAdapter.cs" />
     <Compile Include="StudentAdapter.cs" />
     <Compile Include="StudentListActivity.cs" />
     <Compile Include="ClassListActivity.cs" />

@@ -12,11 +12,11 @@ using Android.Widget;
 
 namespace UpgradeApp
 {
-    public class BannedAdapter : BaseAdapter<string>
+    public class ReportedAdapter : BaseAdapter<string>
     {
-        Student[] students;
+        Report[] students;
         Activity context;
-        public BannedAdapter(Activity context, Student[] students) : base()
+        public ReportedAdapter(Activity context, Report[] students) : base()
         {
             this.context = context;
             this.students = students;
@@ -42,7 +42,7 @@ namespace UpgradeApp
 
             }
             view.FindViewById<TextView>(Android.Resource.Id.Text1).Text = students[position].name;
-            view.FindViewById<TextView>(Android.Resource.Id.Text2).Text = students[position].type;
+            view.FindViewById<TextView>(Android.Resource.Id.Text2).Text = students[position].reason;
             return view;
         }
     }
