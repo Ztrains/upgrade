@@ -54,7 +54,7 @@ namespace UpgradeApp
                 adapt = new messageAdapter(this, chats);
                 listView.Adapter = null;
                 listView.Adapter = adapt;
-                // Need to refresh the messages here probably
+                //Refreshes when sent, but will not update when a message is received
             };
 			
 

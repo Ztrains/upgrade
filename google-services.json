@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "475226405074",
+    "firebase_url": "https://upgrade-4dc54.firebaseio.com",
+    "project_id": "upgrade-4dc54",
+    "storage_bucket": "upgrade-4dc54.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:475226405074:android:3d38b2ec473e5784",
+        "android_client_info": {
+          "package_name": "UpgradeApp.UpgradeApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "475226405074-idmlgqbh1ki0205praqvoc8nfsa5m459.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9gZ3sjXrPvsdTVsodkEPoG6vsxg_fBtk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

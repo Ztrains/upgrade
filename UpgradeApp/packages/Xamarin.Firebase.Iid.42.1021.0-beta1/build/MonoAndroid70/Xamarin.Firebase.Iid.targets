@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <!-- Unique key for cached download -->
+        <_XbdKey_firebaseiid>firebase-10.2.1/firebaseiid</_XbdKey_firebaseiid>
+        
+        <!-- Path to .aar file within the extracted contents of the cached download -->
+        <_XbdAarFile_firebaseiid>m2repository\com\google\firebase\firebase-iid\10.2.1\firebase-iid-10.2.1.aar</_XbdAarFile_firebaseiid>
+        
+        <!-- Full path to .aar file, assuming we had to download to the cache - we reset this later if it is in the sdk -->
+        <_XbdAarFileFullPath_firebaseiid>$(XamarinBuildDownloadDir)$(_XbdKey_firebaseiid)\firebase-iid-10.2.1.aar</_XbdAarFileFullPath_firebaseiid>
+
+        <!-- Assembly name to embed .aar in -->
+        <_XbdAssemblyName_firebaseiid>Xamarin.Firebase.Iid</_XbdAssemblyName_firebaseiid>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <XamarinBuildRestoreResources Include="_XbdRestoreItems_firebaseiid"/>
+    </ItemGroup>
+
+    <Target Name="_XbdRestoreItems_firebaseiid">
+        <!-- Check if the aar file is in the android sdk already and change the path to use to it, if it's found -->
+        <CreateProperty Value="$(AndroidSdkDirectory)\extras\google\$(_XbdAarFile_firebaseiid)" Condition="Exists('$(AndroidSdkDirectory)\extras\google\$(_XbdAarFile_firebaseiid)')">
+            <Output PropertyName="_XbdAarFileFullPath_firebaseiid" TaskParameter="Value" />
+        </CreateProperty>
+
+        <ItemGroup>
+            <XamarinBuildDownloadPartialZip Include="$(_XbdKey_firebaseiid)" Condition="!Exists('$(_XbdAarFileFullPath_firebaseiid)')">
+                <Url>https://dl-ssl.google.com/android/repository/google_m2repository_gms_v9_1_rc07_wear_2_0_1_rc3.zip</Url>
+                <ToFile>firebase-iid-10.2.1.aar</ToFile>
+                <RangeStart>7740680</RangeStart>
+                <RangeEnd>7771627</RangeEnd>
+                <Md5>8363ba0d2ae8562754e94d0126d58498</Md5>
+                <CustomErrorMessage>Please open the Android SDK Manager and install the latest version of 'Google Repository' from the 'Extras' section, and then reload your solution.</CustomErrorMessage>
+                <CustomErrorCode>XBD404</CustomErrorCode>
+            </XamarinBuildDownloadPartialZip>
+        </ItemGroup>
+
+        <ItemGroup>
+            <XamarinBuildDownloadRestoreAssemblyAar Include="$(_XbdAarFileFullPath_firebaseiid)">
+                <LogicalName>__AndroidLibraryProjects__.zip</LogicalName>
+                <AssemblyName>$(_XbdAssemblyName_firebaseiid)</AssemblyName>
+            </XamarinBuildDownloadRestoreAssemblyAar>
+        </ItemGroup>
+    </Target>
+</Project>

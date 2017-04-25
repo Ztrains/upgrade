@@ -37,23 +37,32 @@ namespace UpgradeApp
       
             chatClass chatObject = chatList[position];
             View view = convertView;
+            int layoutRes = 0;
+            if(chatObject.direction)
+            {
+                layoutRes = Resource.Layout.bubblerL;
+            }
+            else
+            {
+                layoutRes = Resource.Layout.bubbler;
+            }
             if (view == null)
             {
-                view = context.LayoutInflater.Inflate(Resource.Layout.bubbler, parent, false);
+                view = context.LayoutInflater.Inflate(layoutRes, parent, false);
                  
             }
             TextView message = (TextView)view.FindViewById(Resource.Id.message_text);
-            layout = (LinearLayout)view.FindViewById(Resource.Id.bubble_layout);
+            //layout = (LinearLayout)view.FindViewById(Resource.Id.bubble_layout);
             //LinearLayout parent_layout = (LinearLayout)view.FindViewById(Resource.Id.bubble_layout_parent);
             message.Text = chatObject.message;
-            if(chatObject.direction)
+            /*if(chatObject.direction)
             {
                 layout.SetGravity(GravityFlags.Left);
             }
             else
             {
                 layout.SetGravity(GravityFlags.Right);
-            }
+            }*/
             //layout.SetGravity(chatObject.direction ? GravityFlags.Left : GravityFlags.Right);
 
             //message.SetText();
