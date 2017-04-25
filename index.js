@@ -598,7 +598,7 @@ app.post('/doRecovery', (req,res)=>{
             res.send(1);
         }
         var data = req.body
-        var ans = profile.answer
+        var ans = req.user.answer
 
         if (req.body.answer == ans) {
             console.log("updating password happens here")
@@ -626,7 +626,7 @@ app.post('/basic/changePassword', basicAuth, function(req, res) {
 /* Route to generate a new password
  * JSON fields: "email" */
 app.post('/resetPassword', function(req, res) {
-	auth.resetPassword(req, res);	
+	auth.resetPassword(req, res);
 });
 
 /*  Route to block a user.
