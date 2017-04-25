@@ -7,6 +7,10 @@ using System;
 using Stormpath.SDK;
 using Stormpath.SDK.Client;
 using Stormpath.SDK.Error;
+using Android.Gms.Common;
+using Firebase.Messaging;
+using Firebase.Iid;
+using Android.Util;
 
 namespace UpgradeApp {
 	[Activity(Label = "UpgradeApp", MainLauncher = true, Icon = "@drawable/icon")]
