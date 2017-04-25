@@ -15,14 +15,17 @@ namespace UpgradeApp
     [Activity(Label = "AdminActivity")]
     public class AdminActivity : Activity
     {
-        Student[] students;
+        Reports reportedUsers;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            reportedUsers = HTTPHandler.getReports();
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.AdminScreen);
 
-            ListView listView = FindViewById<ListView>(Resource.Id.bannedUsers);
-            listView.Adapter = new BannedAdapter(this, students);//Needs to be replaced with students from the server
+            ListView listView = FindViewById<ListView>(Resource.Id.reportedUsers);
+
+            listView.Adapter = new ReportedAdapter(this, reportedUsers.reportedUsers);//Needs to be replaced with students from the server
 
             // Create your application here
         }

@@ -20,6 +20,7 @@ namespace UpgradeApp {
 	public class ProfileActivity : Activity {
 
 		bool justLoggedIn;
+        bool admin = false;
 
 		protected override void OnCreate(Bundle savedInstanceState) {
 			base.OnCreate(savedInstanceState);
@@ -99,6 +100,7 @@ namespace UpgradeApp {
 				reportButton.Enabled = true;
 				blockButton.Enabled = true;
 				editButton.Enabled = true;
+                admin = true;
 			}
 			else {
 				sendMessageButton.Enabled = true;
@@ -198,9 +200,12 @@ namespace UpgradeApp {
         }
         public override bool OnOptionsItemSelected(IMenuItem item) //Passed in the menu item that was selected
         {
-
-            Toast.MakeText(this, "Action selected: " + item.TitleFormatted,
-                ToastLength.Short).Show();
+            if (admin)
+            {
+                var intent = new Intent(this, typeof(AdminActivity));
+                StartActivity(intent);
+            }
+            
             return base.OnOptionsItemSelected(item);
         }
         // Disables the back button on this page
