@@ -398,7 +398,7 @@ namespace UpgradeApp {
 			IRestResponse response = client.Execute(request);
 		}
 
-		public static Name getName(string id) {
+		public static string getName(string id) {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/retrieveName");
 			var request = new RestRequest(Method.POST);
 			client.CookieContainer = cookieJar;
@@ -409,7 +409,7 @@ namespace UpgradeApp {
 
 			IRestResponse response = client.Execute(request);
 			Name name = JsonConvert.DeserializeObject<Name>(response.Content);
-			return name;
+			return name.name;
 		}
 
 

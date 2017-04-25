@@ -61,7 +61,7 @@ namespace UpgradeApp {
 			// Check if play services is working
 			IsPlayServicesAvailable();
 			Firebase.FirebaseApp.InitializeApp(this);
-			HTTPHandler.registerDevice(FirebaseInstanceId.Instance.Token);
+			//HTTPHandler.registerDevice(FirebaseInstanceId.Instance.Token);
 			//Log.Debug(TAG, "google app id: " + GetString(Resource.String.google_app_id));
 
 			if (Intent.Extras != null) {

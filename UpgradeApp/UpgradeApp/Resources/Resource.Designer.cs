@@ -3339,11 +3339,11 @@ namespace UpgradeApp
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f07003b
-			public const int ApplicationName = 2131165243;
+			// aapt resource value: 0x7f070042
+			public const int ApplicationName = 2131165250;
 			
-			// aapt resource value: 0x7f07003a
-			public const int Hello = 2131165242;
+			// aapt resource value: 0x7f070041
+			public const int Hello = 2131165249;
 			
 			// aapt resource value: 0x7f070019
 			public const int abc_action_bar_home_description = 2131165209;
@@ -3497,6 +3497,27 @@ namespace UpgradeApp
 			
 			// aapt resource value: 0x7f07000f
 			public const int common_signin_button_text_long = 2131165199;
+			
+			// aapt resource value: 0x7f07003c
+			public const int default_web_client_id = 2131165244;
+			
+			// aapt resource value: 0x7f07003d
+			public const int firebase_database_url = 2131165245;
+			
+			// aapt resource value: 0x7f07003a
+			public const int gcm_defaultSenderId = 2131165242;
+			
+			// aapt resource value: 0x7f07003e
+			public const int google_api_key = 2131165246;
+			
+			// aapt resource value: 0x7f07003b
+			public const int google_app_id = 2131165243;
+			
+			// aapt resource value: 0x7f07003f
+			public const int google_crash_reporting_api_key = 2131165247;
+			
+			// aapt resource value: 0x7f070040
+			public const int google_storage_bucket = 2131165248;
 			
 			// aapt resource value: 0x7f070014
 			public const int password_toggle_content_description = 2131165204;
