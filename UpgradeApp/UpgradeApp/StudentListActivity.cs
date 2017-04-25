@@ -33,6 +33,7 @@ namespace UpgradeApp
             SetContentView(Resource.Layout.listOfStudents);
             EditText searchBox = FindViewById<EditText>(Resource.Id.searchBox);
             Button searchButton = FindViewById<Button>(Resource.Id.searchButton);
+            Button boardButton = FindViewById<Button>(Resource.Id.boardButton);
 
             listView = FindViewById<ListView>(Resource.Id.students);
             StudentAdapter adapt = new StudentAdapter(this, students.students);
@@ -57,6 +58,11 @@ namespace UpgradeApp
                     adapt = new StudentAdapter(this, students.students);
                     listView.Adapter = adapt;
                 }
+            };
+
+            boardButton.Click += (Sender, e) =>
+            {
+                Intent.PutExtra("className", Intent.GetStringExtra("className"));
             };
         }
 

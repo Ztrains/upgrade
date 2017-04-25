@@ -26,6 +26,8 @@
         android:minWidth="50px"
         android:minHeight="50px"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
         android:id="@+id/classList" />
+   
 </LinearLayout>

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AndroidDesignerPreferredDevice>Nexus 4</AndroidDesignerPreferredDevice>
     <SelectedDevice>Huawei Nexus 6P</SelectedDevice>
-    <DefaultDevice>Nexus_6P_API_23</DefaultDevice>
+    <DefaultDevice>VisualStudio_android-23_arm_phone</DefaultDevice>
     <AndroidDesignerPreferredTheme>Theme.Holo.Light.NoActionBar</AndroidDesignerPreferredTheme>
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>

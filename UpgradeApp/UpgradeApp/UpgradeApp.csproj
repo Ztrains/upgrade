@@ -214,6 +214,8 @@
   <ItemGroup>
     <Compile Include="AccountCreationActivity.cs" />
     <Compile Include="ClientHelper.cs" />
+    <Compile Include="messageBoardAdapter.cs" />
+    <Compile Include="messageBoardActivity.cs" />
     <Compile Include="messagingActivity.cs" />
     <Compile Include="MyFirebaseIIDService.cs" />
     <Compile Include="MyFirebaseMessagingService.cs" />
@@ -264,6 +266,15 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\bubblerL.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\messageBoard.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\bubblerB.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\bubblerLB.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

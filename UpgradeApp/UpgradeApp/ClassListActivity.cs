@@ -30,6 +30,7 @@ namespace UpgradeApp
             SetContentView(Resource.Layout.ClassesScreen);
             EditText searchText = FindViewById<EditText>(Resource.Id.searchBoxC);
             Button searchButton = FindViewById<Button>(Resource.Id.searchButtonC);
+            Button boardButton = FindViewById<Button>(Resource.Id.boardButton);
 
 			// Get information from server
 			classes = HTTPHandler.classListRequest();
@@ -62,6 +63,8 @@ namespace UpgradeApp
                     listView.Adapter = adapt;
                 }
             };
+
+           
         }
 
         public void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
