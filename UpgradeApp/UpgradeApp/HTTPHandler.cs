@@ -408,7 +408,7 @@ namespace UpgradeApp {
 			request.AddJsonBody(i);
 
 			IRestResponse response = client.Execute(request);
-			Name name = JsonConvert.DeserializeObject<Name>(response.Content);
+			Name name = JsonConvert.DeserializeObject<Name>(response.Content); 
 			return name;
 		}
 
