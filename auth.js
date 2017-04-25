@@ -88,7 +88,7 @@ module.exports.changePassword = function(req, res) {
 	}
 	var salt = bcrypt.genSaltSync(10);
 	var hash = bcrypt.hashSync(req.body.newpassword, salt);
-	users.findOneAndUpdate({_id: req.user._id}, {$set: {hash: hash}}, function(err, result) {
+	users.findOneAndUpdate({email: req.body.email}, {$set: {hash: hash}}, function(err, result) {
 		if(err) {
 			console.log(err);
 			res.status(500).send("Database error occurred");
