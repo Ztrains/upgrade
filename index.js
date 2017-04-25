@@ -393,6 +393,17 @@ app.post('/retrieveLogin', (req,res)=>{
 	});
 })
 
+app.post('/retrieveName', (req,res)=>{
+    console.log('trying to retrieve name of user _id: ' + req.body.id)
+    users.findOne({_id: req.body.id}, function(err, profile) {
+		if(err) {console.log("Retrieval error"); return res.send("retrieval error");}
+		else if(!profile) {console.log("id not found"); return res.send("User doesn't exist/id not found");}
+		//console.log("Profile retrieved: " + JSON.stringify(profile,null,2));
+        //res.type('json');
+		res.json(name:profile.name);
+	});
+})
+
 /*  Route to update a user's profile.  Checks if certain fields exists and updates them if something was sent in req.
     JSON fields required: "email" (email of user to update)
     JSON fields possible:   "name" (name of user), "newemail" (new email to be stored), "contact" (contact info), "about" (about info),
