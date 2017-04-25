@@ -16,12 +16,12 @@
             android:divider="@null" />
     </LinearLayout>
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
         <EditText
             android:id="@+id/msg"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/sendButton" />
         <Button
