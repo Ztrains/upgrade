@@ -26,6 +26,7 @@ namespace UpgradeApp
             base.OnCreate(savedInstanceState);
 
             string c = Intent.GetStringExtra("className");
+            string theClassName = Intent.GetStringExtra("theClassName");
             // Get information from server
             students = HTTPHandler.studentListRequest(c);
             Array.Sort(students.students, (x, y) => (string.Compare(x.name, y.name)));
@@ -62,7 +63,9 @@ namespace UpgradeApp
 
             boardButton.Click += (Sender, e) =>
             {
-                Intent.PutExtra("className", Intent.GetStringExtra("className"));
+                var intent = new Intent(this, typeof(messageBoardActivity));
+                intent.PutExtra("theClass", theClassName);
+                StartActivity(intent);
             };
         }
 

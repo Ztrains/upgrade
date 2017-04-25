@@ -4,11 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:minWidth="25px"
-    android:minHeight="25px">
+    android:minHeight="25px"
+    android:id="@+id/linearLayout1">
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:id="@+id/relativeLayout1">
         <EditText
             android:id="@+id/searchBox"
             android:layout_width="326.5dp"
@@ -26,11 +28,11 @@
         android:minWidth="25px"
         android:minHeight="25px"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="515.0dp"
         android:id="@+id/students" />
-  <Button
-       android:text="Message Board"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:id="@+id/boardButton" />
+    <Button
+        android:text="Message Board"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/boardButton" />
 </LinearLayout>

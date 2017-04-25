@@ -10,6 +10,7 @@ const favicon = require('serve-favicon');
 const bcrypt = require('bcryptjs');
 const auth = require('./auth.js');
 const firebase = require('./firebase.js');
+const objectID = require('mongodb').ObjectID
 
 var app = express();
 const http = require('http').Server(app)
@@ -256,7 +257,7 @@ app.get('/', (req, res) => {
 });
 
 /*Delete message from specified chat;
- * Unused. 
+ * Unused.
  * JSON fields: date (Java Date.toString() will work), chatID*/
 app.post('/chat/message/delete', function(req, res) {
 	if(!req.user) {
@@ -264,7 +265,7 @@ app.post('/chat/message/delete', function(req, res) {
 		return;
 	}
 	chat.deleteMessage(req, res);
-	
+
 });
 app.post('/basic/chat/message/delete', basicAuth, function(req, res) {
 	chat.deleteMessage(req, res);
@@ -405,6 +406,17 @@ app.post('/retrieveLogin', (req,res)=>{
 		console.log("Profile retrieved: " + JSON.stringify(profile,null,2));
         res.type('json');
 		res.json(profile);
+	});
+})
+
+app.post('/retrieveName', (req,res)=>{
+    console.log('trying to retrieve name of user _id: ' + req.body.id)
+    users.findOne({_id: new objectID(req.body.id)}, function(err, profile) {
+		if(err) {console.log("Retrieval error"); return res.send("retrieval error");}
+		else if(!profile) {console.log("id not found"); return res.send("User doesn't exist/id not found");}
+		//console.log("Profile retrieved: " + JSON.stringify(profile,null,2));
+        //res.type('json');
+		res.json({name:profile.name});
 	});
 })
 

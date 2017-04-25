@@ -24,16 +24,41 @@ namespace UpgradeApp
             SetTheme(Android.Resource.Style.ThemeMaterialLight);
 
             SetContentView(Resource.Layout.messageBoard);
-            ActionBar.Title = Intent.GetStringExtra("className");
-
+            ActionBar.Title = Intent.GetStringExtra("theClass");
+            GetChatID cid = HTTPHandler.startABoard(Intent.GetStringExtra("theClass"));
+            Messages ms = HTTPHandler.getMessages(cid._id);
+            
             Button sendButton = FindViewById<Button>(Resource.Id.sendButton);
             TextView msgTextView = FindViewById<TextView>(Resource.Id.msg);
             TextView userName = FindViewById<TextView>(Resource.Id.userName);
             listView = FindViewById<ListView>(Resource.Id.message);
             chats = new List<chatClass>();
+            if (ms != null)
+            {
+                for (int i = 0; i < ms.messages.Length; i++)
+                {
+                    bool direction = true;
+                    chatClass c = new chatClass(direction, ms.messages[i].message);
+                    chats.Add(c);
+                }
+            }
+            else
+            {
+                chatClass chatter = new chatClass(true, "Be the first to send a message");
+                chats.Add(chatter);
+            }
+            messageAdapter adapt = new messageAdapter(this, chats);
+            listView.Adapter = adapt;
+
 
             sendButton.Click += (object Sender, EventArgs e) => {
-                //Again Adjust when messageboard object is made
+                HTTPHandler.sendMessageBoard(cid._id, Intent.GetStringExtra("className"), msgTextView.Text);
+                chatClass chatter = new chatClass(true, msgTextView.Text);
+                chats.Add(chatter);
+               // msgTextView.Text = "";
+                adapt = new messageAdapter(this, chats);
+                listView.Adapter = null;
+                listView.Adapter = adapt;
             };
             // Create your application here
         }
