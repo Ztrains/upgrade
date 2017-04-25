@@ -621,7 +621,11 @@ app.post('/doRecovery', (req,res)=>{
 /* Routhe to change the password of a user
  * JSON fields: "password", "newpassword" */
 app.post('/changePassword', function(req, res) {
-	if(!req.user) {
+    if(req.body.recovered) {
+		console.log('Resetting password via recovery questions')
+		//Should skip the checks maybe, should be changed
+	}
+    else if(!req.user) {
 		res.status(401).send("Not logged in");
 		return;
 	}
