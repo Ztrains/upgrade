@@ -97,6 +97,7 @@ module.exports.notifyDevices = function(chatID, sender) {
 						tokens.push(user.devices[i].regKey);
 					}
 					console.log("Sending notifcation to the following devices:", tokens);
+					console.log("Sending payload to devices (chatID):", chatIDstr);
 					var payload = {data: {chatID: chatIDstr}};
 					var options = {collapse_key: chatIDstr};
 					admin.messaging().sendToDevice(tokens, payload, options).then(function(res) {
