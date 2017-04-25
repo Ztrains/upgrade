@@ -66,6 +66,7 @@ module.exports = passport;
 module.exports.changePassword = function(req, res) {
     if(!users) {users = require('./index.js').users;}
 
+	console.log('req.body.recovered: ' + req.body.recovered)
 	if(req.body.recovered) {
 		console.log('Resetting password via recovery questions')
 		//Should skip the checks maybe, should be changed
