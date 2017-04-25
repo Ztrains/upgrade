@@ -335,6 +335,7 @@ namespace UpgradeApp {
 			return cid;
 		}
 
+		// Works for private chats and message boards
 		public static Messages getMessages(string chatID) {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/chat/messages/get");
 			var request = new RestRequest(Method.POST);
@@ -352,7 +353,6 @@ namespace UpgradeApp {
 				// Ignore and return no messages
 			}
 			return ms;
-
 		}
 
 		public static void sendMessage(string id, string message) {
@@ -368,6 +368,35 @@ namespace UpgradeApp {
 			IRestResponse response = client.Execute(request);
 		}
 
+
+		// Message board functions
+		public static GetChatID startABoard(string className) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/dms/class/start");
+			var request = new RestRequest(Method.POST);
+			client.CookieContainer = cookieJar;
+
+			MessageBoard mb = new MessageBoard();
+			mb.classID = className;
+			request.AddJsonBody(mb);
+
+			IRestResponse response = client.Execute(request);
+			GetChatID cid = JsonConvert.DeserializeObject<GetChatID>(response.Content);
+			return cid;
+		}
+
+		public static void sendMessageBoard(string chatID, string className, string message) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/chat/class/message/send");
+			var request = new RestRequest(Method.POST);
+			client.CookieContainer = cookieJar;
+
+			MessageBoardInfo mbi = new MessageBoardInfo();
+			mbi.classID = className;
+			mbi.chatID = chatID;
+			mbi.message = message;
+			request.AddJsonBody(mbi);
+
+			IRestResponse response = client.Execute(request);
+		}
 
 
 
