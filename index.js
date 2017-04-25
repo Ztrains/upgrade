@@ -667,7 +667,8 @@ app.post('/reportUser', (req,res)=>{
         {$addToSet: {
             reportedUsers: {
                 id: req.body.id,
-                reason: req.body.reason
+                reason: req.body.reason,
+                name: req.body.name
             }
         }}
     )
