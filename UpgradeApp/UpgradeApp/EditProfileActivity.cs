@@ -40,6 +40,9 @@ namespace UpgradeApp {
             Button tutorButton = FindViewById<Button>(Resource.Id.tutorButton);
 			TextView avatarTextView = FindViewById<TextView>(Resource.Id.avatarTextView);
 			EditText avatarEditText = FindViewById<EditText>(Resource.Id.avatarEditText);
+			EditText passEditText = FindViewById<EditText>(Resource.Id.passEditText);
+			EditText newPassEditText = FindViewById<EditText>(Resource.Id.newPassEditText);
+			Button changePasswordButton = FindViewById<Button>(Resource.Id.updatePasswordButton);
 
 			string studyClasses = "";
 			string tutorClasses = "";
@@ -138,6 +141,28 @@ namespace UpgradeApp {
 
 				StartActivity(intent);
             };
+
+			changePasswordButton.Click += (sender, e) => {
+				string status = HTTPHandler.updatePassword(passEditText.Text, newPassEditText.Text, null);
+				passEditText.Text = "";
+				newPassEditText.Text = "";
+				if (status.Equals("Password changed")) {
+					Toast toast = Toast.MakeText(this, "Password has been changed.", ToastLength.Short);
+					toast.Show();
+				}
+				else if (status.Equals("Wrong original password")) {
+					Toast toast = Toast.MakeText(this, "Incorrect password.", ToastLength.Short);
+					toast.Show();
+				}
+				else {
+					Toast toast = Toast.MakeText(this, "Error.  Try again.", ToastLength.Short);
+					toast.Show();
+				}
+					// 400 - bad request, missing password
+					// 401 - wrong original password
+					// 500 - database error
+					// "Password changed"
+			};
 
 
 

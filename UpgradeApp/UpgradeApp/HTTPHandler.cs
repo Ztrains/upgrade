@@ -105,11 +105,11 @@ namespace UpgradeApp {
 			wp.email = email;
 			request.AddJsonBody(wp);
 			IRestResponse response = client.Execute(request);
-			Question question = JsonConvert.DeserializeObject<Question>(response.Content); // Broken
+			Question question = JsonConvert.DeserializeObject<Question>(response.Content); 
 			return question;
 		}
 
-		public static void checkRecoveryAnswer(string email, string answer) {
+		public static string checkRecoveryAnswer(string email, string answer) {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/doRecovery");
 			var request = new RestRequest(Method.POST);
 
@@ -119,18 +119,22 @@ namespace UpgradeApp {
 			request.AddJsonBody(rc);
 
 			IRestResponse response = client.Execute(request);
+			return response.Content;
 		}
 
-		/*
-		public static void updatePassword(string password) {
-			var client = new RestClient(); // needs url
-			var request = new RestRequest(Method.GET);
-
-			Password pass = new Password();
-			pass.pass = password;
-
+		
+		public static string updatePassword(string password, string newPassword, string recovered) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/changePassword");
+			var request = new RestRequest(Method.POST);
+			client.CookieContainer = cookieJar;
+			PasswordReset pr = new PasswordReset();
+			pr.password = password;
+			pr.newpassword = newPassword;
+			pr.recovered = recovered;
+			request.AddJsonBody(pr);
 			IRestResponse response = client.Execute(request);
-		}*/
+			return response.Content;
+		}
 
 		public static ClassList classListRequest() {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/classList");
@@ -282,12 +286,13 @@ namespace UpgradeApp {
 			IRestResponse response = client.Execute(request);
 		}
 
-		public static void reportProfile(string id, string reason) {
+		public static void reportProfile(string id, string name, string reason) {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/reportUser");
 			var request = new RestRequest(Method.POST);
 
 			Report r = new Report();
 			r.id = id;
+			r.name = name;
 			r.reason = reason;
 			request.AddJsonBody(r);
 

@@ -27,6 +27,8 @@ namespace UpgradeApp
             Button submitButton = FindViewById<Button>(Resource.Id.submitButton);
             EditText email = FindViewById<EditText>(Resource.Id.email);
             Button submitEmailButton = FindViewById<Button>(Resource.Id.submitEmailButton);
+			EditText recoveryPassEditText = FindViewById<EditText>(Resource.Id.recoveryPassEditText);
+			Button recoveryPassButton = FindViewById<Button>(Resource.Id.recoveryPassButton);
 
             //Add some HTTP handler to get the question and set the TextView recvoeryQuestion 
             
@@ -37,18 +39,9 @@ namespace UpgradeApp
 			submitButton.Enabled = false;
 			recoveryAnswer.Enabled = false;
 			recoveryQuestion.Enabled = false;
+			recoveryPassEditText.Enabled = false;
+			recoveryPassButton.Enabled = false;
 
-			
-
-			submitButton.Click += (object sender, EventArgs e) =>
-            {
-				// Talk to server and return to main page
-				Toast toast = Toast.MakeText(this, "Password has been reset.  Check your email.", ToastLength.Short);
-				toast.Show();
-				HTTPHandler.checkRecoveryAnswer(email.Text, recoveryAnswer.Text);
-                var intent = new Android.Content.Intent(this, typeof(MainActivity));
-                StartActivity(intent);
-            };
 
 			submitEmailButton.Click += (object sender, EventArgs e) => {
 				// Update w/ question
@@ -62,6 +55,32 @@ namespace UpgradeApp
 				Question q = HTTPHandler.getRecoveryQuestion(email.Text);
 				recoveryQuestion.Text = q.question;
 			};
+
+			submitButton.Click += (object sender, EventArgs e) =>
+            {
+				string status = HTTPHandler.checkRecoveryAnswer(email.Text, recoveryAnswer.Text);
+				if (status.Equals("Password change successful")) {
+					Toast toast = Toast.MakeText(this, "Correct.  Please reset your password.", ToastLength.Short);
+					toast.Show();
+					recoveryPassEditText.Enabled = true;
+					recoveryPassButton.Enabled = true;
+				}
+				else {
+					Toast toast = Toast.MakeText(this, "Incorrect.", ToastLength.Short);
+					toast.Show();
+				}
+            };
+
+			recoveryPassButton.Click += (object sender, EventArgs e) => {
+				Toast toast = Toast.MakeText(this, "Password has been reset.", ToastLength.Short);
+				toast.Show();
+				HTTPHandler.updatePassword(null, recoveryPassEditText.Text, "true");
+
+				var intent = new Android.Content.Intent(this, typeof(MainActivity));
+				StartActivity(intent);
+			};
+
+
 		}
     }
 }
