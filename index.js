@@ -600,6 +600,9 @@ app.post('/doRecovery', (req,res)=>{
         var data = req.body
         var ans = req.user.answer
 
+        console.log("user's saved answer is: " + req.user.answer)
+        console.log("user submitted answer: " + req.body.answer)
+
         if (req.body.answer == ans) {
             console.log("updating password happens here")
             res.send("Password change successful")
