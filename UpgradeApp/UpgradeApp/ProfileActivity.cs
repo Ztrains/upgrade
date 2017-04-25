@@ -200,11 +200,17 @@ namespace UpgradeApp {
         }
         public override bool OnOptionsItemSelected(IMenuItem item) //Passed in the menu item that was selected
         {
-            if (admin)
-            {
-                var intent = new Intent(this, typeof(AdminActivity));
-                StartActivity(intent);
-            }
+			if (item.TitleFormatted.Equals("Admin Options")) {
+				if (admin) {
+					var intent = new Intent(this, typeof(AdminActivity));
+					StartActivity(intent);
+				}
+			}
+			else if (item.TitleFormatted.Equals("Logout")) {
+				var intent = new Intent(this, typeof(MainActivity));
+				StartActivity(intent);
+			}
+			
             
             return base.OnOptionsItemSelected(item);
         }

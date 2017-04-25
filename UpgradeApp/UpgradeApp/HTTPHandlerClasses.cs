@@ -12,6 +12,15 @@ using Android.Widget;
 
 namespace UpgradeApp {
 
+	public class IDtoName {
+		public string id;
+	}
+
+	public class Name {
+		public string name;
+	}
+
+
 	public class RegKey {
 		public string regKey;
 	}
