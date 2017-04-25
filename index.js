@@ -616,7 +616,7 @@ app.post('/doRecovery', (req,res)=>{
         }
 	});
     console.log("didn't find user")
-    res.send('should not send this')
+    //res.send('should not send this')
 })
 /* Routhe to change the password of a user
  * JSON fields: "password", "newpassword" */
