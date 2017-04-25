@@ -33,6 +33,7 @@ namespace UpgradeApp
             SetContentView(Resource.Layout.listOfStudents);
             EditText searchBox = FindViewById<EditText>(Resource.Id.searchBox);
             Button searchButton = FindViewById<Button>(Resource.Id.searchButton);
+            Button boardButton = FindViewById<Button>(Resource.Id.boardButton);
 
             listView = FindViewById<ListView>(Resource.Id.students);
             StudentAdapter adapt = new StudentAdapter(this, students.students);
@@ -40,13 +41,28 @@ namespace UpgradeApp
             listView.ItemClick += ListView_ItemClick;
             searchButton.Click += (Sender, e) =>
             {
-                
-                StudentList filtered = ClientHelper.filterStudents(ref students, searchBox.Text);
-                listView.Adapter = null;
-                if (filtered.students.Length != 0)
+                if (!searchBox.Text.Equals(""))
                 {
-                    listView.Adapter = new StudentAdapter(this, filtered.students);
+                    StudentList filtered = ClientHelper.filterStudents(ref students, searchBox.Text);
+                    listView.Adapter = null;
+                    if (filtered.students.Length != 0)
+                    {
+                        listView.Adapter = new StudentAdapter(this, filtered.students);
+                    }
                 }
+                else
+                {
+                    Toast toaster = Toast.MakeText(this, "Please enter in something", ToastLength.Short);
+                    toaster.Show();
+                    listView.Adapter = null;
+                    adapt = new StudentAdapter(this, students.students);
+                    listView.Adapter = adapt;
+                }
+            };
+
+            boardButton.Click += (Sender, e) =>
+            {
+                Intent.PutExtra("className", Intent.GetStringExtra("className"));
             };
         }
 

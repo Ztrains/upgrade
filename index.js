@@ -255,6 +255,21 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
+/*Delete message from specified chat;
+ * Unused. 
+ * JSON fields: date (Java Date.toString() will work), chatID*/
+app.post('/chat/message/delete', function(req, res) {
+	if(!req.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+	chat.deleteMessage(req, res);
+	
+});
+app.post('/basic/chat/message/delete', basicAuth, function(req, res) {
+	chat.deleteMessage(req, res);
+});
+
 /*  Route to retrieve list of classes stored in the classes document.
     JSON fields: None, it's a GET.  */
 app.get('/classList',  (req, res) => {
@@ -687,6 +702,17 @@ app.post('/reportUser', (req,res)=>{
     console.log("User with id " + req.body.id + " has been reported.")
     console.log("Reason given: " + req.body.reason)
     res.send("User reported")
+})
+
+/*  Route to ban a user.
+    JSON fields: "banEmail" (email of user you want banned) */
+app.post('/banUser', (req,res)=>{
+    users.findOneAndUpdate(
+        {"email":req.body.banEmail},
+        { $set: {"banned":"yep"}}
+    )
+    console.log("User with email " + req.body.banEmail + " has been banned by user with email " + req.user.email)
+    res.send("User banned")
 })
 
 /*  Route to get all of the reports made.
