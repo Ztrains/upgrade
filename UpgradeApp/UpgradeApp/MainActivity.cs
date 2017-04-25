@@ -60,8 +60,8 @@ namespace UpgradeApp {
 
 			// Check if play services is working
 			IsPlayServicesAvailable();
-			//Log.Debug(TAG, "google app id: " + Resource.String.google_app_id);
-
+			Log.Debug(TAG, "google app id: " + GetString(Resource.String.google_app_id));
+			
 			if (Intent.Extras != null) {
 				foreach (var key in Intent.Extras.KeySet()) {
 					var value = Intent.Extras.GetString(key);
@@ -98,6 +98,7 @@ namespace UpgradeApp {
 					intent.PutExtra("email", email.Text);
 					intent.PutExtra("justLoggedIn", "true");
 					HTTPHandler.emailLoggedIn = email.Text;
+					HTTPHandler.registerDevice(FirebaseInstanceId.Instance.Token);
 					StartActivity(intent);
 				}
 				else if (status == -2) {
