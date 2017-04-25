@@ -592,10 +592,11 @@ app.post('/getQuestion', (req,res)=>{
     Unused, new strategy used instead.
     JSON fields: "email" (email of user), "answer" (answer sent by user)    */
 app.post('/doRecovery', (req,res)=>{
-    users.findOne({email: req.body.email}, function(err, profile) {
+    users.findOne({email: req.user.email}, function(err, profile) {
         if (err) {
             console.log("ERROR: " + err);
             res.send(1);
+            return;
         }
         var data = req.body
         var ans = req.user.answer
@@ -606,12 +607,15 @@ app.post('/doRecovery', (req,res)=>{
         if (req.body.answer == ans) {
             console.log("updating password happens here")
             res.send("Password change successful")
+            return;
         }
         else {
             console.log("wrong answer sent")
             res.send("Incorrect answer")
+            return;
         }
 	});
+    res.send('should not send this')
 })
 /* Routhe to change the password of a user
  * JSON fields: "password", "newpassword" */
