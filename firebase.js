@@ -88,6 +88,7 @@ module.exports.notifyDevices = function(chatID, sender) {
 				console.log("Database error removing old devices");
 			}
 			users.find({_id: {$in: tUsers}}, function(err, result) {
+				var chatIDstr = chatID.toString();
 				result.forEach(function(user) {
 					if(!user.devices || user == sender) {return;}
 					console.log("Sending notification for user:,", user);
@@ -96,7 +97,6 @@ module.exports.notifyDevices = function(chatID, sender) {
 						tokens.push(user.devices[i].regKey);
 					}
 					console.log("Sending notifcation to the following devices:", tokens);
-					var chatIDstr = chatID.toHexString();
 					var payload = {data: {chatID: chatIDstr}};
 					var options = {collapse_key: chatIDstr};
 					admin.messaging().sendToDevice(tokens, payload, options).then(function(res) {
