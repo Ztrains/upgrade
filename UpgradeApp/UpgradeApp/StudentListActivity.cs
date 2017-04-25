@@ -40,12 +40,22 @@ namespace UpgradeApp
             listView.ItemClick += ListView_ItemClick;
             searchButton.Click += (Sender, e) =>
             {
-                
-                StudentList filtered = ClientHelper.filterStudents(ref students, searchBox.Text);
-                listView.Adapter = null;
-                if (filtered.students.Length != 0)
+                if (!searchBox.Text.Equals(""))
                 {
-                    listView.Adapter = new StudentAdapter(this, filtered.students);
+                    StudentList filtered = ClientHelper.filterStudents(ref students, searchBox.Text);
+                    listView.Adapter = null;
+                    if (filtered.students.Length != 0)
+                    {
+                        listView.Adapter = new StudentAdapter(this, filtered.students);
+                    }
+                }
+                else
+                {
+                    Toast toaster = Toast.MakeText(this, "Please enter in something", ToastLength.Short);
+                    toaster.Show();
+                    listView.Adapter = null;
+                    adapt = new StudentAdapter(this, students.students);
+                    listView.Adapter = adapt;
                 }
             };
         }

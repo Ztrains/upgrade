@@ -28,6 +28,8 @@ namespace UpgradeApp
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.ClassesScreen);
+            EditText searchText = FindViewById<EditText>(Resource.Id.searchBoxC);
+            Button searchButton = FindViewById<Button>(Resource.Id.searchButtonC);
 
 			// Get information from server
 			classes = HTTPHandler.classListRequest();
@@ -35,9 +37,31 @@ namespace UpgradeApp
 
 			// Populate listView from server received information
 			listView = FindViewById<ListView>(Resource.Id.classList);
-			listView.Adapter = new ListAdapter(this, classes.classes);
+			ListAdapter adapt = new ListAdapter(this, classes.classes);
+            listView.Adapter = adapt;
 
-            listView.ItemClick += ListView_ItemClick;     
+            listView.ItemClick += ListView_ItemClick;
+
+            searchButton.Click += (Sender, e) =>
+            {
+                if (!searchText.Text.Equals(""))
+                {
+                    ClassList filtered = ClientHelper.filterClasses(classes, searchText.Text);
+                    listView.Adapter = null;
+                    if (filtered.classes.Length != 0)
+                    {
+                        listView.Adapter = new ListAdapter(this, filtered.classes);
+                    }
+                }
+                else
+                {
+                    Toast toaster = Toast.MakeText(this, "Please enter in something", ToastLength.Short);
+                    toaster.Show();
+                    listView.Adapter = null;
+                    adapt = new ListAdapter(this, classes.classes);
+                    listView.Adapter = adapt;
+                }
+            };
         }
 
         public void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
