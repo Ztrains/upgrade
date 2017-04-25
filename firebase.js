@@ -17,14 +17,32 @@ module.exports.addDevice = function(req, res) {
 			return;
 	}
 	console.log(req.user);
-	users.updateOne({_id: req.user._id}, { $push: {devices: {regKey: req.body.regKey, date: new Date()}}}, function(err, r) {
+	users.findOne({_id: req.user._id, "devices.regKey": req.body.regKey}, function(err, result) {
 		if(err) {
 			console.log(err);
 			res.send("Database error");
-		} else {res.send("Success adding device");}
+		} else if(result) {
+			users.updateOne({_id: result._id, "devices.regKey": req.body.regKey}, {$set: {"devices.$.date": new Date()}}, function(err, reg) {
+				if(err) {
+					console.log("database error (27):", err);
+					res.status.send("Database error");
+				} else {
+					res.send("Device key found");
+				}
+			});
+		} else {
+			users.updateOne({_id: req.user._id}, {$push: {devices: {regKey: req.body.regKey, date: new Date()}}}, function (err) {
+				if(err) {
+					console.log("Database error (36):", err);
+					res.status(500).send("Database error");
+				} else {
+					res.send("Success adding device");
+				}
+			});
+		}
 	});
 };
-
+//unused
 /*  Function to check if a device is already registered */
 module.exports.checkDevice = function(req, res) {
 	if(!users) {users = require('./index.js').users;}
