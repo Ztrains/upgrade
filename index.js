@@ -410,7 +410,7 @@ app.post('/retrieveLogin', (req,res)=>{
 
 app.post('/retrieveName', (req,res)=>{
     console.log('trying to retrieve name of user _id: ' + req.body.id)
-    users.findOne({_id: req.body.id}, function(err, profile) {
+    users.findOne({_id: new objectID(req.body.id)}, function(err, profile) {
 		if(err) {console.log("Retrieval error"); return res.send("retrieval error");}
 		else if(!profile) {console.log("id not found"); return res.send("User doesn't exist/id not found");}
 		//console.log("Profile retrieved: " + JSON.stringify(profile,null,2));
