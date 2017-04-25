@@ -215,6 +215,8 @@
     <Compile Include="AccountCreationActivity.cs" />
     <Compile Include="ClientHelper.cs" />
     <Compile Include="messagingActivity.cs" />
+    <Compile Include="MyFirebaseIIDService.cs" />
+    <Compile Include="MyFirebaseMessagingService.cs" />
     <Compile Include="PasswordRecoveryUse.cs" />
     <Compile Include="chatClass.cs" />
     <Compile Include="messageAdapter.cs" />

@@ -30,6 +30,31 @@
                 android:hint="John Doe"
                 android:textSize="14dp" />
             <TextView
+                android:text="Change password:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView1"
+                android:textSize="20dp" />
+            <EditText
+                android:inputType="textPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/passEditText"
+                android:textSize="14dp"
+                android:hint="Current password" />
+            <EditText
+                android:inputType="textPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/newPassEditText"
+                android:textSize="14dp"
+                android:hint="New password" />
+            <Button
+                android:text="Update Password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/updatePasswordButton" />
+            <TextView
                 android:text="Enter other contact information:"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

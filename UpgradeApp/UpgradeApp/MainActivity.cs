@@ -11,19 +11,36 @@ using Android.Gms.Common;
 using Firebase.Messaging;
 using Firebase.Iid;
 using Android.Util;
+using Android.Gms.Common;
 
 namespace UpgradeApp {
 	[Activity(Label = "UpgradeApp", MainLauncher = true, Icon = "@drawable/icon")]
 	public class MainActivity : Activity {
 
-		/*public async void stormPathMain() {
-			var client = Clients.Builder()
-				.SetApiKeyFilePath("./keys.txt")
-				.Build();
-			var myApp = await client.GetApplications()
-				.Where(x => x.Name == "My Application")
-				.SingleAsync();
-		}*/
+		const string TAG = "MainActivity";
+
+		public bool IsPlayServicesAvailable() {
+			string t = "";
+			int resultCode = GoogleApiAvailability.Instance.IsGooglePlayServicesAvailable(this);
+			if (resultCode != ConnectionResult.Success) {
+				if (GoogleApiAvailability.Instance.IsUserResolvableError(resultCode))
+					t = GoogleApiAvailability.Instance.GetErrorString(resultCode);
+				else {
+					Toast toast = Toast.MakeText(this, "device not supported", ToastLength.Short);
+					toast.Show();
+					//msgText.Text = "This device is not supported";
+					Finish();
+				}
+				return false;
+			}
+			else {
+				//msgText.Text = "Google Play Services is available.";
+				Toast toast = Toast.MakeText(this, "Google Play Services available", ToastLength.Short);
+				toast.Show();
+				return true;
+			}
+		}
+
 
 		protected override void OnCreate(Bundle bundle) {
 			//SetTheme(Android.Resource.Style.ThemeHoloLightNoActionBar);
@@ -39,9 +56,21 @@ namespace UpgradeApp {
 
 			// Set our view from the "main" layout resource
 			SetContentView(Resource.Layout.Login);  // Change Main to Login screen //
-           
 
-            EditText email = FindViewById<EditText>(Resource.Id.email);
+			// Check if play services is working
+			IsPlayServicesAvailable();
+
+			if (Intent.Extras != null) {
+				foreach (var key in Intent.Extras.KeySet()) {
+					var value = Intent.Extras.GetString(key);
+					Log.Debug(TAG, "Key: {0} Value: {1}", key, value);
+				}
+			}
+
+
+
+
+			EditText email = FindViewById<EditText>(Resource.Id.email);
 			EditText password = FindViewById<EditText>(Resource.Id.password);
 			ImageView upgradeLogo = FindViewById<ImageView>(Resource.Id.upgradeLogo);
 			Button loginButton = FindViewById<Button>(Resource.Id.loginButton);
@@ -102,6 +131,11 @@ namespace UpgradeApp {
                 StartActivity(intent);
             };
 
+		}
+
+		// Disables the back button on this page
+		public override void OnBackPressed() {
+			// disabled
 		}
 	}
 }
