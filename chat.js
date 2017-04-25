@@ -157,7 +157,8 @@ module.exports.startDM = function(req, res) {
 		});
 	});
 };
-/*Function to delete message */
+
+/*Function to delete message Unused.*/
 module.exports.deleteMessage = function(req, res) {
 	if(!chats) {chats = require('./index.js').chats;}	
 	if(!req.body.date) {
