@@ -11,11 +11,11 @@
         android:id="@+id/upgradeLogo"
         android:layout_marginTop="80dp" />
     <EditText
-        android:inputType="textEmailAddress"
+        android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/email"
-        android:hint="Email"
+        android:hint="Username"
         android:layout_marginTop="25dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"

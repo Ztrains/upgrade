@@ -62,13 +62,6 @@
                 android:paddingTop="16dp"
                 android:textSize="20dp" />
             <EditText
-                android:inputType="textEmailAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/EmailEditText"
-                android:hint="johndoe@purdue.edu"
-                android:textSize="14dp" />
-            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/OtherContactMethodsEditText"
