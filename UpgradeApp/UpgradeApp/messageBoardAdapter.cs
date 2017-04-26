@@ -16,10 +16,12 @@ namespace UpgradeApp
         Activity context;
         List<chatClass> chatList;
         LinearLayout layout;
-        public messageBoardAdapter(Activity context, List<chatClass> chatList) : base()
+        string[] names;
+        public messageBoardAdapter(Activity context, List<chatClass> chatList, string[] names) : base()
         {
             this.context = context;
             this.chatList = chatList;
+            this.names = names;
         }
         public override long GetItemId(int position)
         {
@@ -38,6 +40,7 @@ namespace UpgradeApp
       
             chatClass chatObject = chatList[position];
             View view = convertView;
+            string name = names[position];
             int layoutRes = 0;
             if(chatObject.direction)
             {
@@ -53,6 +56,9 @@ namespace UpgradeApp
                  
             }
             TextView message = (TextView)view.FindViewById(Resource.Id.message_text);
+            TextView namer = (TextView)view.FindViewById(Resource.Id.userName);
+            namer.Text = name;
+
             message.Text = chatObject.message;
             
             return view;
