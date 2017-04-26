@@ -15,6 +15,14 @@ namespace UpgradeApp {
 	public class EditProfileActivity : Activity {
 
 		bool justLoggedIn;
+		string newName = "";
+		string newEmail = "";
+		string newContact = "";
+		string newAbout = "";
+		string freeTime = "";
+		string prices = "";
+		string visible = ""; // TODO
+		string avatar = "";
 
 		protected override void OnCreate(Bundle savedInstanceState) {
 			base.OnCreate(savedInstanceState);
@@ -25,7 +33,7 @@ namespace UpgradeApp {
 			TextView nameLabelTextView = FindViewById<TextView>(Resource.Id.NameLabelTextView);
 			EditText nameEditText = FindViewById<EditText>(Resource.Id.NameEditText);
 			TextView contactLabelTextView = FindViewById<TextView>(Resource.Id.ContactLabelTextView);
-			EditText emailEditText = FindViewById<EditText>(Resource.Id.EmailEditText);
+			//EditText emailEditText = FindViewById<EditText>(Resource.Id.EmailEditText);
 			EditText otherContactMethodsEditText = FindViewById<EditText>(Resource.Id.OtherContactMethodsEditText);
 			TextView aboutLabelTextView = FindViewById<TextView>(Resource.Id.AboutLabelTextView);
 			EditText aboutEditText = FindViewById<EditText>(Resource.Id.AboutEditText);
@@ -44,8 +52,8 @@ namespace UpgradeApp {
 			EditText newPassEditText = FindViewById<EditText>(Resource.Id.newPassEditText);
 			Button changePasswordButton = FindViewById<Button>(Resource.Id.updatePasswordButton);
 
-			string studyClasses = "";
-			string tutorClasses = "";
+			//string studyClasses = "";
+			//string tutorClasses = "";
 
 			if (Intent.GetStringExtra("justLoggedIn") != null)
 				justLoggedIn = true;
@@ -57,9 +65,9 @@ namespace UpgradeApp {
 			if (Intent.GetStringExtra("contact") != null) {
 				otherContactMethodsEditText.Text = Intent.GetStringExtra("contact");
 			}
-			if (Intent.GetStringExtra("email") != null) {
-				emailEditText.Text = Intent.GetStringExtra("email");
-			}
+			//if (Intent.GetStringExtra("email") != null) {
+			//	emailEditText.Text = Intent.GetStringExtra("email");
+			//}
 			if (Intent.GetStringExtra("about") != null) {
 				aboutEditText.Text = Intent.GetStringExtra("about");
 			}
@@ -84,7 +92,7 @@ namespace UpgradeApp {
 			studyButton.Click += (sender, e) =>
             {
 				string newName = nameEditText.Text;
-				string newEmail = emailEditText.Text;
+				//string newEmail = emailEditText.Text;
 				string newContact = otherContactMethodsEditText.Text;
 				string newAbout = aboutEditText.Text;
 				string freeTime = freeTimeTextView.Text;
@@ -108,6 +116,16 @@ namespace UpgradeApp {
 				//intent.PutExtra("studyClasses", studyClasses);
 				//intent.PutExtra("tutorClasses", tutorClasses);
 
+				newName = nameEditText.Text;
+				//newEmail = emailEditText.Text;
+				newContact = otherContactMethodsEditText.Text;
+				newAbout = aboutEditText.Text;
+				freeTime = freeTimeTextView.Text;
+				prices = pricesEditText.Text;
+				visible = ""; // TODO
+				avatar = avatarEditText.Text;
+				HTTPHandler.updateProfile(newName, null, newContact, newAbout, null, null, freeTime, prices, null, avatar);
+				HTTPHandler.emailLoggedIn = newEmail;
 
 				StartActivity(intent);
             };
@@ -115,7 +133,7 @@ namespace UpgradeApp {
             tutorButton.Click += (sender, e) =>
             {
 				string newName = nameEditText.Text;
-				string newEmail = emailEditText.Text;
+				//string newEmail = emailEditText.Text;
 				string newContact = otherContactMethodsEditText.Text;
 				string newAbout = aboutEditText.Text;
 				string freeTime = freeTimeTextView.Text;
@@ -138,6 +156,17 @@ namespace UpgradeApp {
 				intent.PutExtra("avatar", avatar);
 				//intent.PutExtra("studyClasses", studyClasses);
 				//intent.PutExtra("tutorClasses", tutorClasses);
+
+				newName = nameEditText.Text;
+				//newEmail = emailEditText.Text;
+				newContact = otherContactMethodsEditText.Text;
+				newAbout = aboutEditText.Text;
+				freeTime = freeTimeTextView.Text;
+				prices = pricesEditText.Text;
+				visible = ""; // TODO
+				avatar = avatarEditText.Text;
+				HTTPHandler.updateProfile(newName, newEmail, newContact, newAbout, null, null, freeTime, prices, visible, avatar);
+				HTTPHandler.emailLoggedIn = newEmail;
 
 				StartActivity(intent);
             };
@@ -167,14 +196,14 @@ namespace UpgradeApp {
 
 
             submitButton.Click += (sender, e) => {
-				string newName = nameEditText.Text;
-				string newEmail = emailEditText.Text;
-				string newContact = otherContactMethodsEditText.Text;
-				string newAbout = aboutEditText.Text;
-				string freeTime = freeTimeTextView.Text;
-				string prices = pricesEditText.Text;
-				string visible = ""; // TODO
-				string avatar = avatarEditText.Text; 
+				newName = nameEditText.Text;
+				//newEmail = emailEditText.Text;
+				newContact = otherContactMethodsEditText.Text;
+				newAbout = aboutEditText.Text;
+				freeTime = freeTimeTextView.Text;
+				prices = pricesEditText.Text;
+				visible = ""; // TODO
+				avatar = avatarEditText.Text;
 				//studyClasses = Intent.GetStringExtra("studyClasses");
 				//tutorClasses = Intent.GetStringExtra("tutorClasses");
 				// Send server the changes

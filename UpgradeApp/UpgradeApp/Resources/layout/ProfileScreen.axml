@@ -6,7 +6,7 @@
     android:background="@android:color/white">
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar"/>
+        layout="@layout/toolbar" />
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -37,7 +37,8 @@
                 android:text="Email shown here"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/EmailTextView" />
+                android:id="@+id/EmailTextView"
+                android:alpha="0" />
             <TextView
                 android:text="Other info shown here"
                 android:layout_width="match_parent"

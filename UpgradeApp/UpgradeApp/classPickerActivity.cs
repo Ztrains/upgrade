@@ -90,7 +90,7 @@ namespace UpgradeApp
 				//intent.PutExtra("name", Intent.GetStringExtra("name"));
 				intent.PutExtra("studentName", Intent.GetStringExtra("studentName"));
 				intent.PutExtra("name", Intent.GetStringExtra("studentName"));
-				intent.PutExtra("email", Intent.GetStringExtra("email"));
+				//intent.PutExtra("email", Intent.GetStringExtra("email"));
 				intent.PutExtra("contact", Intent.GetStringExtra("contact"));
 				intent.PutExtra("about", Intent.GetStringExtra("about"));
 				intent.PutExtra("freeTime", Intent.GetStringExtra("freeTime"));

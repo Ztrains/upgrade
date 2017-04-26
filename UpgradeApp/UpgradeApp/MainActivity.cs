@@ -60,7 +60,7 @@ namespace UpgradeApp {
 
 			// Check if play services is working
 			IsPlayServicesAvailable();
-			Firebase.FirebaseApp.InitializeApp(this);
+			//Firebase.FirebaseApp.InitializeApp(this);
 			//HTTPHandler.registerDevice(FirebaseInstanceId.Instance.Token);
 			//Log.Debug(TAG, "google app id: " + GetString(Resource.String.google_app_id));
 
@@ -80,8 +80,8 @@ namespace UpgradeApp {
 			Button loginButton = FindViewById<Button>(Resource.Id.loginButton);
 			Button newAccountButton = FindViewById<Button>(Resource.Id.createAccountButton);
             Button recoverAccountButton = FindViewById<Button>(Resource.Id.recoverButton);
-            EditText firstName = FindViewById<EditText>(Resource.Id.firstName);
-            EditText lastName = FindViewById<EditText>(Resource.Id.lastName);
+            //EditText firstName = FindViewById<EditText>(Resource.Id.firstName);
+            //EditText lastName = FindViewById<EditText>(Resource.Id.lastName);
 
 			// Code for testing purposes
 			//HTTPHandler.Testfn();

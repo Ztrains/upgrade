@@ -5,4 +5,9 @@
       android:showAsAction="never"
       android:title="Admin Options"
       />
+<item
+      android:id="@+id/logout"
+      android:showAsAction="never"
+      android:title="Logout"
+      />
 </menu>

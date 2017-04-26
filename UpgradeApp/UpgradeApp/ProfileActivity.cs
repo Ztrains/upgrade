@@ -21,6 +21,7 @@ namespace UpgradeApp {
 
 		bool justLoggedIn;
         bool admin = false;
+		
 
 		protected override void OnCreate(Bundle savedInstanceState) {
 			base.OnCreate(savedInstanceState);
@@ -47,9 +48,11 @@ namespace UpgradeApp {
 			TextView pricesLabelTextView = FindViewById<TextView>(Resource.Id.PricesLabelTextView);
 			TextView pricesTextView = FindViewById<TextView>(Resource.Id.PricesTextView);
 			Button classListView = FindViewById<Button>(Resource.Id.classButton);
-            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-            SetActionBar(toolbar);
-            
+
+			var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+			SetActionBar(toolbar);
+
+			InvalidateOptionsMenu();
 
 			// Get profile information from the server
 			Profile p;
@@ -95,7 +98,7 @@ namespace UpgradeApp {
 				editButton.Enabled = true;
 				rateButton.Enabled = false;
 			}
-			else if (p.admin.Equals("true")) {
+			else if (p.admin != null && p.admin.Equals("true")) {
 				sendMessageButton.Enabled = true;
 				reportButton.Enabled = true;
 				blockButton.Enabled = true;
@@ -141,7 +144,7 @@ namespace UpgradeApp {
 				var intent = new Android.Content.Intent(this, typeof(EditProfileActivity));
 
 				intent.PutExtra("name", ActionBar.Title);
-				intent.PutExtra("email", emailTextView.Text);
+				//intent.PutExtra("email", emailTextView.Text);
 				intent.PutExtra("contact", contactMethodsTextView.Text);
 				intent.PutExtra("about", aboutTextView.Text);
 				intent.PutExtra("freeTime", availabilityTextView.Text);
@@ -198,16 +201,28 @@ namespace UpgradeApp {
             MenuInflater.Inflate(Resource.Menu.topmenus, menu);
             return base.OnCreateOptionsMenu(menu);
         }
-        public override bool OnOptionsItemSelected(IMenuItem item) //Passed in the menu item that was selected
+
+		public override bool OnPrepareOptionsMenu(IMenu menu) {
+			//MenuInflater.Inflate(Resource.Menu.topmenus, menu);
+			//if (!admin) {
+			//	menu.RemoveItem(menu.GetItem(0).ItemId);
+			//}
+			//return true;
+			return base.OnCreateOptionsMenu(menu);
+		}
+
+
+		public override bool OnOptionsItemSelected(IMenuItem item) //Passed in the menu item that was selected
         {
-			if (item.TitleFormatted.Equals("Admin Options")) {
+			if (item.TitleFormatted.ToString().Equals("Admin Options")) {
 				if (admin) {
 					var intent = new Intent(this, typeof(AdminActivity));
 					StartActivity(intent);
 				}
 			}
-			else if (item.TitleFormatted.Equals("Logout")) {
+			else if (item.TitleFormatted.ToString().Equals("Logout")) {
 				var intent = new Intent(this, typeof(MainActivity));
+				HTTPHandler.emailLoggedIn = "";
 				StartActivity(intent);
 			}
 			
