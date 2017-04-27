@@ -61,6 +61,11 @@ var basicAuth = passport.authenticate('basic', {session: false});
     Sends a cookie to the user to show they're logged in.   */
 app.post('/login', localAuth,
   function(req, res) {
+    if (req.user.banned == 'yep') {
+        console.log('user trying to login is banned')
+        res.send('Banned')
+        return;
+    }
 	console.log('login successful');
 	if(!res.headersSent) {res.send('you have authenticated properly')};
   });
