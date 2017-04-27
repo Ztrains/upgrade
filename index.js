@@ -315,6 +315,7 @@ app.post('/clearRequests', (req,res)=>{
         { _id: "requestedClasses" },
         { $unset: { requestedName: ""} }
     )
+    res.send('Requests cleared')
 })
 
 /*  Route to add a new class to the classes document.
