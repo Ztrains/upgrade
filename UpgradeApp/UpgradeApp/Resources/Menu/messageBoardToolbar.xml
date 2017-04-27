@@ -1,11 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
   <item
-      android:id="@+id/toProfile"
-      android:title="View Profile"
-      android:icon="@drawable/profileicon"
-      android:showAsAction="ifRoom"/>
-  <item
       android:id="@+id/refreshMessages"
       android:title="Refresh Messages"
       android:showAsAction="ifRoom"

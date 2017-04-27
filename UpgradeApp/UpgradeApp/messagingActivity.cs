@@ -17,7 +17,8 @@ namespace UpgradeApp
     {
         ListView listView;
         List<chatClass> chats;//Placeholder, chat objects contain messages, and direction (true for left (so not your message) and false for right (your message))
-
+        string cid;
+        string uName;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -31,11 +32,11 @@ namespace UpgradeApp
 			TextView msgTextView = FindViewById<TextView>(Resource.Id.msg);
             listView = FindViewById<ListView>(Resource.Id.message);
             chats = new List<chatClass>();
-            string uName = Intent.GetStringExtra("uName");
+            uName = Intent.GetStringExtra("uName");
             
 
             string uid = Intent.GetStringExtra("uid");
-			string cid = Intent.GetStringExtra("cid");
+			cid = Intent.GetStringExtra("cid");
 
 			Messages ms = HTTPHandler.getMessages(cid);
 			if (ms != null && ms.messages != null) {
@@ -74,12 +75,33 @@ namespace UpgradeApp
 
         public override bool OnOptionsItemSelected(IMenuItem item) //Passed in the menu item that was selected
         {
-
+            List<chatClass> chatRefreshList = new List<chatClass>();
 			if (item.TitleFormatted.ToString().Equals("View Profile")) {
 				var intent = new Intent(this, typeof(Profile));
 				intent.PutExtra("studentName", ActionBar.Title);
 				StartActivity(intent);
 			}
+            if(item.TitleFormatted.ToString().Equals("Refresh Messages"))
+            {
+                Messages ms = HTTPHandler.getMessages(cid);
+                if (ms != null && ms.messages != null)
+                {
+                    for (int i = 0; i < ms.messages.Length; i++)
+                    {
+                        bool direction = true;
+                        if (uName.Equals(HTTPHandler.getName(ms.messages[i].sender)))
+                        {
+                            direction = false;
+                        }
+                        chatClass c = new chatClass(direction, ms.messages[i].message);
+                        chatRefreshList.Add(c);
+                    }
+                }
+                messageAdapter ad = new messageAdapter(this, chatRefreshList);
+                listView.Adapter = null;
+                listView.Adapter = ad;
+
+            }
 			return base.OnOptionsItemSelected(item);
 
 		}
