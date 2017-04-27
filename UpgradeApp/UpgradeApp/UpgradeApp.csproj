@@ -226,6 +226,8 @@
     <Compile Include="HTTPHandlerClasses.cs" />
     <Compile Include="classPickerActivity.cs" />
     <Compile Include="ReportedAdapter.cs" />
+    <Compile Include="reportedUsersActivity.cs" />
+    <Compile Include="requestedClassesActivity.cs" />
     <Compile Include="StudentAdapter.cs" />
     <Compile Include="StudentListActivity.cs" />
     <Compile Include="ClassListActivity.cs" />
@@ -281,7 +283,16 @@
     <AndroidResource Include="Resources\layout\bubblerLB.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\AdminScreen.axml">
+    <AndroidResource Include="Resources\layout\reportedUsersScreen.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\adminScreen.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\buttonShape.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\requestedClassScreen.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
