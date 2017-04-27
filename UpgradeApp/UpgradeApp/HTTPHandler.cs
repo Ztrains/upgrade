@@ -63,6 +63,17 @@ namespace UpgradeApp {
 			IRestResponse r = client.Execute(request);
 		}
 
+		public static void banUser(string email) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/banUser");
+			var request = new RestRequest(Method.POST);
+
+			BanUser bu = new BanUser();
+			bu.banEmail = email;
+			request.AddJsonBody(bu);
+
+			IRestResponse r = client.Execute(request);
+		}
+
 		// current login function
 		public static int loginRequest(string email, string password) {
 			cookieJar = new CookieContainer();

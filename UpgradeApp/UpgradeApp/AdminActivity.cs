@@ -21,11 +21,21 @@ namespace UpgradeApp
         {
             reportedUsers = HTTPHandler.getReports();
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.AdminScreen);
+            SetContentView(Resource.Layout.adminScreen);
+            Button reportedUserButton = FindViewById<Button>(Resource.Id.reportButton);
+            Button requestClassButton = FindViewById<Button>(Resource.Id.requestClassButton);
 
-            ListView listView = FindViewById<ListView>(Resource.Id.reportedUsers);
-
-            listView.Adapter = new ReportedAdapter(this, reportedUsers.reportedUsers);//Needs to be replaced with students from the server
+            reportedUserButton.Click += (Sender, e) =>
+            {
+                var intent = new Intent(this, typeof(reportedUsersActivity));
+                StartActivity(intent);
+            };
+            requestClassButton.Click += (Sender, e) =>
+            {
+                var intent = new Intent(this, typeof(requestedClassesActivity));
+                StartActivity(intent);
+            };
+            
 
             // Create your application here
         }

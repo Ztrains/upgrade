@@ -176,4 +176,8 @@ namespace UpgradeApp {
 		public string chatID;
 		public string classID;
 	}
+
+	public class BanUser {
+		public string banEmail;
+	}
 }

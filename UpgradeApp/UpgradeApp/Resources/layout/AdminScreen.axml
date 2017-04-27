@@ -2,18 +2,38 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:minWidth="25px"
+    android:minHeight="25px">
     <TextView
-        android:text="Reported Users"
+        android:text="Admin Options"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView1"
+        android:gravity="center"
+        android:layout_marginTop="75dp"
+        android:textSize="30sp" />
+    <Button
+        android:id="@+id/requestClassButton"
+        android:text="Requested Classes"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        android:layout_width="250dp"
+        android:layout_height="41dp"
+        android:background="@drawable/buttonShape"
+        android:layout_marginTop="75dp"
+        android:layout_marginLeft="65dp"
         android:gravity="center" />
-    <ListView
-        android:minWidth="25px"
-        android:minHeight="25px"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/reportedUsers" />
+    <Button
+        android:id="@+id/reportButton"
+        android:text="Reported Users"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        android:layout_width="250dp"
+        android:layout_height="41dp"
+        android:background="@drawable/buttonShape"
+        android:layout_marginTop="55dp"
+        android:layout_marginLeft="65dp"
+        android:gravity="center" />
 </LinearLayout>

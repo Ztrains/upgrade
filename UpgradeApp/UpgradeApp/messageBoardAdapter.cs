@@ -52,7 +52,7 @@ namespace UpgradeApp
             }
             if (view == null)
             {
-                view = context.LayoutInflater.Inflate(layoutRes, parent, false);
+                view = context.LayoutInflater.Inflate(layoutRes, null);
                  
             }
             TextView message = (TextView)view.FindViewById(Resource.Id.message_text);
