@@ -309,6 +309,14 @@ app.post('/requestedClasses', (req,res)=>{
     })
 })
 
+app.post('/clearRequests', (req,res)=>{
+    console.log('admin is clearing requested classes')
+    classes.update(
+        { _id: "requestedClasses" },
+        { $unset: { requestedName: []} }
+    )
+})
+
 /*  Route to add a new class to the classes document.
     JSON fields: "className" (name of class to add) */
 app.post('/newClass', (req,res)=>{
