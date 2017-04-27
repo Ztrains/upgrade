@@ -313,7 +313,7 @@ app.post('/clearRequests', (req,res)=>{
     console.log('admin is clearing requested classes')
     classes.update(
         { _id: "requestedClasses" },
-        { $unset: { requestedName: []} }
+        { $unset: { requestedName: ""} }
     )
 })
 
