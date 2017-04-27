@@ -759,6 +759,15 @@ app.post('/banUser', (req,res)=>{
     res.send("User banned")
 })
 
+app.post('/banUser', (req,res)=>{
+    users.findOneAndUpdate(
+        {"email":req.body.banEmail},
+        { $set: {"banned":"no"}}
+    )
+    console.log("User with email " + req.body.banEmail + " has been unbanned by user with email " + req.user.email)
+    res.send("User unbanned")
+})
+
 /*  Route to get all of the reports made.
     JSON fields: N/A    */
 app.post('/getReports',(req,res)=>{
