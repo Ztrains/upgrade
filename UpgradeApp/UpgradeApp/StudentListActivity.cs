@@ -19,6 +19,7 @@ namespace UpgradeApp
 
 		StudentList students;
 		ListView listView;
+        string nameOf;
         //string[] items = { "Bob Ross", "Curtis Maves", "Mitch Daniels" };
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -30,8 +31,9 @@ namespace UpgradeApp
             // Get information from server
             students = HTTPHandler.studentListRequest(c);
             Array.Sort(students.students, (x, y) => (string.Compare(x.name, y.name)));
-           
+            
             SetContentView(Resource.Layout.listOfStudents);
+            nameOf = Intent.GetStringExtra("name");
             EditText searchBox = FindViewById<EditText>(Resource.Id.searchBox);
             Button searchButton = FindViewById<Button>(Resource.Id.searchButton);
             Button boardButton = FindViewById<Button>(Resource.Id.boardButton);
@@ -65,6 +67,7 @@ namespace UpgradeApp
             {
                 var intent = new Intent(this, typeof(messageBoardActivity));
                 intent.PutExtra("theClass", theClassName);
+                intent.PutExtra("nameOf", nameOf);
                 StartActivity(intent);
             };
         }
@@ -73,8 +76,9 @@ namespace UpgradeApp
 
 			// Send the student name to the new screen
 			var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
-			intent.PutExtra("studentName", students.students[e.Position].name); 
-			StartActivity(intent);
+			intent.PutExtra("studentName", students.students[e.Position].name);
+            intent.PutExtra("nameOf", nameOf);
+            StartActivity(intent);
 
 			/*if (items[e.Position] == "Bob Ross") {
 				var intent = new Android.Content.Intent(this, typeof(ProfileActivity));

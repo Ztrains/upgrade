@@ -16,7 +16,8 @@ namespace UpgradeApp
     public class messageBoardActivity : Activity
     {
         ListView listView;
-        List<chatClass> chats;//Needs to be replaced with something new for message board so Object with text, direction, and Name of User
+        List<chatClass> chats;
+        string[] names;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -27,6 +28,7 @@ namespace UpgradeApp
             ActionBar.Title = Intent.GetStringExtra("theClass");
             GetChatID cid = HTTPHandler.startABoard(Intent.GetStringExtra("theClass"));
             Messages ms = HTTPHandler.getMessages(cid._id);
+            string nameOfStudent = Intent.GetStringExtra("nameOf");
            
             
             Button sendButton = FindViewById<Button>(Resource.Id.sendButton);
@@ -35,51 +37,51 @@ namespace UpgradeApp
             listView = FindViewById<ListView>(Resource.Id.message);
             chats = new List<chatClass>();
             
-            if (ms != null)
+            if (ms != null && ms.messages != null)
             {
                 for (int i = 0; i < ms.messages.Length; i++)
                 {
                     bool direction = true;
+                    if(nameOfStudent.Equals(HTTPHandler.getName(ms.messages[i].sender)))
+                    {
+                        direction = false;
+                    }
                     chatClass c = new chatClass(direction, ms.messages[i].message);
                     chats.Add(c);
+                }
+                names = new string[ms.messages.Length];
+                for (int i = 0; i < ms.messages.Length; i++)
+                {
+                    names[i] = HTTPHandler.getName(ms.messages[i].sender);
                 }
             }
             else
             {
                 chatClass chatter = new chatClass(true, "Be the first to send a message");
                 chats.Add(chatter);
-            }
-            string[] names;
-            if (ms != null)
-            {
-                names = new string[ms.messages.Length];
-                for (int i = 0; i < ms.messages.Length; i++)
-                {
-                    names[i] = HTTPHandler.getName(ms.messages[i].sender);
-                }
-            } 
-            else
-            {
                 names = new string[1];
                 names[0] = "Geo";
             }
+
             messageBoardAdapter adapt = new messageBoardAdapter(this, chats, names);
             listView.Adapter = adapt;
            
 
 
             sendButton.Click += (object Sender, EventArgs e) => {
-                HTTPHandler.sendMessageBoard(cid._id, Intent.GetStringExtra("className"), msgTextView.Text);
-                chatClass chatter = new chatClass(true, msgTextView.Text);
+                HTTPHandler.sendMessageBoard(cid._id, Intent.GetStringExtra("theClass"), msgTextView.Text);
+                chatClass chatter = new chatClass(false, msgTextView.Text);
                 chats.Add(chatter);
-                // msgTextView.Text = "";
-                names = new string[ms.messages.Length];
-                for (int i = 0; i < ms.messages.Length; i++)
+                msgTextView.Text = "";
+                ms = HTTPHandler.getMessages(cid._id);
+                if (ms != null)
                 {
-                    names[i] = HTTPHandler.getName(ms.messages[i].sender);
+                    names = new string[ms.messages.Length];
+                    for (int i = 0; i < ms.messages.Length; i++)
+                    {
+                        names[i] = HTTPHandler.getName(ms.messages[i].sender);
+                    }
                 }
-                adapt = new messageBoardAdapter(this, chats, names);
-                listView.Adapter = adapt;
                 adapt = new messageBoardAdapter(this, chats, names);
                 listView.Adapter = null;
                 listView.Adapter = adapt;
