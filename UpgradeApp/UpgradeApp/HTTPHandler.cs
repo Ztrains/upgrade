@@ -425,13 +425,33 @@ namespace UpgradeApp {
 			return name.name;
 		}
 
+		public static string[] getClassAdditionRequests() {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/requestedClasses");
+			var request = new RestRequest(Method.POST);
+
+			IRestResponse response = client.Execute(request);
+			RequestedClasses rc = JsonConvert.DeserializeObject<RequestedClasses>(response.Content);
+			return rc.requested;
+		}
+
+		public static void requestClass(string className) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/requestClass");
+			var request = new RestRequest(Method.POST);
+
+
+			WhichClass wc = new WhichClass();
+			wc.className = className;
+			request.AddJsonBody(wc);
+
+			IRestResponse response = client.Execute(request);
+		}
 
 
 
 
 
-        // Deprecated
-        /*
+		// Deprecated
+		/*
 		public static void changeEmail(string email) {
 			string url = "https://calm-chamber-49049.herokuapp.com/email/";
 			url += email;
@@ -463,7 +483,7 @@ namespace UpgradeApp {
 
 
 
-        /*
+		/*
 		public static async void loginRequest(string email, string password) {
 			string urlServer = "https://calm-chamber-49049.herokuapp.com/register";
 			Dictionary<string, string> info = new Dictionary<string, string>();
@@ -490,7 +510,7 @@ namespace UpgradeApp {
 		}
 		*/
 
-        /*
+		/*
 		// This method can throw exceptions !!!!!!!!! (those aren't handled currently)
 		private static async Task<JsonValue> FetchJsonAsync(string url, string json) {
 			// Create an HTTP web request
@@ -513,5 +533,5 @@ namespace UpgradeApp {
 		*/
 
 
-    }
+	}
 	}

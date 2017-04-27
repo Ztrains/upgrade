@@ -15,9 +15,10 @@ namespace UpgradeApp
     [Activity(Label = "requestedClassesActivity")]
     public class requestedClassesActivity : Activity
     {
-        ClassList classes; //Replaced by requested classes from the server
+		string[] requestedClasses; //Replaced by requested classes from the server
         int location = 0;
         string[] items; //All the class names are placed into this 
+		string[] checkedClasses;
         
 
         void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
@@ -31,7 +32,9 @@ namespace UpgradeApp
             SetContentView(Resource.Layout.requestedClassScreen);
             Button submit = FindViewById<Button>(Resource.Id.submitClassButtonR);
             ListView listView = FindViewById<ListView>(Resource.Id.requestedClasses);
-            items = classes.classes;
+			requestedClasses = HTTPHandler.getClassAdditionRequests();
+
+			items = requestedClasses;
             ArrayAdapter lister = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItemChecked, items);
             listView.Adapter = lister;
             listView.ChoiceMode = ChoiceMode.Multiple;
@@ -43,6 +46,7 @@ namespace UpgradeApp
             {
                 var intent = new Android.Content.Intent(this, typeof(AdminActivity));
                 //Updating the server with the new classes and remove the rest of the classes from the requested class list
+				foreach ()
                 StartActivity(intent);
             };
 

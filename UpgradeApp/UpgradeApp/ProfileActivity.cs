@@ -99,6 +99,8 @@ namespace UpgradeApp {
 				blockButton.Enabled = false;
 				editButton.Enabled = true;
 				rateButton.Enabled = false;
+				if (u.admin != null && u.admin.Equals("true"))
+					admin = true;
 			}
 			else if (u.admin != null && u.admin.Equals("true")) {
 				sendMessageButton.Enabled = true;
@@ -206,19 +208,24 @@ namespace UpgradeApp {
 			};
 		}
 
+		IMenuItem logoutItem, adminItem, banItem;
+
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
             MenuInflater.Inflate(Resource.Menu.topmenus, menu);
-            return base.OnCreateOptionsMenu(menu);
+			logoutItem = menu.GetItem(0);
+			adminItem = menu.GetItem(1);
+			banItem = menu.GetItem(2);
+			return base.OnCreateOptionsMenu(menu);
         }
 
 		public override bool OnPrepareOptionsMenu(IMenu menu) {
-			//MenuInflater.Inflate(Resource.Menu.topmenus, menu);
-			//if (!admin) {
-			//	menu.RemoveItem(menu.GetItem(0).ItemId);
-			//}
-			//return true;
-			return base.OnCreateOptionsMenu(menu);
+			base.OnCreateOptionsMenu(menu);
+			if (!admin) {
+				adminItem.SetVisible(false);
+				banItem.SetVisible(false);
+			}
+			return true;
 		}
 
 
