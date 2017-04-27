@@ -21,9 +21,9 @@ namespace UpgradeApp
 
         ListView listView;
 		ClassList classes;
-		//string[] items = { "CS 307", "MA 265", "CS 180" }; will use classes.Classes now
-
-		protected override void OnCreate(Bundle savedInstanceState)
+        //string[] items = { "CS 307", "MA 265", "CS 180" }; will use classes.Classes now
+        string nameOf;
+        protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
@@ -31,7 +31,7 @@ namespace UpgradeApp
             EditText searchText = FindViewById<EditText>(Resource.Id.searchBoxC);
             Button searchButton = FindViewById<Button>(Resource.Id.searchButtonC);
             Button boardButton = FindViewById<Button>(Resource.Id.boardButton);
-
+            nameOf = Intent.GetStringExtra("name");
 			// Get information from server
 			classes = HTTPHandler.classListRequest();
 			Array.Sort(classes.classes, (x, y) => (string.Compare(x, y)));
@@ -73,6 +73,7 @@ namespace UpgradeApp
 			var intent = new Android.Content.Intent(this, typeof(StudentListActivity));
 			intent.PutExtra("className", classes.classes[e.Position]);
             intent.PutExtra("theClassName", classes.classes[e.Position]);
+            intent.PutExtra("name", nameOf);
 			StartActivity(intent);
 
 

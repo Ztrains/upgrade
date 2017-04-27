@@ -48,7 +48,7 @@ namespace UpgradeApp {
 			TextView pricesLabelTextView = FindViewById<TextView>(Resource.Id.PricesLabelTextView);
 			TextView pricesTextView = FindViewById<TextView>(Resource.Id.PricesTextView);
 			Button classListView = FindViewById<Button>(Resource.Id.classButton);
-
+            string messageStudent = Intent.GetStringExtra("nameOf");
 			var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
 			SetActionBar(toolbar);
 
@@ -137,6 +137,7 @@ namespace UpgradeApp {
 
 			classListView.Click += (object Sender, EventArgs e) => {
 				var intent = new Android.Content.Intent(this, typeof(ClassListActivity));
+                intent.PutExtra("name", p.name);
 				StartActivity(intent);
 			};
 
@@ -192,6 +193,7 @@ namespace UpgradeApp {
 				intent.PutExtra("cid", cid._id);
 				intent.PutExtra("uid", p._id);
                 intent.PutExtra("name", ActionBar.Title);
+                intent.PutExtra("uName", messageStudent);
 				StartActivity(intent);
 			};
 		}
