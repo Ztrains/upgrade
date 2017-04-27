@@ -69,7 +69,7 @@ module.exports.getMessages = function (req, res) {
 	if(!chats) {chats = require('./index.js').chats;}
 	if(!users) {users = require('./index.js').users;}
 
-	chats.findOne({_id: new objectID(req.body.chatID), "members.user": req.user._id}, function(err, result) {
+	chats.findOne({_id: new objectID(req.body.chatID)/*, "members.user": req.user._id*/}, function(err, result) {
 		if(err) {
 			console.log("chat.getMessages database error");
 			console.log(err);
@@ -160,10 +160,10 @@ module.exports.startDM = function(req, res) {
 
 /*Function to delete message Unused.*/
 module.exports.deleteMessage = function(req, res) {
-	if(!chats) {chats = require('./index.js').chats;}	
+	if(!chats) {chats = require('./index.js').chats;}
 	if(!req.body.date) {
 		res.status(400).send("Bad Request. Missing date key");
-		return; 
+		return;
 	}
 	if(!req.body.chatID) {
 		res.status(400).send("Bad Request. Missing chatID key");
@@ -266,6 +266,8 @@ module.exports.sendClassMessage = function (req, res) {
 		return;
 	}
 
+	console.log('sendClassMessage chatID: ' + req.body.chatID)
+	console.log('sendClassMessage classID: ' + req.body.classID)
 	chats.findOne({_id: new objectID(req.body.chatID), "className": req.body.classID}, function(err, chat) {
 		if(err) {
 			console.log("chat.sendMessage database err:");
@@ -273,6 +275,7 @@ module.exports.sendClassMessage = function (req, res) {
 			res.status(500).send("Database error occured!");
 		} else if(!chat) {
 			console.log("User: '" + req.user.email + "' attempted to message class chat: '" + req.body.chatID + "':");
+			console.log('sending 403 because !chat')
 			res.status(403).send("Chat not found or you are not a member of the chat");
 		} else {
 			chats.updateOne({_id: chat._id}, {$push: {messages: {message: req.body.message, date: new Date().toString(), sender: req.user._id}}}, function(err, result) {
