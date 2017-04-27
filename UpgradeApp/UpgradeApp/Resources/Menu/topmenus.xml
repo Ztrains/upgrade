@@ -1,13 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-  <item
+<item
+      android:id="@+id/logout"
+      android:showAsAction="never"
+      android:title="Logout"
+      />
+<item
       android:id="@+id/admin"
       android:showAsAction="never"
       android:title="Admin Options"
       />
 <item
-      android:id="@+id/logout"
+      android:id="@+id/ban"
       android:showAsAction="never"
-      android:title="Logout"
+      android:title="Ban User"
       />
 </menu>

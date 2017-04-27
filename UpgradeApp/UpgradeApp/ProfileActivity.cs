@@ -21,6 +21,7 @@ namespace UpgradeApp {
 
 		bool justLoggedIn;
         bool admin = false;
+		Profile p;
 		
 
 		protected override void OnCreate(Bundle savedInstanceState) {
@@ -55,7 +56,6 @@ namespace UpgradeApp {
 			InvalidateOptionsMenu();
 
 			// Get profile information from the server
-			Profile p;
 			if (Intent.GetStringExtra("studentName") != null)
 				p = HTTPHandler.getProfileByName(Intent.GetStringExtra("studentName"));
 			else {
@@ -91,6 +91,8 @@ namespace UpgradeApp {
 			availabilityTextView.Text = p.time;
 			pricesTextView.Text = p.price;
 
+			Profile u = HTTPHandler.getProfile(HTTPHandler.emailLoggedIn);
+
 			if (emailTextView.Text.Equals(HTTPHandler.emailLoggedIn)) {
 				sendMessageButton.Enabled = false;
 				reportButton.Enabled = false;
@@ -98,7 +100,7 @@ namespace UpgradeApp {
 				editButton.Enabled = true;
 				rateButton.Enabled = false;
 			}
-			else if (p.admin != null && p.admin.Equals("true")) {
+			else if (u.admin != null && u.admin.Equals("true")) {
 				sendMessageButton.Enabled = true;
 				reportButton.Enabled = true;
 				blockButton.Enabled = true;
@@ -112,11 +114,17 @@ namespace UpgradeApp {
 				editButton.Enabled = false;
 			}
 
-			string uid = HTTPHandler.getProfile(HTTPHandler.emailLoggedIn)._id;
+			string uid = u._id;
 			if (p.usersUpvoted != null) {
-				foreach (upvotedID u in p.usersUpvoted) {
-					if (u._id.Equals(uid))
+				foreach (upvotedID ui in p.usersUpvoted) {
+					if (ui._id.Equals(uid))
 						rateButton.Enabled = false;
+				}
+			}
+			 if (p.blockedUsers != null) {
+				foreach (blockedID bid in p.blockedUsers) {
+					if (bid.id.Equals(uid))
+						sendMessageButton.Enabled = false;
 				}
 			}
 
@@ -227,9 +235,16 @@ namespace UpgradeApp {
 				HTTPHandler.emailLoggedIn = "";
 				StartActivity(intent);
 			}
-			
-            
-            return base.OnOptionsItemSelected(item);
+			else if (item.TitleFormatted.ToString().Equals("Ban User")) {
+				if (admin) {
+					HTTPHandler.banUser(p.email);
+					Toast toast = Toast.MakeText(this, "User has been banned.", ToastLength.Short);
+					toast.Show();
+				}
+			}
+
+
+			return base.OnOptionsItemSelected(item);
         }
         // Disables the back button on this page
         public override void OnBackPressed() {
