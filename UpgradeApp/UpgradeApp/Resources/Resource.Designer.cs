@@ -2124,7 +2124,7 @@ namespace UpgradeApp
 			
 			// aapt resource value: 0x7f020054
 			public const int avd_show_password = 2130837588;
-
+			
 			// aapt resource value: 0x7f020055
 			public const int bubbleShape = 2130837589;
 			
@@ -2435,8 +2435,8 @@ namespace UpgradeApp
 			// aapt resource value: 0x7f0b0010
 			public const int adjust_width = 2131427344;
 			
-			// aapt resource value: 0x7f0b00f7
-			public const int admin = 2131427575;
+			// aapt resource value: 0x7f0b00f8
+			public const int admin = 2131427576;
 			
 			// aapt resource value: 0x7f0b005f
 			public const int alertTitle = 2131427423;
@@ -2455,6 +2455,9 @@ namespace UpgradeApp
 			
 			// aapt resource value: 0x7f0b00a2
 			public const int avatarTextView = 2131427490;
+			
+			// aapt resource value: 0x7f0b00f9
+			public const int ban = 2131427577;
 			
 			// aapt resource value: 0x7f0b0041
 			public const int beginning = 2131427393;
@@ -2663,8 +2666,8 @@ namespace UpgradeApp
 			// aapt resource value: 0x7f0b00b3
 			public const int loginButton = 2131427507;
 			
-			// aapt resource value: 0x7f0b00f8
-			public const int logout = 2131427576;
+			// aapt resource value: 0x7f0b00f7
+			public const int logout = 2131427575;
 			
 			// aapt resource value: 0x7f0b00f5
 			public const int masked = 2131427573;
