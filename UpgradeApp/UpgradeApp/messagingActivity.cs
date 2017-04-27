@@ -36,7 +36,7 @@ namespace UpgradeApp
 			string cid = Intent.GetStringExtra("cid");
 
 			Messages ms = HTTPHandler.getMessages(cid);
-			if (ms != null) {
+			if (ms != null && ms.messages != null) {
 				for (int i = 0; i < ms.messages.Length; i++) {
 					bool direction = (ms.messages[i].sender.Equals(uid));
 					chatClass c = new chatClass(direction, ms.messages[i].message);
@@ -50,16 +50,24 @@ namespace UpgradeApp
             
 			sendButton.Click += (object Sender, EventArgs e) => {
 				HTTPHandler.sendMessage(cid, msgTextView.Text);
-				//msgTextView.Text = "";
-                chatClass chatter = new chatClass(false, msgTextView.Text);
-                chats.Add(chatter);
+                //msgTextView.Text = "";
+                ms = HTTPHandler.getMessages(cid);
+                if (ms != null)
+                {
+                    for (int i = 0; i < ms.messages.Length; i++)
+                    {
+                        bool direction = (ms.messages[i].sender.Equals(uid));
+                        chatClass c = new chatClass(direction, ms.messages[i].message);
+                        chats.Add(c);
+                    }
+                }
                 msgTextView.Text = "";
-                adapt = new messageAdapter(this, chats);
                 listView.Adapter = null;
+                adapt = new messageAdapter(this, chats);
                 listView.Adapter = adapt;
                 //Refreshes when sent, but will not update when a message is received
             };
-			
+
 
         }
     }
