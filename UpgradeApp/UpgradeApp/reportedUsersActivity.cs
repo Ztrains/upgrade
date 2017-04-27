@@ -21,6 +21,8 @@ namespace UpgradeApp
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.reportedUsersScreen);
 
+			students = HTTPHandler.getReports();
+
             ListView listView = FindViewById<ListView>(Resource.Id.reportedUsers);
             ReportedAdapter adapt = new ReportedAdapter(this, students.reportedUsers);
             listView.Adapter = adapt;

@@ -24,11 +24,16 @@ namespace UpgradeApp
 
             submit.Click += (Sender, e) =>
             {
-                //get requested class and store on database
-                var intent = new Intent(this, typeof(ClassListActivity));
-                StartActivity(intent);
+				//get requested class and store on database
+				if (requestedClass.Text != null) {
+					HTTPHandler.requestClass(requestedClass.Text);
+					Toast toast = Toast.MakeText(this, "Class has been requested!", ToastLength.Short);
+					toast.Show();
+					requestedClass.Text = "";
+				}
+					
+				
             };
-            // Create your application here
         }
     }
 }

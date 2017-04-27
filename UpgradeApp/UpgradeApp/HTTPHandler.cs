@@ -446,6 +446,24 @@ namespace UpgradeApp {
 			IRestResponse response = client.Execute(request);
 		}
 
+		public static void emptyClassRequestList() {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/clearRequests");
+			var request = new RestRequest(Method.POST);
+			IRestResponse response = client.Execute(request);
+		}
+
+		public static void createClass(string className) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/newClass");
+			var request = new RestRequest(Method.POST);
+			client.CookieContainer = cookieJar;
+
+			WhichClass wc = new WhichClass();
+			wc.className = className;
+			request.AddJsonBody(wc);
+
+			IRestResponse response = client.Execute(request);
+		}
+
 
 
 

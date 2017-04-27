@@ -23,8 +23,15 @@ namespace UpgradeApp
 
         void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            //Need a variable for the approved classes
-        }
+			//Need a variable for the approved classes
+			if (location < checkedClasses.Length) {
+				string a = items[e.Position];
+				
+				checkedClasses[location] = a;
+				location++;
+			}
+
+		}
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -35,6 +42,7 @@ namespace UpgradeApp
 			requestedClasses = HTTPHandler.getClassAdditionRequests();
 
 			items = requestedClasses;
+			checkedClasses = new string[items.Length];
             ArrayAdapter lister = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItemChecked, items);
             listView.Adapter = lister;
             listView.ChoiceMode = ChoiceMode.Multiple;
@@ -46,8 +54,13 @@ namespace UpgradeApp
             {
                 var intent = new Android.Content.Intent(this, typeof(AdminActivity));
                 //Updating the server with the new classes and remove the rest of the classes from the requested class list
-				foreach ()
-                StartActivity(intent);
+				foreach (string s in checkedClasses) {
+					if (s != null) {
+						HTTPHandler.createClass(s);
+					}
+				}
+				HTTPHandler.emptyClassRequestList();
+				Recreate();
             };
 
 
