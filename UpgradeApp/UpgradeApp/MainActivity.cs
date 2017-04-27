@@ -103,6 +103,10 @@ namespace UpgradeApp {
 					
 					StartActivity(intent);
 				}
+				else if (status == -4) {
+					toast = Toast.MakeText(this, "Your account is banned.", ToastLength.Long);
+					toast.Show();
+				}
 				else if (status == -2) {
 					toast = Toast.MakeText(this, "Email/Password incorrect.  Try again.", ToastLength.Short);
 					toast.Show();
