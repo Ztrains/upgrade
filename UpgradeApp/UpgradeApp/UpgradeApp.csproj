@@ -343,10 +343,10 @@
     <AndroidResource Include="Resources\drawable\profileicon.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\toolbar2.xml" />
+    <AndroidResource Include="Resources\drawable\refreshIcon.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\refreshIcon.png" />
+    <AndroidResource Include="Resources\Menu\messageBoardToolbar.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
