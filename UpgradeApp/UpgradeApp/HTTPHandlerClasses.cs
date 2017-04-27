@@ -180,4 +180,8 @@ namespace UpgradeApp {
 	public class BanUser {
 		public string banEmail;
 	}
+
+	public class RequestedClasses {
+		public string[] requested;
+	}
 }
