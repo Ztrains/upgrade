@@ -2122,26 +2122,26 @@ namespace UpgradeApp
 			// aapt resource value: 0x7f020053
 			public const int avd_hide_password = 2130837587;
 			
-			// aapt resource value: 0x7f020082
-			public const int avd_hide_password_1 = 2130837634;
-			
 			// aapt resource value: 0x7f020083
-			public const int avd_hide_password_2 = 2130837635;
+			public const int avd_hide_password_1 = 2130837635;
 			
 			// aapt resource value: 0x7f020084
-			public const int avd_hide_password_3 = 2130837636;
+			public const int avd_hide_password_2 = 2130837636;
+			
+			// aapt resource value: 0x7f020085
+			public const int avd_hide_password_3 = 2130837637;
 			
 			// aapt resource value: 0x7f020054
 			public const int avd_show_password = 2130837588;
 			
-			// aapt resource value: 0x7f020085
-			public const int avd_show_password_1 = 2130837637;
-			
 			// aapt resource value: 0x7f020086
-			public const int avd_show_password_2 = 2130837638;
+			public const int avd_show_password_1 = 2130837638;
 			
 			// aapt resource value: 0x7f020087
-			public const int avd_show_password_3 = 2130837639;
+			public const int avd_show_password_2 = 2130837639;
+			
+			// aapt resource value: 0x7f020088
+			public const int avd_show_password_3 = 2130837640;
 			
 			// aapt resource value: 0x7f020055
 			public const int bubbleShape = 2130837589;
@@ -2260,11 +2260,11 @@ namespace UpgradeApp
 			// aapt resource value: 0x7f02007b
 			public const int notification_icon_background = 2130837627;
 			
-			// aapt resource value: 0x7f020080
-			public const int notification_template_icon_bg = 2130837632;
-			
 			// aapt resource value: 0x7f020081
-			public const int notification_template_icon_low_bg = 2130837633;
+			public const int notification_template_icon_bg = 2130837633;
+			
+			// aapt resource value: 0x7f020082
+			public const int notification_template_icon_low_bg = 2130837634;
 			
 			// aapt resource value: 0x7f02007c
 			public const int notification_tile_bg = 2130837628;
@@ -2276,7 +2276,10 @@ namespace UpgradeApp
 			public const int profileicon = 2130837630;
 			
 			// aapt resource value: 0x7f02007f
-			public const int upgradeLogo = 2130837631;
+			public const int refreshIcon = 2130837631;
+			
+			// aapt resource value: 0x7f020080
+			public const int upgradeLogo = 2130837632;
 			
 			static Drawable()
 			{
@@ -2453,8 +2456,8 @@ namespace UpgradeApp
 			// aapt resource value: 0x7f0b0010
 			public const int adjust_width = 2131427344;
 			
-			// aapt resource value: 0x7f0b00fa
-			public const int admin = 2131427578;
+			// aapt resource value: 0x7f0b00fc
+			public const int admin = 2131427580;
 			
 			// aapt resource value: 0x7f0b005f
 			public const int alertTitle = 2131427423;
@@ -2473,6 +2476,9 @@ namespace UpgradeApp
 			
 			// aapt resource value: 0x7f0b00a5
 			public const int avatarTextView = 2131427493;
+			
+			// aapt resource value: 0x7f0b00fd
+			public const int ban = 2131427581;
 			
 			// aapt resource value: 0x7f0b0041
 			public const int beginning = 2131427393;
@@ -2776,6 +2782,9 @@ namespace UpgradeApp
 			
 			// aapt resource value: 0x7f0b00d4
 			public const int recoveryQuestion = 2131427540;
+			
+			// aapt resource value: 0x7f0b00fa
+			public const int refreshMessages = 2131427578;
 			
 			// aapt resource value: 0x7f0b00b2
 			public const int relativeLayout1 = 2131427506;

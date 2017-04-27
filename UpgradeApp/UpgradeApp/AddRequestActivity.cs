@@ -19,7 +19,7 @@ namespace UpgradeApp
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.addClassesScreen);
-            Button submit = FindViewById<Button>(Resource.Id.requestClassesAdd);
+            Button submit = FindViewById<Button>(Resource.Id.submitButtonAdd);
             EditText requestedClass = FindViewById<EditText>(Resource.Id.inputedRequest);//Contains requested classs
 
             submit.Click += (Sender, e) =>
