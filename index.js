@@ -302,6 +302,13 @@ app.post('/requestClass', (req,res)=>{
     res.send("Class requested")
 })
 
+app.post('/requestedClasses', (req,res)=>{
+    console.log('admin is looking at requested classes')
+    classes.distinct('requestedName', {}, {}, (err, result)=>{
+        res.json({"requested": result})
+    })
+})
+
 /*  Route to add a new class to the classes document.
     JSON fields: "className" (name of class to add) */
 app.post('/newClass', (req,res)=>{
