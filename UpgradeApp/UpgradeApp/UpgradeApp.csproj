@@ -213,6 +213,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountCreationActivity.cs" />
+    <Compile Include="AddRequestActivity.cs" />
     <Compile Include="AdminActivity.cs" />
     <Compile Include="ClientHelper.cs" />
     <Compile Include="messageBoardAdapter.cs" />
@@ -293,6 +294,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\requestedClassScreen.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\addClassesScreen.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

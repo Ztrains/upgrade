@@ -30,7 +30,7 @@ namespace UpgradeApp
             SetContentView(Resource.Layout.ClassesScreen);
             EditText searchText = FindViewById<EditText>(Resource.Id.searchBoxC);
             Button searchButton = FindViewById<Button>(Resource.Id.searchButtonC);
-            Button boardButton = FindViewById<Button>(Resource.Id.boardButton);
+            Button request = FindViewById<Button>(Resource.Id.requestClassesAdd);
             nameOf = Intent.GetStringExtra("name");
 			// Get information from server
 			classes = HTTPHandler.classListRequest();
@@ -64,7 +64,14 @@ namespace UpgradeApp
                 }
             };
 
-           
+            request.Click += (Sender, e) =>
+            {
+                var intent = new Intent(this, typeof(AddRequestActivity));
+                StartActivity(intent);
+            };
+
+
+
         }
 
         public void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)

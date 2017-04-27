@@ -27,15 +27,15 @@ namespace UpgradeApp
 
             reportedUserButton.Click += (Sender, e) =>
             {
-
+                var intent = new Intent(this, typeof(reportedUsersActivity));
+                StartActivity(intent);
             };
             requestClassButton.Click += (Sender, e) =>
             {
-
+                var intent = new Intent(this, typeof(requestedClassesActivity));
+                StartActivity(intent);
             };
-            ListView listView = FindViewById<ListView>(Resource.Id.reportedUsers);
-
-            listView.Adapter = new ReportedAdapter(this, reportedUsers.reportedUsers);//Needs to be replaced with students from the server
+            
 
             // Create your application here
         }
