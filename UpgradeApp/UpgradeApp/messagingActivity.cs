@@ -74,8 +74,14 @@ namespace UpgradeApp
 
         public override bool OnOptionsItemSelected(IMenuItem item) //Passed in the menu item that was selected
         {
-            //The id for the toolbar button is toProfile
-            return base.OnOptionsItemSelected(item);
-        }
+
+			if (item.TitleFormatted.ToString().Equals("View Profile")) {
+				var intent = new Intent(this, typeof(Profile));
+				intent.PutExtra("studentName", ActionBar.Title);
+				StartActivity(intent);
+			}
+			return base.OnOptionsItemSelected(item);
+
+		}
     }
 }

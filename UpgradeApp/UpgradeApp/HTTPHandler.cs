@@ -52,6 +52,8 @@ namespace UpgradeApp {
 				return -3;
 			else if (r.Equals("Success adding user"))
 				return 1;
+			else if (r.Equals("Banned"))
+				return -4;
 			else return -1;
 		}
 
