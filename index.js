@@ -291,6 +291,17 @@ app.get('/classList',  (req, res) => {
     })
 })
 
+/*  Request a new class to be added for admins to check
+    JSON fields: "className" (name of class to add) */
+app.post('/requestClass', (req,res)=>{
+    classes.findOneAndUpdate(
+        {"_id":"requestedClasses"},
+        {$addToSet: {"requestedName": req.body.className}}
+    )
+    console.log("Classname " + req.body.className + " has been requested.")
+    res.send("Class requested")
+})
+
 /*  Route to add a new class to the classes document.
     JSON fields: "className" (name of class to add) */
 app.post('/newClass', (req,res)=>{
