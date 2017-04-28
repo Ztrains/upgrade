@@ -759,7 +759,7 @@ app.post('/banUser', (req,res)=>{
     res.send("User banned")
 })
 
-app.post('/banUser', (req,res)=>{
+app.post('/unbanUser', (req,res)=>{
     users.findOneAndUpdate(
         {"email":req.body.banEmail},
         { $set: {"banned":"no"}}
@@ -771,6 +771,7 @@ app.post('/banUser', (req,res)=>{
 /*  Route to get all of the reports made.
     JSON fields: N/A    */
 app.post('/getReports',(req,res)=>{
+    console.log('getting reports')
     db.collection('classes', (err, collection) => {
         if (err) {
             console.log('ERROR:', err);
