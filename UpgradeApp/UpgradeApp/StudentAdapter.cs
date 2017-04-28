@@ -31,7 +31,7 @@ namespace UpgradeApp
         }
         public override int Count
         {
-            get { return students.Length; }
+            get { try { return students.Length; } catch (Exception e) { return 0; } }
         }
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
