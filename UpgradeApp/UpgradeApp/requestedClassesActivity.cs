@@ -18,15 +18,14 @@ namespace UpgradeApp
 		string[] requestedClasses; //Replaced by requested classes from the server
         int location = 0;
         string[] items; //All the class names are placed into this 
-		string[] checkedClasses;
+		string[] checkedClasses; // The list of classes being accepted
         
 
         void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-			//Need a variable for the approved classes
+			// If an item is checked, add it to the checked array
 			if (location < checkedClasses.Length) {
 				string a = items[e.Position];
-				
 				checkedClasses[location] = a;
 				location++;
 			}
@@ -53,18 +52,17 @@ namespace UpgradeApp
             submit.Click += (object sender, EventArgs e) =>
             {
                 var intent = new Android.Content.Intent(this, typeof(AdminActivity));
-                //Updating the server with the new classes and remove the rest of the classes from the requested class list
+                // Updating the server with the new classes 
 				foreach (string s in checkedClasses) {
 					if (s != null) {
 						HTTPHandler.createClass(s);
 					}
 				}
+				// and remove the rest of the classes from the requested class list
 				HTTPHandler.emptyClassRequestList();
 				Recreate();
             };
 
-
-            // Create your application here
         }
     }
 }

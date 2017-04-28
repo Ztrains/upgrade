@@ -18,12 +18,14 @@ namespace UpgradeApp
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+			// Use Recovery Question screen
             SetContentView(Resource.Layout.PasswordRecoverySet);
-
+			// Create variables for screen objects
             EditText question = FindViewById<EditText>(Resource.Id.recoveryQuestion);
 			EditText answer = FindViewById<EditText>(Resource.Id.recoveryAnswer);
             Button submit = FindViewById<Button>(Resource.Id.submitButton);
 
+			// When the submit button is pressed
             submit.Click += (object sender, EventArgs e) =>
             {
 				// Call server function to set the recovery
