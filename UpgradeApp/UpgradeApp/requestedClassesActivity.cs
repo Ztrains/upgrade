@@ -39,28 +39,32 @@ namespace UpgradeApp
             Button submit = FindViewById<Button>(Resource.Id.submitClassButtonR);
             ListView listView = FindViewById<ListView>(Resource.Id.requestedClasses);
 			requestedClasses = HTTPHandler.getClassAdditionRequests();
-
-			items = requestedClasses;
-			checkedClasses = new string[items.Length];
-            ArrayAdapter lister = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItemChecked, items);
-            listView.Adapter = lister;
-            listView.ChoiceMode = ChoiceMode.Multiple;
-            listView.ItemClick += ListView_ItemClick;
-
-
+			if (requestedClasses != null) {
+				items = requestedClasses;
+				checkedClasses = new string[items.Length];
+				ArrayAdapter lister = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItemChecked, items);
+				listView.Adapter = lister;
+				listView.ChoiceMode = ChoiceMode.Multiple;
+				listView.ItemClick += ListView_ItemClick;
+			}
 
             submit.Click += (object sender, EventArgs e) =>
             {
-                var intent = new Android.Content.Intent(this, typeof(AdminActivity));
-                // Updating the server with the new classes 
-				foreach (string s in checkedClasses) {
-					if (s != null) {
-						HTTPHandler.createClass(s);
+				Toast toast = Toast.MakeText(this, "Please wait...", ToastLength.Short);
+				toast.Show();
+				var intent = new Android.Content.Intent(this, typeof(AdminActivity));
+				// Updating the server with the new classes 
+				if (checkedClasses != null) {
+					foreach (string s in checkedClasses) {
+						if (s != null) {
+							HTTPHandler.createClass(s);
+						}
 					}
+					// and remove the rest of the classes from the requested class list
+					HTTPHandler.emptyClassRequestList();
+					Recreate();
 				}
-				// and remove the rest of the classes from the requested class list
-				HTTPHandler.emptyClassRequestList();
-				Recreate();
+				
             };
 
         }

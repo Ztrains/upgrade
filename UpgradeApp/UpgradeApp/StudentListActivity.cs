@@ -71,8 +71,8 @@ namespace UpgradeApp
                 }
                 else
                 {
-                    Toast toaster = Toast.MakeText(this, "Please enter in something", ToastLength.Short);
-                    toaster.Show();
+                    //Toast toaster = Toast.MakeText(this, "Please enter in something", ToastLength.Short);
+                    //toaster.Show();
                     listView.Adapter = null;
                     adapt = new StudentAdapter(this, students.students);
                     listView.Adapter = adapt;
