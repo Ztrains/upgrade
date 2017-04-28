@@ -29,7 +29,11 @@ namespace UpgradeApp
             // Get information from server
             students = HTTPHandler.studentListRequest(c);
 			// Sort the students alphabetically
-            Array.Sort(students.students, (x, y) => (string.Compare(x.name, y.name)));
+			try {
+				Array.Sort(students.students, (x, y) => (string.Compare(x.name, y.name)));
+			} catch (Exception e) {
+				// Don't sort if empty list
+			}
             // Use student list layout
             SetContentView(Resource.Layout.listOfStudents);
             nameOf = Intent.GetStringExtra("name");
@@ -38,10 +42,15 @@ namespace UpgradeApp
             Button searchButton = FindViewById<Button>(Resource.Id.searchButton);
             Button boardButton = FindViewById<Button>(Resource.Id.boardButton);
 			// Populate and set up list
-            listView = FindViewById<ListView>(Resource.Id.students);
-            StudentAdapter adapt = new StudentAdapter(this, students.students);
-            listView.Adapter = adapt;
-            listView.ItemClick += ListView_ItemClick;
+			StudentAdapter adapt;
+				try {
+				listView = FindViewById<ListView>(Resource.Id.students);
+				adapt = new StudentAdapter(this, students.students);
+				listView.Adapter = adapt;
+				listView.ItemClick += ListView_ItemClick;
+			} catch (Exception e) {
+				// Do nothing if empty
+			}
 
 			// If search button is pressed, filter results
             searchButton.Click += (Sender, e) =>

@@ -14,6 +14,18 @@ namespace UpgradeApp {
 	// A list of helper classes used frequently in json encoding and decoding
 	// Also used in different app pages to hold information
 
+	// Holds a key for Firebase registration
+	public class RegKey {
+		public string regKey;
+	}
+
+	// Used for registering a new account
+	// Used for logging into an account
+	public class Account {
+		public string email;
+		public string password;
+	};
+
 	public class IDtoName {
 		public string id;
 	}
@@ -22,9 +34,7 @@ namespace UpgradeApp {
 		public string name;
 	}
 
-	public class RegKey {
-		public string regKey;
-	}
+
 
 	public class Password {
 		public string pass;
@@ -52,10 +62,7 @@ namespace UpgradeApp {
 		public string answer;
 	}
 
-	public class Account {
-		public string email;
-		public string password;
-	};
+
 
 	public class Profile {
 		public string _id;
