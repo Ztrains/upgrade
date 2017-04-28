@@ -63,6 +63,7 @@ namespace UpgradeApp
                 chats.Add(chatter);
                 names = new string[1];
                 names[0] = "Geo";
+                HTTPHandler.sendMessageBoard(cid._id, Intent.GetStringExtra("theClass"), chatter.message);
             }
 
             messageBoardAdapter adapt = new messageBoardAdapter(this, chats, names);
