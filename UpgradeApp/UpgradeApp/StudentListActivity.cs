@@ -16,11 +16,9 @@ namespace UpgradeApp
     public class StudentListActivity : Activity
     {
 
-
 		StudentList students;
 		ListView listView;
         string nameOf;
-        //string[] items = { "Bob Ross", "Curtis Maves", "Mitch Daniels" };
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -30,18 +28,22 @@ namespace UpgradeApp
             string theClassName = Intent.GetStringExtra("theClassName");
             // Get information from server
             students = HTTPHandler.studentListRequest(c);
+			// Sort the students alphabetically
             Array.Sort(students.students, (x, y) => (string.Compare(x.name, y.name)));
-            
+            // Use student list layout
             SetContentView(Resource.Layout.listOfStudents);
             nameOf = Intent.GetStringExtra("name");
+			// Create variables for screen objects
             EditText searchBox = FindViewById<EditText>(Resource.Id.searchBox);
             Button searchButton = FindViewById<Button>(Resource.Id.searchButton);
             Button boardButton = FindViewById<Button>(Resource.Id.boardButton);
-
+			// Populate and set up list
             listView = FindViewById<ListView>(Resource.Id.students);
             StudentAdapter adapt = new StudentAdapter(this, students.students);
             listView.Adapter = adapt;
             listView.ItemClick += ListView_ItemClick;
+
+			// If search button is pressed, filter results
             searchButton.Click += (Sender, e) =>
             {
                 if (!searchBox.Text.Equals(""))
@@ -63,6 +65,7 @@ namespace UpgradeApp
                 }
             };
 
+			// If message board button is pressed, open this class's message board
             boardButton.Click += (Sender, e) =>
             {
                 var intent = new Intent(this, typeof(messageBoardActivity));
@@ -73,26 +76,12 @@ namespace UpgradeApp
         }
 
 		public void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e) {
-
 			// Send the student name to the new screen
 			var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
 			intent.PutExtra("studentName", students.students[e.Position].name);
             intent.PutExtra("nameOf", nameOf);
             StartActivity(intent);
 
-			/*if (items[e.Position] == "Bob Ross") {
-				var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
-				StartActivity(intent);
-			}
-			if (items[e.Position] == "Curtis Maves") {
-				var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
-				StartActivity(intent);
-			}
-			if (items[e.Position] == "Mitch Daniels") {
-				var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
-				StartActivity(intent);
-			}
-			*/
 		}
 
 	}

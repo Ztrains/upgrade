@@ -27,26 +27,19 @@ namespace UpgradeApp {
 		protected override void OnCreate(Bundle savedInstanceState) {
 			base.OnCreate(savedInstanceState);
            // SetTheme(Android.Resource.Style.ThemeHoloLightNoActionBar);
-            // Create your application here
+            // Use profile edit layout
             SetContentView(Resource.Layout.EditProfileScreen);
 
+			// Create variables to access screen objects
 			TextView nameLabelTextView = FindViewById<TextView>(Resource.Id.NameLabelTextView);
 			EditText nameEditText = FindViewById<EditText>(Resource.Id.NameEditText);
-			TextView contactLabelTextView = FindViewById<TextView>(Resource.Id.ContactLabelTextView);
-			//EditText emailEditText = FindViewById<EditText>(Resource.Id.EmailEditText);
 			EditText otherContactMethodsEditText = FindViewById<EditText>(Resource.Id.OtherContactMethodsEditText);
-			TextView aboutLabelTextView = FindViewById<TextView>(Resource.Id.AboutLabelTextView);
 			EditText aboutEditText = FindViewById<EditText>(Resource.Id.AboutEditText);
-			TextView iTutorLabelTextView = FindViewById<TextView>(Resource.Id.ITutorLabelTextView);
-			TextView iWantToStudyLabelTextView = FindViewById<TextView>(Resource.Id.IWantToStudyTextView);
-			TextView freeTimeLabelTextView = FindViewById<TextView>(Resource.Id.FreeTimeLabelTextView);
 			EditText freeTimeTextView = FindViewById<EditText>(Resource.Id.FreeTimeEditText);
-			TextView pricesLabelTextView = FindViewById<TextView>(Resource.Id.PricesLabelTextView);
 			EditText pricesEditText = FindViewById<EditText>(Resource.Id.PricesEditText);
 			Button submitButton = FindViewById<Button>(Resource.Id.SubmitButton);
             Button studyButton = FindViewById<Button>(Resource.Id.studyButton);
             Button tutorButton = FindViewById<Button>(Resource.Id.tutorButton);
-			TextView avatarTextView = FindViewById<TextView>(Resource.Id.avatarTextView);
 			EditText avatarEditText = FindViewById<EditText>(Resource.Id.avatarEditText);
 			EditText passEditText = FindViewById<EditText>(Resource.Id.passEditText);
 			EditText newPassEditText = FindViewById<EditText>(Resource.Id.newPassEditText);
@@ -55,10 +48,12 @@ namespace UpgradeApp {
 			//string studyClasses = "";
 			//string tutorClasses = "";
 
+			// Check if just logged in
 			if (Intent.GetStringExtra("justLoggedIn") != null)
 				justLoggedIn = true;
 			else justLoggedIn = false;
-
+			
+			// Populate existing fields from profile screen info
 			if (Intent.GetStringExtra("name") != null) {
 				nameEditText.Text = Intent.GetStringExtra("name");
 			}
@@ -88,7 +83,7 @@ namespace UpgradeApp {
 			}*/
 
 
-
+			// If study button pressed
 			studyButton.Click += (sender, e) =>
             {
 				string newName = nameEditText.Text;
@@ -101,6 +96,7 @@ namespace UpgradeApp {
 				//studyClasses = Intent.GetStringExtra("studyClasses");
 				//tutorClasses = Intent.GetStringExtra("tutorClasses");
 
+				// Save current fields for return
 				var intent = new Android.Content.Intent(this, typeof(classPickerActivity));
                 intent.PutExtra("study", "true");
 				intent.PutExtra("tutor", "false");
@@ -124,12 +120,15 @@ namespace UpgradeApp {
 				prices = pricesEditText.Text;
 				visible = ""; // TODO
 				avatar = avatarEditText.Text;
+				
+				// Update the profile with existing information
 				HTTPHandler.updateProfile(newName, null, newContact, newAbout, null, null, freeTime, prices, null, avatar);
 				HTTPHandler.emailLoggedIn = newEmail;
-
+				// Change pages
 				StartActivity(intent);
             };
 
+			// If tutor button pressed
             tutorButton.Click += (sender, e) =>
             {
 				string newName = nameEditText.Text;
@@ -142,6 +141,7 @@ namespace UpgradeApp {
 				//studyClasses = Intent.GetStringExtra("studyClasses");
 				//tutorClasses = Intent.GetStringExtra("tutorClasses");
 
+				// Save current fields for return 
 				var intent = new Android.Content.Intent(this, typeof(classPickerActivity));
                 intent.PutExtra("tutor", "true");
 				intent.PutExtra("study", "false");
@@ -165,16 +165,21 @@ namespace UpgradeApp {
 				prices = pricesEditText.Text;
 				visible = ""; // TODO
 				avatar = avatarEditText.Text;
-				HTTPHandler.updateProfile(newName, newEmail, newContact, newAbout, null, null, freeTime, prices, visible, avatar);
-				HTTPHandler.emailLoggedIn = newEmail;
 
+				// Update fields with existing information
+				HTTPHandler.updateProfile(newName, null, newContact, newAbout, null, null, freeTime, prices, visible, avatar);
+				HTTPHandler.emailLoggedIn = newEmail;
+				// Change pages
 				StartActivity(intent);
             };
 
+			// If change password button is pressed
 			changePasswordButton.Click += (sender, e) => {
+				// Update password with server
 				string status = HTTPHandler.updatePassword(passEditText.Text, newPassEditText.Text, null, HTTPHandler.emailLoggedIn);
 				passEditText.Text = "";
 				newPassEditText.Text = "";
+				// Confirm or deny attempt based on server response
 				if (status.Equals("Password changed")) {
 					Toast toast = Toast.MakeText(this, "Password has been changed.", ToastLength.Short);
 					toast.Show();
@@ -194,7 +199,7 @@ namespace UpgradeApp {
 			};
 
 
-
+			// If the submit button is pressed
             submitButton.Click += (sender, e) => {
 				newName = nameEditText.Text;
 				//newEmail = emailEditText.Text;
@@ -209,11 +214,9 @@ namespace UpgradeApp {
 				// Send server the changes
 				// Needs to have other fields fixed
 
+				// Communicate changes to server
 				HTTPHandler.updateProfile(newName, newEmail, newContact, newAbout, null, null, freeTime, prices, visible, avatar);
 				HTTPHandler.emailLoggedIn = newEmail;
-
-
-
 
                 var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
                 //intent.PutExtra("name", newName);
