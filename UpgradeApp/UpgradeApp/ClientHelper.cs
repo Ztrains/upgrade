@@ -42,9 +42,11 @@ namespace UpgradeApp {
 
 		// Returns a list of students filtered based on the given filter string
 		public static StudentList filterStudents(ref StudentList studentList, string filter) {
+			if (studentList == null || studentList.students == null)
+				return null;
 
 			StudentList filteredStudentList = new StudentList();
-            //filteredStudentList.students = new Student[studentList.students.Length];
+            filteredStudentList.students = new Student[studentList.students.Length];
             int location = 0;
             StringComparison comp = StringComparison.OrdinalIgnoreCase;
 			foreach (Student s in studentList.students) {
