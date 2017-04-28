@@ -8,6 +8,8 @@ namespace UpgradeApp {
 	[IntentFilter(new[] { "com.google.firebase.INSTANCE_ID_EVENT" })]
 	public class MyFirebaseIIDService : FirebaseInstanceIdService {
 		const string TAG = "MyFirebaseIIDService";
+
+		// Firebase functions to register device
 		public override void OnTokenRefresh() {
 			var refreshedToken = FirebaseInstanceId.Instance.Token;
 			Log.Debug(TAG, "Refreshed token: " + refreshedToken);

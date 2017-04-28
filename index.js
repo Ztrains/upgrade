@@ -302,6 +302,22 @@ app.post('/requestClass', (req,res)=>{
     res.send("Class requested")
 })
 
+app.post('/requestedClasses', (req,res)=>{
+    console.log('admin is looking at requested classes')
+    classes.distinct('requestedName', {}, {}, (err, result)=>{
+        res.json({"requested": result})
+    })
+})
+
+app.post('/clearRequests', (req,res)=>{
+    console.log('admin is clearing requested classes')
+    classes.update(
+        { _id: "requestedClasses" },
+        { $unset: { requestedName: ""} }
+    )
+    res.send('Requests cleared')
+})
+
 /*  Route to add a new class to the classes document.
     JSON fields: "className" (name of class to add) */
 app.post('/newClass', (req,res)=>{
@@ -741,6 +757,15 @@ app.post('/banUser', (req,res)=>{
     )
     console.log("User with email " + req.body.banEmail + " has been banned by user with email " + req.user.email)
     res.send("User banned")
+})
+
+app.post('/banUser', (req,res)=>{
+    users.findOneAndUpdate(
+        {"email":req.body.banEmail},
+        { $set: {"banned":"no"}}
+    )
+    console.log("User with email " + req.body.banEmail + " has been unbanned by user with email " + req.user.email)
+    res.send("User unbanned")
 })
 
 /*  Route to get all of the reports made.

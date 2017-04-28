@@ -11,6 +11,8 @@ using Android.Views;
 using Android.Widget;
 
 namespace UpgradeApp {
+	// A list of helper classes used frequently in json encoding and decoding
+	// Also used in different app pages to hold information
 
 	public class IDtoName {
 		public string id;
@@ -19,7 +21,6 @@ namespace UpgradeApp {
 	public class Name {
 		public string name;
 	}
-
 
 	public class RegKey {
 		public string regKey;
@@ -179,5 +180,9 @@ namespace UpgradeApp {
 
 	public class BanUser {
 		public string banEmail;
+	}
+
+	public class RequestedClasses {
+		public string[] requested;
 	}
 }

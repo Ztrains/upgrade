@@ -47,23 +47,16 @@ namespace UpgradeApp {
 			//SetTheme(Android.Resource.Style.ThemeHoloLightNoActionBar);
 			base.OnCreate(bundle);
 
-			//stormPathMain();
-
-			//HTTPHandler.launchStormPath();
-			//HTTPHandler.classListRequest();
-
-
-			//Console.WriteLine("test");
-
 			// Set our view from the "main" layout resource
-			SetContentView(Resource.Layout.Login);  // Change Main to Login screen //
+			SetContentView(Resource.Layout.Login);  
 
 			// Check if play services is working
-			IsPlayServicesAvailable();
+			//IsPlayServicesAvailable();
 			//Firebase.FirebaseApp.InitializeApp(this);
 			//HTTPHandler.registerDevice(FirebaseInstanceId.Instance.Token);
 			//Log.Debug(TAG, "google app id: " + GetString(Resource.String.google_app_id));
-
+			
+			// Debug prints
 			if (Intent.Extras != null) {
 				foreach (var key in Intent.Extras.KeySet()) {
 					var value = Intent.Extras.GetString(key);
@@ -71,36 +64,31 @@ namespace UpgradeApp {
 				}
 			}
 
-
-
-
+			// Assign screen objects to variables for usage below
 			EditText email = FindViewById<EditText>(Resource.Id.email);
 			EditText password = FindViewById<EditText>(Resource.Id.password);
 			ImageView upgradeLogo = FindViewById<ImageView>(Resource.Id.upgradeLogo);
 			Button loginButton = FindViewById<Button>(Resource.Id.loginButton);
 			Button newAccountButton = FindViewById<Button>(Resource.Id.createAccountButton);
             Button recoverAccountButton = FindViewById<Button>(Resource.Id.recoverButton);
-            //EditText firstName = FindViewById<EditText>(Resource.Id.firstName);
-            //EditText lastName = FindViewById<EditText>(Resource.Id.lastName);
 
-			// Code for testing purposes
-			//HTTPHandler.Testfn();
-
+			// When the login button is pressed
 			loginButton.Click += (object sender, EventArgs e) => {
 				Toast toast = Toast.MakeText(this, "Attempting login...", ToastLength.Short);
 				toast.Show();
-				// Send information to the server
+				// Attempt login with username and password
 				int status = HTTPHandler.loginRequest(email.Text, password.Text);
 				//HTTPHandler.testLogin();
 
+				// If successful, login and advance to profile page
 				if (status == 1) {
 					toast = Toast.MakeText(this, "Login successful", ToastLength.Short);
 					toast.Show();
+					// Change page
 					var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
 					intent.PutExtra("email", email.Text);
 					intent.PutExtra("justLoggedIn", "true");
 					HTTPHandler.emailLoggedIn = email.Text;
-					
 					StartActivity(intent);
 				}
 				else if (status == -4) {
@@ -115,25 +103,16 @@ namespace UpgradeApp {
 					toast = Toast.MakeText(this, "Unknown error.", ToastLength.Short);
 					toast.Show();
 				}
-				/*
-                if (!email.Text.Equals("myers259@purdue.edu") || !password.Text.Equals("Thegm_97"))
-                {
-                    Toast toast = Toast.MakeText(this, "Invalid Username or Password", ToastLength.Short);
-                    toast.Show();
-                }
-                else
-                {
-                    var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
-                    StartActivity(intent);
-                }
-				*/
+				
             };
 
+			// If the register account button is pressed, change to account creation screen
 			newAccountButton.Click += (sender, e) => {
 				var intent = new Android.Content.Intent(this, typeof(AccountCreationActivity));
 				StartActivity(intent);
 			};
 
+			// If the forgot password button is pressed, change to password recovery screen
             recoverAccountButton.Click += (sender, e) =>
             {
                 var intent = new Android.Content.Intent(this, typeof(PasswordRecoveryUse));

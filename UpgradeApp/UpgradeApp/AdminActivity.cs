@@ -19,25 +19,25 @@ namespace UpgradeApp
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            reportedUsers = HTTPHandler.getReports();
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.adminScreen);
+
             Button reportedUserButton = FindViewById<Button>(Resource.Id.reportButton);
             Button requestClassButton = FindViewById<Button>(Resource.Id.requestClassButton);
 
+			// If reported users button is pressed, view the reports page
             reportedUserButton.Click += (Sender, e) =>
             {
                 var intent = new Intent(this, typeof(reportedUsersActivity));
                 StartActivity(intent);
             };
+			// If the class request list button is pressed, view the requests page
             requestClassButton.Click += (Sender, e) =>
             {
                 var intent = new Intent(this, typeof(requestedClassesActivity));
                 StartActivity(intent);
             };
             
-
-            // Create your application here
         }
     }
 }
