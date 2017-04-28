@@ -58,11 +58,16 @@ namespace UpgradeApp
                 if (!searchBox.Text.Equals(""))
                 {
                     StudentList filtered = ClientHelper.filterStudents(ref students, searchBox.Text);
-                    listView.Adapter = null;
-                    if (filtered.students.Length != 0)
-                    {
-                        listView.Adapter = new StudentAdapter(this, filtered.students);
-                    }
+					if (filtered != null) {
+						listView.Adapter = null;
+						if (filtered.students.Length != 0) {
+							listView.Adapter = new StudentAdapter(this, filtered.students);
+						}
+					}
+					else {
+						Toast toaster = Toast.MakeText(this, "No students!", ToastLength.Short);
+						toaster.Show();
+					}
                 }
                 else
                 {
