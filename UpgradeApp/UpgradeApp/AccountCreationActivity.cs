@@ -20,16 +20,18 @@ namespace UpgradeApp
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            //SetTheme(Android.Resource.Style.ThemeHoloLightNoActionBar);
-            SetContentView(Resource.Layout.AccountCreationScreen);
-
+			//SetTheme(Android.Resource.Style.ThemeHoloLightNoActionBar);
+			
+			// Use the account creation layout
+			SetContentView(Resource.Layout.AccountCreationScreen);
+			// Create variables for screen objects used below
             ImageView upgradeLogo = FindViewById<ImageView>(Resource.Id.upgradeLogo);
             EditText userEmail = FindViewById<EditText>(Resource.Id.email);
             EditText userPassword = FindViewById<EditText>(Resource.Id.password);
             Button subButton = FindViewById<Button>(Resource.Id.submitButton);
 
+			// When the submit button is pressed
             subButton.Click += (object sender, EventArgs e) => {
-				
 				Toast toast = Toast.MakeText(this, "Attempting registration...", ToastLength.Short);
 				toast.Show();
 				// Send information to the server

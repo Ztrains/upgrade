@@ -38,6 +38,7 @@ namespace UpgradeApp
             string uid = Intent.GetStringExtra("uid");
 			cid = Intent.GetStringExtra("cid");
 
+			// Populate page with message history
 			Messages ms = HTTPHandler.getMessages(cid);
 			if (ms != null && ms.messages != null) {
 				for (int i = 0; i < ms.messages.Length; i++) {
@@ -54,7 +55,7 @@ namespace UpgradeApp
             listView.Adapter = adapt;
             //Chats should be replaced by stuff from the server. 
 
-
+			// If send button is pressed, send message to server to be transmitted
             sendButton.Click += (object Sender, EventArgs e) =>
             {
                 HTTPHandler.sendMessage(cid, msgTextView.Text);
@@ -67,20 +68,25 @@ namespace UpgradeApp
                 //Refreshes when sent, but will not update when a message is received
             };
         }
+
+		// Set up toolbar menu
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
             MenuInflater.Inflate(Resource.Menu.messagingToolbar, menu);
             return base.OnCreateOptionsMenu(menu);
         }
 
+		// When a toolbar button is pressed
         public override bool OnOptionsItemSelected(IMenuItem item) //Passed in the menu item that was selected
         {
             List<chatClass> chatRefreshList = new List<chatClass>();
+			// If the View Profile button is pressed, view the messaging user's profile
 			if (item.TitleFormatted.ToString().Equals("View Profile")) {
 				var intent = new Intent(this, typeof(Profile));
 				intent.PutExtra("studentName", ActionBar.Title);
 				StartActivity(intent);
 			}
+			// If the refresh button is pressed, reload the page
             if(item.TitleFormatted.ToString().Equals("Refresh Messages"))
             {
                 Messages ms = HTTPHandler.getMessages(cid);

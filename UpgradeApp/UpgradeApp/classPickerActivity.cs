@@ -64,6 +64,7 @@ namespace UpgradeApp
 				// Update classes chosen by the user
 				Profile p = HTTPHandler.getProfile(HTTPHandler.emailLoggedIn);
 				if (p.classesIn != null) {
+					// Leave previous classes if any
 					foreach (classInfo c in p.classesIn) {
 						if (isAStudent == true && c.type.Equals("student"))
 							HTTPHandler.leaveClass(c.className, c.type);
@@ -71,21 +72,11 @@ namespace UpgradeApp
 							HTTPHandler.leaveClass(c.className, c.type);
 					}
 				}
+				// Join all newly selected classes
 				for (int i = 0; i < newClasses.Length; i++) {
 					if (newClasses[i] != null && newClasses[i].className != "")
 						HTTPHandler.joinClass(newClasses[i].className, newClasses[i].type);
 				}
-
-				/*if (Intent.GetBooleanExtra("study", true))
-                {
-                    intent.PutExtra("studyClasses", returnString);
-					intent.PutExtra("tutorClasses", Intent.GetStringExtra("tutorClasses"));
-                }
-                else
-                {
-                    intent.PutExtra("tutorClasses", returnString);
-					intent.PutExtra("studyClasses", Intent.GetStringExtra("studyClasses"));
-				}*/
 
 				//intent.PutExtra("name", Intent.GetStringExtra("name"));
 				intent.PutExtra("studentName", Intent.GetStringExtra("studentName"));

@@ -33,7 +33,6 @@ namespace UpgradeApp
             Messages ms = HTTPHandler.getMessages(cid._id);
             string nameOfStudent = Intent.GetStringExtra("nameOf");
 
-
             Button sendButton = FindViewById<Button>(Resource.Id.sendButton);
             TextView msgTextView = FindViewById<TextView>(Resource.Id.msg);
             TextView userName = FindViewById<TextView>(Resource.Id.userName);
@@ -64,11 +63,11 @@ namespace UpgradeApp
                 chats.Add(chatter);
                 names = new string[1];
                 names[0] = "Geo";
+                HTTPHandler.sendMessageBoard(cid._id, Intent.GetStringExtra("theClass"), chatter.message);
             }
 
             messageBoardAdapter adapt = new messageBoardAdapter(this, chats, names);
             listView.Adapter = adapt;
-
 
 
             sendButton.Click += (object Sender, EventArgs e) =>

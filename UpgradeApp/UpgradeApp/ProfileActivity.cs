@@ -19,6 +19,7 @@ namespace UpgradeApp {
 	[Activity(Label = "ProfileActivity")]
 	public class ProfileActivity : Activity {
 
+		// Activity variables used outside of the create function
 		bool justLoggedIn;
         bool admin = false;
 		Profile p;
@@ -27,10 +28,11 @@ namespace UpgradeApp {
 		protected override void OnCreate(Bundle savedInstanceState) {
 			base.OnCreate(savedInstanceState);
 			//SetTheme(Android.Resource.Style.ThemeHoloLightNoActionBar);
+			// Use profile layout
 			SetContentView(Resource.Layout.ProfileScreen);
+			// Variables for screen objects
 			ImageView avatarImageView = FindViewById<ImageView>(Resource.Id.AvatarImageView);
 			Button sendMessageButton = FindViewById<Button>(Resource.Id.SendMessageButton);
-			TextView contactMethodsLabelTextView = FindViewById<TextView>(Resource.Id.ContactMethodsLabelTextView);
 			TextView emailTextView = FindViewById<TextView>(Resource.Id.EmailTextView);
 			TextView contactMethodsTextView = FindViewById<TextView>(Resource.Id.ContactMethodsTextView);
 			Button editButton = FindViewById<Button>(Resource.Id.EditButton);
@@ -38,61 +40,64 @@ namespace UpgradeApp {
 			Button reportButton = FindViewById<Button>(Resource.Id.ReportButton);
 			TextView ratingTextView = FindViewById<TextView>(Resource.Id.RatingTextView);
 			Button rateButton = FindViewById<Button>(Resource.Id.RateButton);
-			TextView aboutLabelTextView = FindViewById<TextView>(Resource.Id.AboutLabelTextView);
 			TextView aboutTextView = FindViewById<TextView>(Resource.Id.AboutTextView);
-			TextView iTutorLabelTextView = FindViewById<TextView>(Resource.Id.ITutorLabelTextView);
 			TextView iTutorTextView = FindViewById<TextView>(Resource.Id.ITutorTextView);
-			TextView iNeedATutorLabelTextView = FindViewById<TextView>(Resource.Id.INeedATutorLabelTextView);
 			TextView iNeedATutorTextView = FindViewById<TextView>(Resource.Id.INeedATutorTextView);
-			TextView availabilityLabelTextView = FindViewById<TextView>(Resource.Id.AvailabilityLabelTextView);
 			TextView availabilityTextView = FindViewById<TextView>(Resource.Id.AvailabilityTextView);
-			TextView pricesLabelTextView = FindViewById<TextView>(Resource.Id.PricesLabelTextView);
 			TextView pricesTextView = FindViewById<TextView>(Resource.Id.PricesTextView);
 			Button classListView = FindViewById<Button>(Resource.Id.classButton);
             string messageStudent = Intent.GetStringExtra("nameOf");
 			var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
 			SetActionBar(toolbar);
-
+			// Force toolbar refresh
 			InvalidateOptionsMenu();
 
 			// Get profile information from the server
 			if (Intent.GetStringExtra("studentName") != null)
+				// For profiles besides your own
 				p = HTTPHandler.getProfileByName(Intent.GetStringExtra("studentName"));
 			else {
+				// For your own profile
 				p = HTTPHandler.getProfile(Intent.GetStringExtra("email"));
 			}
+
+			// Set screen fields based on profile information retrieved
 			//nameTextView.Text = p.name;
 			emailTextView.Text = p.email;
 			ratingTextView.Text = p.rating.ToString();
 			aboutTextView.Text = p.about;
             ActionBar.Title = p.name;
-
-            iTutorTextView.Text = "";
+			availabilityTextView.Text = p.time;
+			pricesTextView.Text = p.price;
+			// Set tutor fields
+			iTutorTextView.Text = "";
 			iNeedATutorTextView.Text = "";
             if (p.classesIn != null)
             {
                 foreach (classInfo ci in p.classesIn)
                 {
+					// Add to tutor section for tutor labeled classes
                     if (ci.type == "tutor")
                     {
                         iTutorTextView.Text += ci.className;
-                        iTutorTextView.Text += " ";
+                        iTutorTextView.Text += ", "; // separate by commas
                     }
+					// Or student section if labeled student
                     else if (ci.type == "student")
                     {
                         iNeedATutorTextView.Text += ci.className;
-                        iNeedATutorTextView.Text += " ";
+                        iNeedATutorTextView.Text += ", ";
                     }
                 }
             }
 
+			// Load the avatar with Picasso
 			Picasso.With(this).Load(p.avatar).Into(avatarImageView);
 
-			availabilityTextView.Text = p.time;
-			pricesTextView.Text = p.price;
-
+			// Check permissions of the user viewing the profile
 			Profile u = HTTPHandler.getProfile(HTTPHandler.emailLoggedIn);
 
+			// If it is the own user's profile
 			if (emailTextView.Text.Equals(HTTPHandler.emailLoggedIn)) {
 				sendMessageButton.Enabled = false;
 				reportButton.Enabled = false;
@@ -102,6 +107,7 @@ namespace UpgradeApp {
 				if (u.admin != null && u.admin.Equals("true"))
 					admin = true;
 			}
+			// If it is not their profile, but they are an admin
 			else if (u.admin != null && u.admin.Equals("true")) {
 				sendMessageButton.Enabled = true;
 				reportButton.Enabled = true;
@@ -109,6 +115,7 @@ namespace UpgradeApp {
 				editButton.Enabled = true;
                 admin = true;
 			}
+			// Or if it is not their profile, and they are a regular user
 			else {
 				sendMessageButton.Enabled = true;
 				reportButton.Enabled = true;
@@ -116,6 +123,7 @@ namespace UpgradeApp {
 				editButton.Enabled = false;
 			}
 
+			// Check if the user has upvoted this profile already, disable upvoting if true
 			string uid = u._id;
 			if (p.usersUpvoted != null) {
 				foreach (upvotedID ui in p.usersUpvoted) {
@@ -123,6 +131,7 @@ namespace UpgradeApp {
 						rateButton.Enabled = false;
 				}
 			}
+			// Check if the profile has blocked the user, disable messaging if true
 			 if (p.blockedUsers != null) {
 				foreach (blockedID bid in p.blockedUsers) {
 					if (bid.id.Equals(uid))
@@ -134,6 +143,7 @@ namespace UpgradeApp {
 				justLoggedIn = true;
 			else justLoggedIn = false;
 
+			// Check if the profile has been blocked
 			bool isBlocked = false;
 			blockedID[] bids = HTTPHandler.getProfile(HTTPHandler.emailLoggedIn).blockedUsers;
 			if (bids != null) {
@@ -142,18 +152,21 @@ namespace UpgradeApp {
 						isBlocked = true;
 				}
 			}
+			// Set block button text to unblock if true
 			if (isBlocked) blockButton.Text = "Unblock";
 
-
+			// If Class List button is pressed
 			classListView.Click += (object Sender, EventArgs e) => {
+				// Change to class list page
 				var intent = new Android.Content.Intent(this, typeof(ClassListActivity));
                 intent.PutExtra("name", p.name);
 				StartActivity(intent);
 			};
 
+			// If edit profie button is pressed
 			editButton.Click += (Sender, e) => {
+				// Change to edit profile page
 				var intent = new Android.Content.Intent(this, typeof(EditProfileActivity));
-
 				intent.PutExtra("name", ActionBar.Title);
 				//intent.PutExtra("email", emailTextView.Text);
 				intent.PutExtra("contact", contactMethodsTextView.Text);
@@ -167,21 +180,26 @@ namespace UpgradeApp {
 
 			};
 
+			// If rate button is pressed
 			rateButton.Click += (Sender, e) => {
+				// Upvote the profile
 				HTTPHandler.upvoteProfile(ActionBar.Title);
 				Toast toast = Toast.MakeText(this, "Thanks for your input!", ToastLength.Short);
 				toast.Show();
 				rateButton.Enabled = false;
 			};
 
+			// If report button is pressed
 			reportButton.Click += (Sender, e) => {
+				// Add user to the report list for admins
 				HTTPHandler.reportProfile(p._id, p.name, "Reported.");
 				Toast toast = Toast.MakeText(this, "User has been reported.", ToastLength.Short);
 				toast.Show();
-
 			};
 
+			// If block button is pressed
 			blockButton.Click += (Sender, e) => {
+				// If user is blocked, unblock
 				if (isBlocked) {
 					HTTPHandler.unblockProfile(p._id);
 					Toast toast = Toast.MakeText(this, "User has been unblocked.", ToastLength.Short);
@@ -189,6 +207,7 @@ namespace UpgradeApp {
 					blockButton.Text = "Block";
 					isBlocked = false;
 				} else {
+				// If user is not blocked, block
 					HTTPHandler.blockProfile(p._id);
 					Toast toast = Toast.MakeText(this, "User has been blocked.", ToastLength.Short);
 					toast.Show();
@@ -197,7 +216,9 @@ namespace UpgradeApp {
 				}
 			};
 
+			// If the send message button is pressed
 			sendMessageButton.Click += (Sender, e) => {
+				// Open the message page btwn the two users
 				GetChatID cid = HTTPHandler.startAChat(p._id);
 				var intent = new Android.Content.Intent(this, typeof(messagingActivity));
 				intent.PutExtra("cid", cid._id);
@@ -208,11 +229,13 @@ namespace UpgradeApp {
 			};
 		}
 
+		// Create variables for the menu bar items
 		IMenuItem logoutItem, adminItem, banItem;
 
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
             MenuInflater.Inflate(Resource.Menu.topmenus, menu);
+			// Initialize variables
 			logoutItem = menu.GetItem(0);
 			adminItem = menu.GetItem(1);
 			banItem = menu.GetItem(2);
@@ -221,6 +244,7 @@ namespace UpgradeApp {
 
 		public override bool OnPrepareOptionsMenu(IMenu menu) {
 			base.OnCreateOptionsMenu(menu);
+			// Disable admin buttons for non-admins
 			if (!admin) {
 				adminItem.SetVisible(false);
 				banItem.SetVisible(false);
@@ -228,20 +252,23 @@ namespace UpgradeApp {
 			return true;
 		}
 
-
-		public override bool OnOptionsItemSelected(IMenuItem item) //Passed in the menu item that was selected
+		// When a menu item was pressed
+		public override bool OnOptionsItemSelected(IMenuItem item) 
         {
+			// If it was the admin button, go to the admin page
 			if (item.TitleFormatted.ToString().Equals("Admin Options")) {
 				if (admin) {
 					var intent = new Intent(this, typeof(AdminActivity));
 					StartActivity(intent);
 				}
 			}
+			// If it was the logout button, return to sign-in page
 			else if (item.TitleFormatted.ToString().Equals("Logout")) {
 				var intent = new Intent(this, typeof(MainActivity));
 				HTTPHandler.emailLoggedIn = "";
 				StartActivity(intent);
 			}
+			// If it was the ban button, have the server ban the given user
 			else if (item.TitleFormatted.ToString().Equals("Ban User")) {
 				if (admin) {
 					HTTPHandler.banUser(p.email);
@@ -249,10 +276,9 @@ namespace UpgradeApp {
 					toast.Show();
 				}
 			}
-
-
 			return base.OnOptionsItemSelected(item);
         }
+
         // Disables the back button on this page
         public override void OnBackPressed() {
 			if (justLoggedIn == false)

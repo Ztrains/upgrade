@@ -18,33 +18,38 @@ using System.Net;
 namespace UpgradeApp {
 	public class HTTPHandler {
 
-		public static string emailLoggedIn;
-		public static CookieContainer cookieJar;
+		public static string emailLoggedIn; // stores the email(username) of the current logged in user
+		public static CookieContainer cookieJar; // holds the identification string used in many functions
 
+		// Registers the current device with Firebase for notifications
+		// key - the key of the current device to be registered
 		public static void registerDevice(string key) {
+			// Create request
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/regDevice");
 			var request = new RestRequest(Method.POST);
 			client.CookieContainer = cookieJar;
+			// Create a key holding class
 			RegKey rk = new RegKey();
 			rk.regKey = key;
 			request.AddJsonBody(rk);
 			IRestResponse response = client.Execute(request);
 		}
 
-		// current register function
+		// Registers a user with the database
+		// email - the username of the new user
+		// password - the user's password
+		// Returns the status of the request
 		public static int registerRequest(string email, string password) {
+			// Creates a new request
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/reg");
 			var request = new RestRequest(Method.POST);
-
+			// Holds the username and password
 			Account acc = new Account();
 			acc.email = email;
 			acc.password = password;
-			//string json = JsonConvert.SerializeObject(acc);
-
 			request.AddJsonBody(acc);
-			//request.AddParameter("application/json", json, ParameterType.RequestBody);
 			IRestResponse response = client.Execute(request);
-			//Console.WriteLine(response.Content);
+			// Check response for errors
 			string r = response.Content;
 			if (r.Equals("Database error"))
 				return -2;
@@ -56,6 +61,36 @@ namespace UpgradeApp {
 				return -4;
 			else return -1;
 		}
+
+		// Attempts to log a user into the system
+		// email - the username of the user
+		// password - the user's password
+		// Returns the status of the request
+		public static int loginRequest(string email, string password) {
+			// Initialize the cookie for usage in various functions
+			cookieJar = new CookieContainer();
+			// Create a new request
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/login");
+			var request = new RestRequest(Method.POST);
+			// Add the cookie to the request
+			client.CookieContainer = cookieJar;
+			// Create an account obj to hold username and password
+			Account acc = new Account();
+			acc.email = email;
+			acc.password = password;
+			request.AddJsonBody(acc);
+			IRestResponse response = client.Execute(request);
+			// Check the server response code
+			if (response.Content.Equals("you have authenticated properly")) {
+				return 1;
+			}
+			else if (response.Content.Equals("Incorrect email/password combo")) {
+				return -2;
+			}
+			else return -1;
+		}
+
+
 
 		public static void testLogin() {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/testlogin");
@@ -74,37 +109,7 @@ namespace UpgradeApp {
 			IRestResponse r = client.Execute(request);
 		}
 
-		// current login function
-		public static int loginRequest(string email, string password) {
-			cookieJar = new CookieContainer();
-
-			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/login");
-			var request = new RestRequest(Method.POST);
-			
-			client.CookieContainer = cookieJar;
-
-			Account acc = new Account();
-			acc.email = email;
-			acc.password = password;
-			//string json = JsonConvert.SerializeObject(acc);
-
-			//request.AddHeader("postman-token", "0fccbb68-76d2-f0d9-51f9-c657ce173d67");
-			//request.AddHeader("cache-control", "no-cache");
-			//request.AddHeader("accept", "application/json");
-			//request.AddHeader("content-type", "application/json");
-			//string json = "{ \"email\": \"" + email + "\", \"password\": \"" + password + "\" }";
-			request.AddJsonBody(acc);
-			//request.AddParameter("application/json", json, ParameterType.RequestBody);
-			IRestResponse response = client.Execute(request);
-			//Console.WriteLine(response.Content + "\n");
-			if (response.Content.Equals("you have authenticated properly")) {
-				return 1;
-			}
-			else if (response.Content.Equals("Incorrect email/password combo")) {
-				return -2;
-			}
-			else return -1;	
-		}
+		
 
 		public static void setRecovery(string question, string answer) {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/setRecovery"); 
@@ -180,8 +185,13 @@ namespace UpgradeApp {
 			IRestResponse response = client.Execute(request);
 			//Debug.WriteLine("\n\n\n\n\n\n\n\n\n\n\n a a a a a a a a a a a a a a a a a a \n\n\n\n\n\n\n\n\n\n");
 			//Debug.WriteLine(response.Content);
-
-			StudentList students = JsonConvert.DeserializeObject<StudentList>(response.Content);
+			StudentList students;
+			try {
+				students = JsonConvert.DeserializeObject<StudentList>(response.Content);
+			} catch (Exception e) {
+				students = new StudentList();
+				students.students = null;
+			}
 			return students;
 		}
 
@@ -438,6 +448,24 @@ namespace UpgradeApp {
 			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/requestClass");
 			var request = new RestRequest(Method.POST);
 
+
+			WhichClass wc = new WhichClass();
+			wc.className = className;
+			request.AddJsonBody(wc);
+
+			IRestResponse response = client.Execute(request);
+		}
+
+		public static void emptyClassRequestList() {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/clearRequests");
+			var request = new RestRequest(Method.POST);
+			IRestResponse response = client.Execute(request);
+		}
+
+		public static void createClass(string className) {
+			var client = new RestClient("https://calm-chamber-49049.herokuapp.com/newClass");
+			var request = new RestRequest(Method.POST);
+			client.CookieContainer = cookieJar;
 
 			WhichClass wc = new WhichClass();
 			wc.className = className;

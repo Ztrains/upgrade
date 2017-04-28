@@ -20,15 +20,21 @@ namespace UpgradeApp
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.addClassesScreen);
             Button submit = FindViewById<Button>(Resource.Id.submitButtonAdd);
-            EditText requestedClass = FindViewById<EditText>(Resource.Id.inputedRequest);//Contains requested classs
+            EditText requestedClass = FindViewById<EditText>(Resource.Id.inputedRequest); 
 
             submit.Click += (Sender, e) =>
             {
-                //get requested class and store on database
-                var intent = new Intent(this, typeof(ClassListActivity));
-                StartActivity(intent);
+				
+				if (requestedClass.Text != null) {
+					// Add class to server list of requested classes
+					HTTPHandler.requestClass(requestedClass.Text);
+					Toast toast = Toast.MakeText(this, "Class has been requested!", ToastLength.Short);
+					toast.Show();
+					requestedClass.Text = "";
+				}
+					
+				
             };
-            // Create your application here
         }
     }
 }

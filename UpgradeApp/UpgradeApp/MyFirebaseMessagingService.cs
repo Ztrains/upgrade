@@ -14,7 +14,7 @@ namespace UpgradeApp {
 			Log.Debug(TAG, "From: " + message.From);
 			Log.Debug(TAG, "Notification Message Body: " + message.GetNotification().Body);
 		}
-
+		// Send notifications via Firebase
 		void SendNotification(string messageBody) {
 			var intent = new Intent(this, typeof(ProfileActivity));
 			intent.AddFlags(ActivityFlags.ClearTop);

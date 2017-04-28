@@ -18,24 +18,23 @@ namespace UpgradeApp
     public class ClassListActivity: Activity
     {
 		
-
         ListView listView;
 		ClassList classes;
-        //string[] items = { "CS 307", "MA 265", "CS 180" }; will use classes.Classes now
         string nameOf;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
+			// Use Class list layout
             SetContentView(Resource.Layout.ClassesScreen);
+			// Create variables to access screen objects
             EditText searchText = FindViewById<EditText>(Resource.Id.searchBoxC);
             Button searchButton = FindViewById<Button>(Resource.Id.searchButtonC);
             Button request = FindViewById<Button>(Resource.Id.requestClassesAdd);
             nameOf = Intent.GetStringExtra("name");
 			// Get information from server
 			classes = HTTPHandler.classListRequest();
+			// Sort the classes alphabetically
 			Array.Sort(classes.classes, (x, y) => (string.Compare(x, y)));
-
 			// Populate listView from server received information
 			listView = FindViewById<ListView>(Resource.Id.classList);
 			ListAdapter adapt = new ListAdapter(this, classes.classes);
@@ -43,10 +42,12 @@ namespace UpgradeApp
 
             listView.ItemClick += ListView_ItemClick;
 
+			// When search button is clicked
             searchButton.Click += (Sender, e) =>
             {
                 if (!searchText.Text.Equals(""))
                 {
+					// Filter the classes based on the search text entered
                     ClassList filtered = ClientHelper.filterClasses(classes, searchText.Text);
                     listView.Adapter = null;
                     if (filtered.classes.Length != 0)
@@ -64,16 +65,16 @@ namespace UpgradeApp
                 }
             };
 
+			// When request button is pressed, open the request page
             request.Click += (Sender, e) =>
             {
                 var intent = new Intent(this, typeof(AddRequestActivity));
                 StartActivity(intent);
             };
 
-
-
         }
 
+		// When a class is pressed, open the student list for the selected class
         public void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
 			// Send the class name to the new screen
@@ -83,24 +84,6 @@ namespace UpgradeApp
             intent.PutExtra("name", nameOf);
 			StartActivity(intent);
 
-
-			/*
-			if (classes.Classes[e.Position] == "CS 307")
-            {
-                var intent = new Android.Content.Intent(this, typeof(StudentListActivity));
-                StartActivity(intent);
-            }
-            if (classes.Classes[e.Position] == "MA 265")
-            {
-                var intent = new Android.Content.Intent(this, typeof(StudentListActivity));
-                StartActivity(intent);
-            }
-            if (classes.Classes[e.Position] == "CS 180")
-            {
-                var intent = new Android.Content.Intent(this, typeof(StudentListActivity));
-                StartActivity(intent);
-            }
-			*/
         }
     }
 }
