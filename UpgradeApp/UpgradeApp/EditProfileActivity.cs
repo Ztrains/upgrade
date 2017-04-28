@@ -23,6 +23,7 @@ namespace UpgradeApp {
 		string prices = "";
 		string visible = ""; // TODO
 		string avatar = "";
+		string emaill = "";
 
 		protected override void OnCreate(Bundle savedInstanceState) {
 			base.OnCreate(savedInstanceState);
@@ -48,6 +49,8 @@ namespace UpgradeApp {
 			//string studyClasses = "";
 			//string tutorClasses = "";
 
+			
+
 			// Check if just logged in
 			if (Intent.GetStringExtra("justLoggedIn") != null)
 				justLoggedIn = true;
@@ -60,9 +63,9 @@ namespace UpgradeApp {
 			if (Intent.GetStringExtra("contact") != null) {
 				otherContactMethodsEditText.Text = Intent.GetStringExtra("contact");
 			}
-			//if (Intent.GetStringExtra("email") != null) {
-			//	emailEditText.Text = Intent.GetStringExtra("email");
-			//}
+			if (Intent.GetStringExtra("email") != null) {
+				emaill = Intent.GetStringExtra("email");
+			}
 			if (Intent.GetStringExtra("about") != null) {
 				aboutEditText.Text = Intent.GetStringExtra("about");
 			}
@@ -122,8 +125,8 @@ namespace UpgradeApp {
 				avatar = avatarEditText.Text;
 				
 				// Update the profile with existing information
-				HTTPHandler.updateProfile(newName, null, newContact, newAbout, null, null, freeTime, prices, null, avatar);
-				HTTPHandler.emailLoggedIn = newEmail;
+				HTTPHandler.updateProfile(newName, emaill, newContact, newAbout, null, null, freeTime, prices, null, avatar);
+				//HTTPHandler.emailLoggedIn = newEmail;
 				// Change pages
 				StartActivity(intent);
             };
@@ -167,8 +170,8 @@ namespace UpgradeApp {
 				avatar = avatarEditText.Text;
 
 				// Update fields with existing information
-				HTTPHandler.updateProfile(newName, null, newContact, newAbout, null, null, freeTime, prices, visible, avatar);
-				HTTPHandler.emailLoggedIn = newEmail;
+				HTTPHandler.updateProfile(newName, emaill, newContact, newAbout, null, null, freeTime, prices, visible, avatar);
+				//HTTPHandler.emailLoggedIn = newEmail;
 				// Change pages
 				StartActivity(intent);
             };
@@ -215,8 +218,8 @@ namespace UpgradeApp {
 				// Needs to have other fields fixed
 
 				// Communicate changes to server
-				HTTPHandler.updateProfile(newName, newEmail, newContact, newAbout, null, null, freeTime, prices, visible, avatar);
-				HTTPHandler.emailLoggedIn = newEmail;
+				HTTPHandler.updateProfile(newName, emaill, newContact, newAbout, null, null, freeTime, prices, visible, avatar);
+				//HTTPHandler.emailLoggedIn = newEmail;
 
                 var intent = new Android.Content.Intent(this, typeof(ProfileActivity));
                 //intent.PutExtra("name", newName);

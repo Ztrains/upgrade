@@ -52,14 +52,17 @@ namespace UpgradeApp {
 			// Force toolbar refresh
 			InvalidateOptionsMenu();
 
+			string n = Intent.GetStringExtra("studentName");
+
 			// Get profile information from the server
-			if (Intent.GetStringExtra("studentName") != null)
+			if (n != null && n != "")
 				// For profiles besides your own
-				p = HTTPHandler.getProfileByName(Intent.GetStringExtra("studentName"));
+				p = HTTPHandler.getProfileByName(n);
 			else {
 				// For your own profile
 				p = HTTPHandler.getProfile(Intent.GetStringExtra("email"));
 			}
+
 
 			// Set screen fields based on profile information retrieved
 			//nameTextView.Text = p.name;
@@ -98,7 +101,7 @@ namespace UpgradeApp {
 			Profile u = HTTPHandler.getProfile(HTTPHandler.emailLoggedIn);
 
 			// If it is the own user's profile
-			if (emailTextView.Text.Equals(HTTPHandler.emailLoggedIn)) {
+			if (p.email != null && p.email.Equals(HTTPHandler.emailLoggedIn)) {
 				sendMessageButton.Enabled = false;
 				reportButton.Enabled = false;
 				blockButton.Enabled = false;
@@ -168,7 +171,7 @@ namespace UpgradeApp {
 				// Change to edit profile page
 				var intent = new Android.Content.Intent(this, typeof(EditProfileActivity));
 				intent.PutExtra("name", ActionBar.Title);
-				//intent.PutExtra("email", emailTextView.Text);
+				intent.PutExtra("email", p.email);
 				intent.PutExtra("contact", contactMethodsTextView.Text);
 				intent.PutExtra("about", aboutTextView.Text);
 				intent.PutExtra("freeTime", availabilityTextView.Text);

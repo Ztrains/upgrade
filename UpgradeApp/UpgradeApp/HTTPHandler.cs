@@ -226,13 +226,14 @@ namespace UpgradeApp {
 
 			Profile profile = new Profile();
 			profile.name = name;
-			if (!email.Equals(emailLoggedIn) && email != "") {
+			profile.email = email;
+			/*if (!email.Equals(emailLoggedIn) && email != "") {
 				profile.email = emailLoggedIn;
 				profile.newemail = email;
 			}
 			else {
 				profile.email = email;
-			}
+			} */
 			profile.contact = contact;
 			profile.about = about;
 			//profile.classesTutor = classesTutor;

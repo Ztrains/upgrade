@@ -34,6 +34,8 @@ namespace UpgradeApp
 				// Continue to profile setup
 				var intent = new Android.Content.Intent(this, typeof(EditProfileActivity));
 				intent.PutExtra("email", Intent.GetStringExtra("email"));
+				intent.PutExtra("justLoggedIn", "true");
+				intent.PutExtra("myProfile", "true");
 				StartActivity(intent);
             };
         }
